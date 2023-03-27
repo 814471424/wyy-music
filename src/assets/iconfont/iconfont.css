@@ -1,0 +1,107 @@
+@font-face {
+  font-family: "iconfont"; /* Project id 3959584 */
+  src: url('iconfont.woff2?t=1679469999411') format('woff2'),
+       url('iconfont.woff?t=1679469999411') format('woff'),
+       url('iconfont.ttf?t=1679469999411') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.wyy-refresh:before {
+  content: "\e633";
+}
+
+.wyy-tianjia:before {
+  content: "\e620";
+}
+
+.wyy-caret-right:before {
+  content: "\e8ec";
+}
+
+.wyy-xihuan:before {
+  content: "\e613";
+}
+
+.wyy-shangchuan:before {
+  content: "\e603";
+}
+
+.wyy-zuijinbofang:before {
+  content: "\e605";
+}
+
+.wyy-ziyuanxhdpi:before {
+  content: "\e62d";
+}
+
+.wyy-huanyuan:before {
+  content: "\e602";
+}
+
+.wyy-yonghu:before {
+  content: "\e60a";
+}
+
+.wyy-CZ_029:before {
+  content: "\e623";
+}
+
+.wyy-wangyiyunyinle1:before {
+  content: "\e601";
+}
+
+.wyy-xiangzuo:before {
+  content: "\ebcb";
+}
+
+.wyy-xiangxia-a:before {
+  content: "\ebcc";
+}
+
+.wyy-xiangshang-a-copy:before {
+  content: "\ebcd";
+}
+
+.wyy-maikefengxianxing:before {
+  content: "\e61e";
+}
+
+.wyy-xiangyou:before {
+  content: "\e61b";
+}
+
+.wyy-xiangxia:before {
+  content: "\e614";
+}
+
+.wyy-youjian_o:before {
+  content: "\ebca";
+}
+
+.wyy-zhuti-04:before {
+  content: "\e600";
+}
+
+.wyy-xitongguanli:before {
+  content: "\e6ae";
+}
+
+.wyy-mini:before {
+  content: "\e666";
+}
+
+.wyy-suoxiao:before {
+  content: "\e7ad";
+}
+
+.wyy-guanbi:before {
+  content: "\e624";
+}
+

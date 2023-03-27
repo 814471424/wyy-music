@@ -1,0 +1,236 @@
+<template>
+  <div class="header-container" data-tauri-drag-region="true">
+    <!-- 网易云图标搜索部分 -->
+
+    <div class="header-ico-search" data-tauri-drag-region="true">
+      <div class="header-ico" data-tauri-drag-region="true">
+        <span class="iconfont wyy-wangyiyunyinle1" data-tauri-drag-region="true">
+        </span>网易云音乐
+      </div>
+
+      <!-- 搜索 -->
+      <div class="header-search" data-tauri-drag-region="true">
+        <div class="header-back-url"><span class="iconfont wyy-xiangzuo"></span></div>
+        <div class="header-back-url"><span class="iconfont wyy-xiangyou"></span></div>
+        <div class="header-input">
+          <el-input v-model="inputText" placeholder="Type something" :prefix-icon="Search" />
+        </div>
+        <div class="header-maikefeng"><span class="iconfont wyy-maikefengxianxing"></span></div>
+      </div>
+    </div>
+    <div class="header-system" data-tauri-drag-region="true">
+
+      <!-- 用户信息(目前就未登录状态) -->
+      <div class="header-system-login" @click="showLogin()">
+        <span class="iconfont wyy-ziyuanxhdpi" style="background-color: #fff;" src="" alt="" />
+        <div class="div-no-select">未登录</div>
+        <span class="iconfont wyy-xiangxia"></span>
+      </div>
+      <div></div>
+
+      <!-- 右上角各种设置跟窗体操作 -->
+      <div title="主题" class="iconfont wyy-zhuti-04"></div>
+      <div title="设置" class="iconfont wyy-xitongguanli"></div>
+      <div title="消息" class="iconfont wyy-youjian_o"></div>
+      <div class="div-no-select">|</div>
+      <div title="mini模式" class="iconfont wyy-mini" @click="mimiMain()"> </div>
+      <div title="最小化" class="iconfont wyy-suoxiao" @click="minimizeMain()"></div>
+      <div v-if="!isMinimize" title="最大化" class="iconfont wyy-CZ_029" @click="maximizeMain()"></div>
+      <div v-else title="向下还原" class="iconfont wyy-huanyuan" @click="unmaximizeMain()"></div>
+      <div title="关闭" class="iconfont wyy-guanbi" @click="closeMain()"></div>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { computed, onMounted, onUnmounted, ref } from 'vue';
+import Windows from '../windows/Windows'
+import { Search } from '@element-plus/icons-vue'
+import { WebviewWindow, appWindow } from '@tauri-apps/api/window'
+import { UnlistenFn, listen } from '@tauri-apps/api/event'
+
+let inputText = ref("");
+let isMinimize = ref(false);
+let unlisten: UnlistenFn;
+
+// 显示登录页面
+function showLogin() {
+  (new Windows()).createLoginWin()
+}
+
+// 关闭窗口
+function closeMain() {
+  Windows.closeMainWin()
+}
+
+// 最大化窗口
+function maximizeMain() {
+  Windows.maximizeMainWin().then(() => {
+    isMinimize.value = true;
+  })
+}
+
+// 取消最大化
+function unmaximizeMain() {
+  Windows.unmaximizeMainWin().then(() => {
+    isMinimize.value = false;
+  })
+}
+
+// 最小化窗口
+function minimizeMain() {
+  Windows.minimizeMainWin()
+}
+
+// mini模式
+function mimiMain() {
+  Windows.miniWin()
+}
+
+onMounted(async () => {
+  WebviewWindow.getByLabel('main')?.isFullscreen().then((res) => {
+    isMinimize.value = res
+  })
+
+  unlisten = await appWindow.onResized(({ payload: size }) => {
+    WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
+      isMinimize.value = res
+    })
+  });
+})
+
+
+onUnmounted(() => {
+  unlisten()
+})
+</script>
+
+<style lang="less" scoped>
+.header-container {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #fce4e4dd;
+
+
+  .header-ico-search {
+    width: 480px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-ico {
+      font-size: 18px;
+      display: flex;
+      color: #fff;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+
+      span {
+        font-size: 25px;
+        padding-right: 5px;
+      }
+    }
+
+    .header-search {
+      display: flex;
+      align-items: center;
+
+      div {
+        margin: 4px;
+      }
+
+      .header-back-url {
+        height: 24px;
+        width: 24px;
+        background-color: #e33e3e;
+        border-radius: 24px;
+        text-align: center;
+      }
+
+      .header-maikefeng {
+        height: 32px;
+        width: 32px;
+        background-color: #e33e3e;
+        border-radius: 32px;
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 8px;
+        margin-right: 7px;
+
+        .iconfont {
+          font-size: 20px;
+        }
+      }
+
+      .header-input {
+        width: 160px;
+      }
+    }
+  }
+
+  .header-system {
+    display: flex;
+    min-width: 400px;
+    justify-content: space-between;
+    align-items: center;
+
+    .header-system-login {
+      display: flex;
+      align-items: center;
+      font-size: 10px;
+
+      span {
+        font-size: 28px;
+        width: 28px;
+        height: 28px;
+        border-radius: 28px;
+        margin-right: 3px;
+        color: #e0e0e0;
+      }
+    }
+
+    div:hover {
+      color: #fff;
+    }
+  }
+}
+
+:deep(.el-input) {
+  .el-input__wrapper {
+    border-radius: 20px !important;
+    background-color: #e33e3e;
+    box-shadow: 0 0 0 1px #409eff00 inset;
+    color: #fff;
+
+    .el-input__prefix {
+      color: #fce4e4dd;
+    }
+
+    .el-input__inner {
+      color: #fff;
+      --el-input-placeholder-color: #fce4e4dd;
+    }
+  }
+
+  .is-focus {
+    box-shadow: 0 0 0 1px #409eff00 inset;
+  }
+}
+
+.div-no-select {
+  -webkit-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  -moz-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  -ms-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+}
+</style>

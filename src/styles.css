@@ -1,0 +1,50 @@
+body {
+  margin: 0;
+}
+
+/* 修改主内容中的样式 */
+.container {
+  margin: 0;
+  /* min-height: 100vh; */
+}
+
+/* // 滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* // 滚动条头 */
+::-webkit-scrollbar-thumb {
+  border-radius: 1em;
+  background-color: rgba(0, 21, 41, 0.097);
+}
+
+/* // 滚动条轨道 */
+::-webkit-scrollbar-track {
+  border-radius: 1em;
+  background-color: rgba(181, 164, 164, 0);
+}
+
+.div-no-select {
+  -webkit-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  -moz-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  -ms-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+}
+
+/* 单个禁用太多了，考虑到基本都是不需要选中 */
+body {
+  -webkit-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  -moz-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  -ms-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+}
