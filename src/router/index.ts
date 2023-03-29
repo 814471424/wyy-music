@@ -4,6 +4,8 @@ import Login from '../views/Login/Index.vue'
 import Demo from '../views/Demo.vue'
 import Download from '../views/Download/Index.vue'
 import Unrealized from '../views/Unrealized.vue'
+import Discover from '../views/Discover/Index.vue'
+
 
 const routes: RouteRecordRaw[] = [
     {
@@ -17,7 +19,7 @@ const routes: RouteRecordRaw[] = [
             {
                 // 发现音乐
                 path: '/discover',
-                component: Unrealized
+                component: Discover
             },
             {
                 // 播客

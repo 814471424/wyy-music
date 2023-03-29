@@ -1,5 +1,7 @@
 import axios from 'axios'
 
+// 请求地址
+axios.defaults.baseURL = import.meta.env.VUE_APP_BASE_API
 // post请求头
 axios.defaults.headers["Content-type"] = "application/x-www-form-urlencoded;charset=UTF-8";
 // 允许跨域携带cookie信息

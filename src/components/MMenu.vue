@@ -78,7 +78,7 @@ let path = computed(() => route.path);
   }
 }
 
-:deep(.is-active) {
+:deep(.el-menu-item.is-active) {
   font-weight: 900;
   color: #000;
   background-color: #f6f6f7;

@@ -65,13 +65,10 @@ import { Ref, onMounted, ref } from "vue"
 import { open } from '@tauri-apps/api/dialog'
 import { Search } from '@element-plus/icons-vue'
 import useLocalStorage from '../../hooks/useLocalStorage'
-import { invoke } from "@tauri-apps/api/tauri";
-import { useStore } from 'vuex'
-import { MusicData } from '../../store/music'
+import { useMainStore } from '../../store/index';
 import { computed } from "@vue/reactivity";
-import { format } from "path";
 
-const store = useStore<MusicData>();
+const mainStore = useMainStore();
 // 查找的主要文件格式
 const suffix = ["mp3", "wav", "flac", "ogg", "m4a"]
 // 搜索到的本地歌曲列表
@@ -164,7 +161,7 @@ async function findMp3ByFiles() {
 
 function tableDbClick(row: FileEntry) {
   if (row.path) {
-    store.commit('updateUrl', "https://stream.localhost/" + row.path);
+    mainStore.setUrl("https://stream.localhost/" + row.path)
   }
 }
 

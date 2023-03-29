@@ -11,7 +11,7 @@
     <div class="player">
       <!-- 歌曲图片 -->
       <div class="left-item">
-        <div class="bg" @click="drawer = !drawer">
+        <div class="bg" @click="showDrawer">
         </div>
         <div class="left-content">
           <div>歌曲</div>
@@ -53,36 +53,41 @@
 </template>
 
 <script lang="ts" setup>
-import { useStore } from 'vuex'
 import { computed, onMounted, onUnmounted, ref, watch } from "vue"
 import MPlayerPanel from './MPlayerPanel.vue'
-import { MusicData } from '../../store/music'
 import { durationToTime } from '../../utils/time'
+import { useMainStore } from '../../store/index'
 
 let audioELe = <HTMLAudioElement | null>(null);  // audio 元素
-const store = useStore<MusicData>();  // 目前关于应该相关的store
+const mainStore = useMainStore(); // 目前关于应该相关的store
+
 const drawer = ref(false) // 控制歌词面板是否显示
 const cancelTransition = ref(false) // 用于取消 el-drawer 的过度动画，全屏的时候由于过度动画显示有点问题
 const audioIsPlaying = ref(false);  // 用于同步当前的播放状态
 
-const url = computed(() => store.state.musicUrl) // 播放资源
-const songX = computed(() => store.state.songX) // 歌词面板信息
-const lycs = computed(() => store.state.lycs); // 歌词面板信息
+const url = computed(() => mainStore.musicUrl) // 播放资源
+const songX = computed(() => mainStore.songX) // 歌词面板信息
+const lycs = computed(() => mainStore.lycs); // 歌词面板信息
 const currentTime = ref(0); // 歌曲当前播放时间
 const duration = ref(0);  // 歌曲总时间
-const playStatus = ref(false);
 const volume = ref(0)
+const playStatus = computed(() => mainStore.playStatus) // 是否播放
 
-// 监听url.value是否更新，更新需要重新获取歌词
-watch(() => url.value, (_value, _oldValue) => {
-  // setTimeout(() => {
-  //   audioELe?.play();
-  // }, 500)
-})
 watch(() => drawer.value, (value, _oldValue) => {
   setTimeout(() => {
     cancelTransition.value = value
   }, 500);
+})
+// 监听播放状态
+watch(() => playStatus.value, async (value, _oldValue) => {
+  if (value) {
+    await audioELe?.play().catch((_e) => {
+      mainStore.setPlayStatus(false);
+    })
+    return
+  }
+
+  audioELe?.pause()
 })
 
 onMounted(async () => {
@@ -96,15 +101,20 @@ onMounted(async () => {
   });
   // 获取播放音量
   volume.value = (audioELe ? audioELe.volume : 0) * 100;
+
+  // 各种对audio的监听事件
   // 更新
   audioELe!.ontimeupdate = () => {
     currentTime.value = audioELe ? audioELe.currentTime : 0
   };
   audioELe!.onplay = () => {
-    playStatus.value = true;
+    mainStore.setPlayStatus(true);
   }
   audioELe!.onpause = () => {
-    playStatus.value = false;
+    mainStore.setPlayStatus(false);
+  }
+  audioELe!.onended = () => {
+    console.log("播放结束")
   }
 })
 
@@ -113,7 +123,9 @@ onUnmounted(() => {
 })
 
 function audioPlay() {
-  audioELe?.play()
+  audioELe?.play().catch((_e) => {
+    audioELe?.pause()
+  })
 }
 function audioPause() {
   audioELe?.pause()
@@ -134,13 +146,19 @@ function sliderVolumeChange(value: number) {
   }
 }
 
+// 显示歌词面板
+function showDrawer() {
+  cancelTransition.value = false;
+  drawer.value = !drawer.value
+}
+
 </script>
 
 <style lang="less" scoped>
 :deep(.el-drawer) {
   height: calc(100vh - 74px) !important;
   margin-bottom: 74px;
-  border-bottom-color: #e0e0e0;
+  border-bottom-color: #e0e0e000;
   border-bottom-width: 1px;
   border-bottom-style: solid;
   padding: 0px !important;
@@ -159,7 +177,7 @@ function sliderVolumeChange(value: number) {
   z-index: 2003;
   position: fixed;
   background-color: #fff;
-  border-top-color: #e0e0e0;
+  border-top-color: #e0e0e000;
   border-top-width: 1px;
   border-top-style: solid;
   justify-content: space-between;
@@ -312,7 +330,7 @@ function sliderVolumeChange(value: number) {
     width: 10px;
     border: solid 2px #ec4141;
     position: absolute;
-    left: 12px;
+    left: 13px;
     top: 13px;
     background-color: #ec4141;
   }

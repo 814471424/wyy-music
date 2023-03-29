@@ -29,7 +29,16 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 
 :deep(.is-active) {
     font-weight: 900;
+    color: #000;
     font-size: 20px;
+}
+
+:deep(.el-tabs__item:hover) {
+    color: #000;
+}
+
+:deep(.el-tabs__item.is-active) {
+    color: #000;
 }
 
 :deep(.el-tabs__active-bar) {

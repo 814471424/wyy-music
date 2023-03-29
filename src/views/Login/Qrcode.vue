@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import vueQr from 'vue-qr/src/packages/vue-qr.vue'
-import { onMounted, onUnmounted, ref, defineProps } from "vue"
+import { onMounted, onUnmounted } from "vue"
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件

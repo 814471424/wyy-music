@@ -12,7 +12,7 @@
         </el-aside>
         <!-- 嵌套路由，主要内容 -->
         <el-container>
-          <el-main>
+          <el-main class="common-right">
             <router-view />
           </el-main>
         </el-container>
@@ -58,8 +58,9 @@ import MMenu from '../components/MMenu.vue'
   padding: 0;
 }
 
-.el-main {
+.common-right {
   padding: 10px 30px 0px 30px;
   overflow: overlay;
+  overflow-x: hidden;
 }
 </style>
