@@ -1,19 +1,32 @@
 <template>
   <div style="text-align: center;" data-tauri-drag-region="true">
-    <div class="login-qr-title">扫码登录</div>
-    <vue-qr :margin="15" text="Hello world!" qid="testid"></vue-qr>
+    <div class="login-qr-title" data-tauri-drag-region="true">扫码登录</div>
+    <vue-qr :margin="15" :text="qrurl" qid="testid"></vue-qr>
     <div class="login-qr-msg">
       <span>使用</span>
       <a href="https://music.163.com/download" target="_blank">网易云音乐APP</a>
       <span>扫码登录</span>
     </div>
-    <div class="check-login-type" @click="basckLogin">选择其他登录模式 ></div>
+    <div class="check-login-type" data-tauri-drag-region="true"><span @click="basckLogin">选择其他登录模式 ></span></div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import vueQr from 'vue-qr/src/packages/vue-qr.vue'
-import { onMounted, onUnmounted } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
+import api from '../../api/index'
+import { useUserStore } from '../../store/user'
+import { appWindow } from '@tauri-apps/api/window'
+
+const userStore = useUserStore();
+let avatarUrl = "";
+let nickname = "";
+let cookie = "";
+let key = "";
+let polling = false;  // 是否检测扫码状态接口
+let timer: NodeJS.Timeout | string | number | undefined = undefined;
+let qrurl = ref('');
+let showCreate = ref(false);
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件
@@ -25,13 +38,56 @@ const props = defineProps({
   },
 });
 
+// 获取key并且获取二维码
+async function getKeyAndCreateQr() {
+  // 初始获取key
+  let res = await api.loginQrCodeKey();
+  if (res.data.code == 200) {
+    key = res.data.unikey;
+
+    api.loginQrCodeCreate({ key: key }).then((res) => {
+      if (res.code == 200) {
+        qrurl.value = res.data.qrurl
+        polling = true;
+      }
+    })
+  }
+}
+
+// 处理二维码检测扫码状态接口
+async function checkQr() {
+  if (polling && key != '') {
+    api.loginQrCodeCheck(key).then((res) => {
+      console.log(res)
+      if (res.code == 803) {  // 成功扫码
+        polling = false;
+        cookie = res.cookie;
+        userStore.setCookie(cookie);
+        userStore.setUserInfo(avatarUrl, nickname)
+        appWindow.close()
+      } else if (res.code == 800) { // 需要显示重新扫码按钮
+        polling = false;
+        showCreate.value = true;
+      } else if (res.code == 802) { // 这里能获取到avatarUrl跟nickname
+        avatarUrl = res.avatarUrl ?? ''
+        nickname = res.nickname ?? ''
+      } else {  // 801 不需要管
+
+      }
+    })
+  }
+}
 
 onMounted(() => {
-  console.log("Scan onMounted")
+  getKeyAndCreateQr()
+
+  timer = setInterval(async () => {
+    checkQr()
+  }, 2000);
 })
 
 onUnmounted(() => {
-  console.log("Scan onUnmounted")
+  clearInterval(timer);
 })
 
 function basckLogin() {

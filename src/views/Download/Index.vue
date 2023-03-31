@@ -1,10 +1,12 @@
 <template>
-    <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
-        <el-tab-pane label="下载管理" name="download">暂无功能</el-tab-pane>
-        <el-tab-pane label="本地音乐" name="local">
-            <Local />
-        </el-tab-pane>
-    </el-tabs>
+    <div class="common-padding">
+        <el-tabs v-model="activeName" class="demo-tabs" @tab-click="handleClick">
+            <el-tab-pane label="下载管理" name="download">暂无功能</el-tab-pane>
+            <el-tab-pane label="本地音乐" name="local">
+                <Local />
+            </el-tab-pane>
+        </el-tabs>
+    </div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'

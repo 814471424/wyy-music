@@ -1,31 +1,133 @@
 <template>
   <div>
-    <el-carousel :interval="4000" type="card" height="200px">
-      <el-carousel-item v-for="item in 6" :key="item">
-        <h3 text="2xl" justify="center">{{ item }}</h3>
+    <el-carousel :interval="4000" type="card" height="200px" class="banner">
+      <el-carousel-item v-for="(item, key) in banners" :key="key">
+        <!-- <h3 text="2xl" justify="center">{{ item }}</h3> -->
+        <img class="banner-image" :src="item.imageUrl" alt="">
+        <div class="banner-title" :style="[{ 'background-color': item.titleColor }]">{{ item.typeTitle }}</div>
       </el-carousel-item>
     </el-carousel>
-    <button @click="demo()">测试</button>
+  </div>
+  <div class="playlists">
+    <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
+    <div class="plays">
+      <div class="plays-item" @click="router.push('daily_song')">
+        <div class="item-img">
+          <img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg"
+            style="    filter: blur(1px);" alt="">
+          <div class="item-img-text iconfont wyy-a-ziyuan16-copy-copy"></div>
+          <div class="item-img-text" style="font-size: 30px; top: 5px;">{{ date }}</div>
+        </div>
+        <div class="item-text">
+          每日歌曲推荐
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题标题标题标题标题标题标题标题标题标题标题标题标题标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+        </div>
+        <div class="item-text">
+          标题
+        </div>
+      </div>
+      <div class="plays-item">
+        <MCover />
+      </div>
+      <div class="plays-item">
+        <MCover />
+      </div>
+      <div class="plays-item">
+        <MCover />
+      </div>
+      <div class="plays-item">
+        <MCover />
+      </div>
+      <div class="plays-item">
+        <MCover />
+      </div>
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
-// import api from '../../api/index'
+import api from '../../api/index'
+import MCover from '../../components/Common/MCover.vue'
+import router from "../../router";
 
-let a: bannerData111 = {};
-console.log(a)
-// let banners = ref([] as Common.bannerData[]);
-function demo() {
-  // api.banner().then((res) => {
-  //   if (res.code == 200) {
-  //     bannerData111;
-  //     // banners.value = res.banners
-  //   }
-  // })
-}
+let banners = ref([] as Common.bannerData[]);
+let date = new Date().getDate()
+
 onMounted(() => {
-
+  // 获取轮播图
+  api.banner().then((res) => {
+    if (res.code == 200) {
+      banners.value = res.banners
+    }
+  })
+  // 获取推荐歌单
+  // 热门播客
+  // 听见好书-新用户免费听
+  // 独家放送
+  // 最新音乐
+  // 主题播客
+  // 推荐MV
+  // 听听
 })
 
 
@@ -50,5 +152,88 @@ onMounted(() => {
 
 .el-carousel__item:nth-child(2n + 1) {
   background-color: #d3dce6;
+}
+
+.banner {
+  .el-carousel__item {
+    border-radius: 7px;
+  }
+
+  .banner-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+  }
+
+  .banner-title {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    padding: 5px;
+    border-top-left-radius: 7px;
+    color: #fff;
+    font-size: 10px;
+  }
+}
+
+.playlists {
+  .plays {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .plays-item {
+      width: 18%;
+      // border-radius: 5px;
+      margin-top: 10px;
+
+      .item-img {
+        position: relative;
+
+        .item-img-text {
+          width: 100%;
+          height: 100%;
+          color: #fff;
+          position: absolute;
+          top: 0px;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+      }
+
+      img {
+        border-radius: 5px;
+        width: 100%;
+        height: 100%;
+      }
+
+      .item-text {
+        width: 100%;
+        overflow: hidden; //多出的隐藏
+        text-overflow: ellipsis; //多出部分用...代替
+        display: -webkit-box; //定义为盒子模型显示
+        -webkit-line-clamp: 2; //用来限制在一个块元素显示的文本的行数
+        -webkit-box-orient: vertical; //从上到下垂直排列子元素（设置伸缩盒子的子元素排列方式）
+      }
+    }
+  }
+}
+
+// 公共部分的
+.common-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #333333;
+  margin-top: 15px;
+
+  span {
+    font-size: 20px;
+  }
+}
+
+.common-title:hover {
+  color: #000;
 }
 </style>

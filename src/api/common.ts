@@ -1,5 +1,4 @@
 import axios from '../utils/request'
-import * as data from './typings'
 
 // 比较通用或者不知道分类的接口
 
@@ -17,8 +16,9 @@ import * as data from './typings'
  * @return
  *  - 参数: 参数介绍
  */
-type bannerReqData = data.responseData & { banners: data.Common.bannerData };
-export function banner<T = bannerReqData>(btype: number = 0): Promise<T> {
+export function banner(
+    btype: number = 0
+): Promise<responseData & { banners: Common.bannerData[] }> {
     return axios.get('/banner', { params: { 'type': btype } })
 }
 

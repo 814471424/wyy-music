@@ -141,6 +141,19 @@ class Windows {
     public static async miniWin() {
         await appWindow.hide()
     }
+
+    // 创建mini模式的窗口
+    public async createMini() {
+        await this.createWin(
+            {
+                label: 'login',
+                title: '登录页面',
+                url: '/#/login',
+                width: 150,
+                height: 50,
+            }
+        );
+    }
 }
 
 export default Windows

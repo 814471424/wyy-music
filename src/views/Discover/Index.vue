@@ -1,41 +1,10 @@
 <template>
-  <el-tabs v-model="activeName" class="discover-tabs" @tab-click="handleClick">
+  <el-tabs v-model="activeName" class="discover-tabs" @tab-click="handleClick" style="padding: 10px 30px 0px 30px;
+        box-sizing: border-box;">
     <el-tab-pane label="个性推荐" name="recommend">
       <div class="right-main">
         <div class="right-content">
           <Recommend />
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
-          <div>11</div>
         </div>
       </div>
     </el-tab-pane>
@@ -67,7 +36,7 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
 }
 
 :deep(.el-tabs__content) {
-  height: calc(100% - 6px);
+  height: calc(100% - 46px);
   overflow-y: overlay;
   padding-right: 30px;
 }
@@ -80,12 +49,13 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
   margin-bottom: 8px;
 }
 
+
 .right-main {
   display: flex;
   justify-content: center;
 
   .right-content {
-    background-color: aqua;
+    // background-color: aqua;
     width: 100%;
     max-width: 1110px
   }

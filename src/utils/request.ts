@@ -12,6 +12,7 @@ axios.defaults.timeout = 15000;
 // 请求拦截
 axios.interceptors.request.use(
     config => {
+        config.params['cookie'] = localStorage.getItem('cookie') ?? ''
         return config;
     },
     error => {

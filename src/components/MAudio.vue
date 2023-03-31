@@ -1,6 +1,6 @@
 <template>
-  <div data-tauri-drag-region="true" style="background-color: blanchedalmond; height: 100vh;">
-    <div>登录页面</div>
+  <div>
+
   </div>
 </template>
 

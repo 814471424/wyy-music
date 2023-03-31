@@ -45,7 +45,7 @@
           </div>
         </div>
         <div class="right-item-data iconfont wyy-lianggeren"></div>
-        <div class="right-item-data iconfont wyy-bofangliebiao"></div>
+        <Playlist />
       </div>
       <audio id="mp3Btn" ref="audioELe" :src="url" />
     </div>
@@ -57,6 +57,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from "vue"
 import MPlayerPanel from './MPlayerPanel.vue'
 import { durationToTime } from '../../utils/time'
 import { useMainStore } from '../../store/index'
+import Playlist from '../Playlist.vue'
 
 let audioELe = <HTMLAudioElement | null>(null);  // audio 元素
 const mainStore = useMainStore(); // 目前关于应该相关的store

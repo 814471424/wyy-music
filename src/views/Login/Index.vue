@@ -41,7 +41,7 @@ import { appWindow } from '@tauri-apps/api/window'
 
 
 const loginType = ['login', 'register', 'qrcode'];
-let loginWay = ref('login')
+let loginWay = ref('qrcode')
 
 onMounted(async () => {
 

@@ -4,15 +4,27 @@
     <div class="context-menu" @click.right.native="showContextMenu($event)">
       展示右键菜单
     </div>
+    <div @click="test()">测试cookie</div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Ref, onMounted, ref } from "vue"
-import { FileEntry, readDir, readBinaryFile } from '@tauri-apps/api/fs'
-import useLocalStorage from '../hooks/useLocalStorage';
+import { computed, onMounted } from "vue"
+import { useUserStore } from '../store/user'
+import Windows from '../windows/Windows'
 
+const userStore = useUserStore();
 
+let avatarUrl = computed(() => userStore.avatarUrl);
+let cookie = computed(() => userStore.cookie);
+let nickname = computed(() => userStore.nickname);
+
+function test() {
+  // console.log(avatarUrl.value);
+  // console.log(cookie.value);
+  // console.log(nickname.value);
+  (new Windows()).createMini()
+}
 
 onMounted(() => {
   // let audio = new window.Audio();
@@ -22,10 +34,15 @@ onMounted(() => {
 
 const showContextMenu = (e: any) => {
   e.preventDefault()
+  console.log('监听右键点击')
 }
 
 onMounted(async () => {
 })
 </script>
 
-<style lang="less" scoped></style> 
+<style lang="less" scoped>
+:deep(.el-overlay) {
+  background-color: rgb(0 0 0 / 0%);
+}
+</style> 

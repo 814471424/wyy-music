@@ -48,3 +48,7 @@ body {
   user-select: none;
   /* 禁止 DIV 中的文本被鼠标选中 */
 }
+
+.common-padding {
+  padding: 10px 30px 0px 30px;
+}

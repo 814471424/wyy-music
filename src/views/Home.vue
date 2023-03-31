@@ -59,7 +59,7 @@ import MMenu from '../components/MMenu.vue'
 }
 
 .common-right {
-  padding: 10px 30px 0px 30px;
+  padding: 0px 0px 0px 0px;
   overflow: overlay;
   overflow-x: hidden;
 }
