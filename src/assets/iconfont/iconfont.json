@@ -6,6 +6,97 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "34842624",
+      "name": "每日推荐-copy",
+      "font_class": "a-ziyuan16-copy-copy",
+      "unicode": "ebd0",
+      "unicode_decimal": 60368
+    },
+    {
+      "icon_id": "34840380",
+      "name": "每日推荐",
+      "font_class": "a-ziyuan16-copy",
+      "unicode": "ebcf",
+      "unicode_decimal": 60367
+    },
+    {
+      "icon_id": "5075493",
+      "name": "网易云音乐",
+      "font_class": "music",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "5461956",
+      "name": "两个人",
+      "font_class": "lianggeren",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "11029876",
+      "name": "播放列表",
+      "font_class": "bofangliebiao",
+      "unicode": "e625",
+      "unicode_decimal": 58917
+    },
+    {
+      "icon_id": "7325964",
+      "name": "声音_",
+      "font_class": "shengyin_",
+      "unicode": "e687",
+      "unicode_decimal": 59015
+    },
+    {
+      "icon_id": "17802089",
+      "name": "顺序播放",
+      "font_class": "shunxubofang1",
+      "unicode": "e641",
+      "unicode_decimal": 58945
+    },
+    {
+      "icon_id": "10470551",
+      "name": "歌词",
+      "font_class": "geci",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "34766829",
+      "name": "上一首",
+      "font_class": "previous-fill",
+      "unicode": "ebce",
+      "unicode_decimal": 60366
+    },
+    {
+      "icon_id": "7594155",
+      "name": "24gf-play",
+      "font_class": "play",
+      "unicode": "ea82",
+      "unicode_decimal": 60034
+    },
+    {
+      "icon_id": "26525864",
+      "name": "下一首",
+      "font_class": "next-fill",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "7594152",
+      "name": "24gf-pause2",
+      "font_class": "24gf-pause2",
+      "unicode": "ea81",
+      "unicode_decimal": 60033
+    },
+    {
+      "icon_id": "784214",
+      "name": "二维码2",
+      "font_class": "erweima2",
+      "unicode": "e6d7",
+      "unicode_decimal": 59095
+    },
+    {
       "icon_id": "7821156",
       "name": "refresh",
       "font_class": "refresh",

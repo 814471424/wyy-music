@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3959584 */
-  src: url('iconfont.woff2?t=1679469999411') format('woff2'),
-       url('iconfont.woff?t=1679469999411') format('woff'),
-       url('iconfont.ttf?t=1679469999411') format('truetype');
+  src: url('iconfont.woff2?t=1680278046385') format('woff2'),
+       url('iconfont.woff?t=1680278046385') format('woff'),
+       url('iconfont.ttf?t=1680278046385') format('truetype');
 }
 
 .iconfont {
@@ -11,6 +11,58 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.wyy-a-ziyuan16-copy-copy:before {
+  content: "\ebd0";
+}
+
+.wyy-a-ziyuan16-copy:before {
+  content: "\ebcf";
+}
+
+.wyy-music:before {
+  content: "\e606";
+}
+
+.wyy-lianggeren:before {
+  content: "\e604";
+}
+
+.wyy-bofangliebiao:before {
+  content: "\e625";
+}
+
+.wyy-shengyin_:before {
+  content: "\e687";
+}
+
+.wyy-shunxubofang1:before {
+  content: "\e641";
+}
+
+.wyy-geci:before {
+  content: "\e61c";
+}
+
+.wyy-previous-fill:before {
+  content: "\ebce";
+}
+
+.wyy-play:before {
+  content: "\ea82";
+}
+
+.wyy-next-fill:before {
+  content: "\e6bb";
+}
+
+.wyy-24gf-pause2:before {
+  content: "\ea81";
+}
+
+.wyy-erweima2:before {
+  content: "\e6d7";
 }
 
 .wyy-refresh:before {
