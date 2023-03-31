@@ -33,6 +33,15 @@ export const useUserStore = defineStore('user', {
             this.cookie = cookie
 
             localStorage.setItem('cookie', cookie);
+        },
+        // 清除掉用户的数据
+        cleanUser() {
+            this.avatarUrl = '';
+            this.nickname = '';
+            this.cookie = ''
+
+            localStorage.removeItem('cookie')
+            localStorage.removeItem('user')
         }
     },
 })

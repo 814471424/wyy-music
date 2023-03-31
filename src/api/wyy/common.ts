@@ -1,4 +1,4 @@
-import axios from '../utils/request'
+import axios from '../../utils/request'
 
 // 比较通用或者不知道分类的接口
 

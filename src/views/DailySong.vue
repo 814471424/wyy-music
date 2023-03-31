@@ -22,16 +22,20 @@
   </div>
 
   <div>
-    <el-table class="daily-table" :data="tableData" stripe style="width: 100%">
-      <el-table-column prop="date" label="Date" width="180" />
+    <el-table class="daily-table" :data="dailySongs" stripe style="width: 100%">
+      <el-table-column type="index" width="50" />
+      <el-table-column prop="name" label="音乐标题" width="180" />
       <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="address" label="Address" />
+      <el-table-column prop="dt" label="时长" />
     </el-table>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
+import api from '../api/index'
+
+let dailySongs = ref([] as Playlist.dailySong[]);
 
 let date = new Date().getDate()
 const tableData = [
@@ -86,6 +90,14 @@ const tableData = [
     address: 'No. 189, Grove St, Los Angeles',
   },
 ]
+
+onMounted(() => {
+  api.recommendSongs().then((res) => {
+    if (res.code == 200) {
+      dailySongs.value = res.data.dailySongs
+    }
+  })
+});
 
 </script>
 

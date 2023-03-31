@@ -48,7 +48,7 @@ onMounted(() => {
   display: none;
   top: 60px;
   height: calc(100vh - 134px);
-  width: 300px;
+  width: 420px;
   background-color: aqua;
   right: 0px;
   position: fixed;

@@ -1,4 +1,4 @@
-import axios from "../utils/request";
+import axios from "../../utils/request";
 
 /*
  * 描述: [手机登录(现在要求验证,暂时绕不过,请使用二维码登录)]

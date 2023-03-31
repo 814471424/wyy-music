@@ -4878,3 +4878,151 @@
     }
 }
 ```
+
+{
+    "name": "夏恋",
+    "id": 1444648390,
+    "pst": 0,
+    "t": 0,
+    "ar": [
+        {
+            "id": 34283943,
+            "name": "GENIC",
+            "tns": [],
+            "alias": []
+        }
+    ],
+    "alia": [
+        "夏恋"
+    ],
+    "pop": 30,
+    "st": 0,
+    "rt": "",
+    "fee": 8,
+    "v": 16,
+    "crbt": null,
+    "cf": "",
+    "al": {
+        "id": 89790696,
+        "name": "GENEX",
+        "picUrl": "http://p3.music.126.net/A4hVce1-ziQZaqCY5f0Z6g==/109951165006993273.jpg",
+        "tns": [],
+        "pic_str": "109951165006993273",
+        "pic": 109951165006993280
+    },
+    "dt": 251365,
+    "h": {
+        "br": 320000,
+        "fid": 0,
+        "size": 10057187,
+        "vd": -53847,
+        "sr": 44100
+    },
+    "m": {
+        "br": 192000,
+        "fid": 0,
+        "size": 6034329,
+        "vd": -51348,
+        "sr": 44100
+    },
+    "l": {
+        "br": 128000,
+        "fid": 0,
+        "size": 4022901,
+        "vd": -49849,
+        "sr": 44100
+    },
+    "sq": {
+        "br": 1411000,
+        "fid": 0,
+        "size": 33029591,
+        "vd": -53829,
+        "sr": 44100
+    },
+    "hr": null,
+    "a": null,
+    "cd": "01",
+    "no": 3,
+    "rtUrl": null,
+    "ftype": 0,
+    "rtUrls": [],
+    "djId": 0,
+    "copyright": 1,
+    "s_id": 0,
+    "mark": 270464,
+    "originCoverType": 0,
+    "originSongSimpleData": null,
+    "tagPicList": null,
+    "resourceState": true,
+    "version": 16,
+    "songJumpInfo": null,
+    "entertainmentTags": null,
+    "single": 0,
+    "noCopyrightRcmd": null,
+    "mst": 9,
+    "cp": 457010,
+    "mv": 0,
+    "rtype": 0,
+    "rurl": null,
+    "publishTime": 1588694400000,
+    "reason": "小众佳作",
+    "recommendReason": "小众佳作",
+    "privilege": {
+        "id": 1444648390,
+        "fee": 8,
+        "payed": 0,
+        "st": 0,
+        "pl": 128000,
+        "dl": 0,
+        "sp": 7,
+        "cp": 1,
+        "subp": 1,
+        "cs": false,
+        "maxbr": 999000,
+        "fl": 128000,
+        "toast": false,
+        "flag": 5,
+        "preSell": false,
+        "playMaxbr": 999000,
+        "downloadMaxbr": 999000,
+        "maxBrLevel": "lossless",
+        "playMaxBrLevel": "lossless",
+        "downloadMaxBrLevel": "lossless",
+        "plLevel": "standard",
+        "dlLevel": "none",
+        "flLevel": "standard",
+        "rscl": null,
+        "freeTrialPrivilege": {
+            "resConsumable": false,
+            "userConsumable": false,
+            "listenType": null
+        },
+        "chargeInfoList": [
+            {
+                "rate": 128000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 0
+            },
+            {
+                "rate": 192000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+            },
+            {
+                "rate": 320000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+            },
+            {
+                "rate": 999000,
+                "chargeUrl": null,
+                "chargeMessage": null,
+                "chargeType": 1
+            }
+        ]
+    },
+    "alg": "itembased_on"
+},

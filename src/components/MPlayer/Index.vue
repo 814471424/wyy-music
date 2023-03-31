@@ -40,14 +40,13 @@
       <div class="right-item">
         <div class="right-icon-volume right-item-data iconfont wyy-shengyin_">
           <div class="right-volume">
-            <el-slider v-model="volume" vertical height="80px" @input="sliderVolumeChange" :show-tooltip=false />
+            <el-slider v-model="volume" vertical height="80px" :show-tooltip=false />
             <div class="corner"></div>
           </div>
         </div>
         <div class="right-item-data iconfont wyy-lianggeren"></div>
         <Playlist />
       </div>
-      <audio id="mp3Btn" ref="audioELe" :src="url" />
     </div>
   </div>
 </template>
@@ -58,93 +57,31 @@ import MPlayerPanel from './MPlayerPanel.vue'
 import { durationToTime } from '../../utils/time'
 import { useMainStore } from '../../store/index'
 import Playlist from '../Playlist.vue'
+import { storeToRefs } from 'pinia'
 
-let audioELe = <HTMLAudioElement | null>(null);  // audio 元素
 const mainStore = useMainStore(); // 目前关于应该相关的store
 
 const drawer = ref(false) // 控制歌词面板是否显示
 const cancelTransition = ref(false) // 用于取消 el-drawer 的过度动画，全屏的时候由于过度动画显示有点问题
 const audioIsPlaying = ref(false);  // 用于同步当前的播放状态
 
-const url = computed(() => mainStore.musicUrl) // 播放资源
-const songX = computed(() => mainStore.songX) // 歌词面板信息
-const lycs = computed(() => mainStore.lycs); // 歌词面板信息
-const currentTime = ref(0); // 歌曲当前播放时间
-const duration = ref(0);  // 歌曲总时间
-const volume = ref(0)
-const playStatus = computed(() => mainStore.playStatus) // 是否播放
+const { currentTime, duration, volume, playStatus, songX, lycs } = storeToRefs(mainStore)
 
 watch(() => drawer.value, (value, _oldValue) => {
   setTimeout(() => {
     cancelTransition.value = value
   }, 500);
 })
-// 监听播放状态
-watch(() => playStatus.value, async (value, _oldValue) => {
-  if (value) {
-    await audioELe?.play().catch((_e) => {
-      mainStore.setPlayStatus(false);
-    })
-    return
-  }
-
-  audioELe?.pause()
-})
-
-onMounted(async () => {
-  // 页面加载完的时候获取audioel
-  audioELe = document.querySelector("#mp3Btn");
-  // 设置自动播放
-  audioELe?.setAttribute("autoplay", "autoplay");
-  // 可以播放的时候获取音频总时长
-  audioELe?.addEventListener("canplay", function () {
-    duration.value = audioELe?.duration ?? 0;
-  });
-  // 获取播放音量
-  volume.value = (audioELe ? audioELe.volume : 0) * 100;
-
-  // 各种对audio的监听事件
-  // 更新
-  audioELe!.ontimeupdate = () => {
-    currentTime.value = audioELe ? audioELe.currentTime : 0
-  };
-  audioELe!.onplay = () => {
-    mainStore.setPlayStatus(true);
-  }
-  audioELe!.onpause = () => {
-    mainStore.setPlayStatus(false);
-  }
-  audioELe!.onended = () => {
-    console.log("播放结束")
-  }
-})
-
-onUnmounted(() => {
-  audioELe = null
-})
 
 function audioPlay() {
-  audioELe?.play().catch((_e) => {
-    audioELe?.pause()
-  })
+  mainStore.setPlayStatus(true);
 }
 function audioPause() {
-  audioELe?.pause()
+  mainStore.setPlayStatus(false);
 }
 // 滑块修改时
 function sliderChange(value: number) {
-  if (!isNaN(value)) {
-    audioELe!.currentTime = value
-  } else {
-    currentTime.value = 0
-  }
-}
-// 滑块修改时
-function sliderVolumeChange(value: number) {
-  console.log(value);
-  if (!isNaN(value)) {
-    audioELe!.volume = value / 100
-  }
+  mainStore.setCurrentTimeEx(value)
 }
 
 // 显示歌词面板
@@ -152,7 +89,6 @@ function showDrawer() {
   cancelTransition.value = false;
   drawer.value = !drawer.value
 }
-
 </script>
 
 <style lang="less" scoped>

@@ -14,6 +14,7 @@ import { useUserStore } from '../store/user'
 import Windows from '../windows/Windows'
 
 const userStore = useUserStore();
+let list: Common.SongItem[] = [{ id: 1, name: '22', songType: 'local' }];
 
 let avatarUrl = computed(() => userStore.avatarUrl);
 let cookie = computed(() => userStore.cookie);
@@ -23,7 +24,8 @@ function test() {
   // console.log(avatarUrl.value);
   // console.log(cookie.value);
   // console.log(nickname.value);
-  (new Windows()).createMini()
+  // (new Windows()).createMini()
+  console.log(list)
 }
 
 onMounted(() => {
