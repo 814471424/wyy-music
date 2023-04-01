@@ -17,16 +17,29 @@
       <el-button type="danger" class="iconfont wyy-caret-right button-left">
         播放全部
       </el-button>
-      <el-button type="danger" class="iconfont wyy-tianjia button-right" />
+      <el-button type="danger" class="iconfont wyy-tianjia button-right" @click="playAll" />
     </el-button-group>
   </div>
 
   <div>
-    <el-table class="daily-table" :data="dailySongs" stripe style="width: 100%">
+    <el-table class="daily-table" :data="dailySongs" @row-dblclick="tableDbClick" stripe style="width: 100%" size="small">
       <el-table-column type="index" width="50" />
-      <el-table-column prop="name" label="音乐标题" width="180" />
-      <el-table-column prop="name" label="Name" width="180" />
-      <el-table-column prop="dt" label="时长" />
+      <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
+      <el-table-column label="歌手" :show-overflow-tooltip=true width="160">
+        <template #default="scope">
+          {{ scope.row.ar.map((v: any) => v.name).join(' / ') }}
+        </template>
+      </el-table-column>
+      <el-table-column label="专辑" :show-overflow-tooltip=true width="180">
+        <template #default="scope">
+          {{ scope.row.al.name }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true width="80">
+        <template #default="scope">
+          {{ millisecondToTime(scope.row.dt) }}
+        </template>
+      </el-table-column>
     </el-table>
   </div>
 </template>
@@ -34,62 +47,22 @@
 <script lang="ts" setup>
 import { ref, onMounted } from "vue"
 import api from '../api/index'
+import { millisecondToTime } from '../utils/time'
+import { usePlayList } from '../store/playlist'
 
+let playListStore = usePlayList();
 let dailySongs = ref([] as Playlist.dailySong[]);
-
 let date = new Date().getDate()
-const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
+
+function tableDbClick(row: Playlist.dailySong) {
+  playListStore.addOne(row);
+  // playListStore.removeOne(row.id);
+}
+
+// 全部添加到播放列表
+function playAll() {
+  playListStore.replaceAll(dailySongs.value);
+}
 
 onMounted(() => {
   api.recommendSongs().then((res) => {

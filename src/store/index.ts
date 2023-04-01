@@ -6,7 +6,7 @@ interface MusicData {
     // // 搜索栏的字段
     // searchtext: string,
     // 歌曲面板信息
-    songX: Common.songX,
+    songX: Common.songX | null,
     // 歌词
     lycs: Array<number | string>,
     // 是否在播放中
@@ -24,11 +24,7 @@ interface MusicData {
 export const useMainStore = defineStore('main', {
     state: (): MusicData => ({
         musicUrl: '',
-        songX: {
-            id: '',
-            url: '',
-            name: ''
-        },
+        songX: null,
         lycs: [],
         playStatus: false,
         currentTime: 0,
