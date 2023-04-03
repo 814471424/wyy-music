@@ -10,16 +10,18 @@
     <!-- 播放器 -->
     <div class="player">
       <!-- 歌曲图片 -->
-      <div class="left-item">
+      <div v-if="musicUrl" class="left-item">
         <div class="bg" @click="showDrawer">
+          <img :src="songX?.al?.picUrl" alt="" style="width: 100%; height: 100%; border-radius: 5px;">
         </div>
         <div class="left-content">
-          <div>歌曲</div>
+          <div> {{ songX?.name ?? "未知歌名" }}</div>
           <div class="left-content-rowup">
-            <div class="content-rowup">发黄发暗放假啊法律大厦大厦的干撒第四就此展开打死了都是辣的</div>
+            <div class="content-rowup">{{ songX?.al?.name }}</div>
           </div>
         </div>
       </div>
+      <div v-else class="left-item"></div>
       <div class="play-radio">
         <div class="play-radio-button">
           <div :class="['other-button', 'iconfont', 'wyy-shunxubofang1']"></div>
@@ -45,7 +47,7 @@
           </div>
         </div>
         <div class="right-item-data iconfont wyy-lianggeren"></div>
-        <Playlist />
+        <MPlaylist />
       </div>
     </div>
   </div>
@@ -56,7 +58,7 @@ import { computed, onMounted, onUnmounted, ref, watch } from "vue"
 import MPlayerPanel from './MPlayerPanel.vue'
 import { durationToTime } from '../../utils/time'
 import { useMainStore } from '../../store/index'
-import Playlist from '../Playlist.vue'
+import MPlaylist from '../MPlaylist.vue'
 import { storeToRefs } from 'pinia'
 
 const mainStore = useMainStore(); // 目前关于应该相关的store
@@ -65,7 +67,7 @@ const drawer = ref(false) // 控制歌词面板是否显示
 const cancelTransition = ref(false) // 用于取消 el-drawer 的过度动画，全屏的时候由于过度动画显示有点问题
 const audioIsPlaying = ref(false);  // 用于同步当前的播放状态
 
-const { currentTime, duration, volume, playStatus, songX, lycs } = storeToRefs(mainStore)
+const { currentTime, duration, volume, playStatus, songX, lycs, musicUrl } = storeToRefs(mainStore)
 
 watch(() => drawer.value, (value, _oldValue) => {
   setTimeout(() => {

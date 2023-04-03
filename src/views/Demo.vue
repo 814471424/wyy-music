@@ -5,6 +5,15 @@
       展示右键菜单
     </div>
     <div @click="test()">测试cookie</div>
+    <div>
+      <!-- <User></User> -->
+    </div>
+    <div v-if="cookie">
+      有cookie
+    </div>
+    <div v-else>没有cookie</div>
+    <button @click="testCookie">测试cookie</button>
+    <button @click="delCookie">删除cookie</button>
   </div>
 </template>
 
@@ -12,6 +21,7 @@
 import { computed, onMounted } from "vue"
 import { useUserStore } from '../store/user'
 import Windows from '../windows/Windows'
+import User from '../components/MHeader/User.vue'
 
 const userStore = useUserStore();
 let list: Common.SongItem[] = [{ id: 1, name: '22', songType: 'local' }];
@@ -26,6 +36,13 @@ function test() {
   // console.log(nickname.value);
   // (new Windows()).createMini()
   console.log(list)
+}
+
+function testCookie() {
+  userStore.setCookie("ddddddddddddddddddddd");
+}
+function delCookie() {
+  userStore.cleanUser()
 }
 
 onMounted(() => {

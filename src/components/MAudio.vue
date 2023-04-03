@@ -40,6 +40,7 @@ onMounted(async () => {
   audioELe?.setAttribute("autoplay", "autoplay");
   // 可以播放的时候获取音频总时长
   audioELe?.addEventListener("canplay", function () {
+    console.log(mainStore)
     mainStore.setDuration(audioELe?.duration ?? 0);
   });
   // 获取播放音量
@@ -58,6 +59,9 @@ onMounted(async () => {
   }
   audioELe!.onended = () => {
     console.log("播放结束")
+  }
+  audioELe!.onerror = (_event, _source, _lineno, _colno, error) => {
+    console.log("播放错误:" + error)
   }
 })
 

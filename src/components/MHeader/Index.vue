@@ -21,11 +21,10 @@
     <div class="header-system" data-tauri-drag-region="true">
 
       <!-- 用户信息(目前就未登录状态) -->
-      <div class="header-system-login" @click="showLogin()">
-        <span class="iconfont wyy-ziyuanxhdpi" style="background-color: #fff;" src="" alt="" />
-        <div class="div-no-select">未登录</div>
-        <span class="iconfont wyy-xiangxia"></span>
+      <div style="max-width: 150px;">
+        <User />
       </div>
+      <!-- 占位用 -->
       <div></div>
 
       <!-- 右上角各种设置跟窗体操作 -->
@@ -43,11 +42,12 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref } from 'vue';
-import Windows from '../windows/Windows'
+import { onMounted, onUnmounted, ref } from 'vue';
+import Windows from '../../windows/Windows'
 import { Search } from '@element-plus/icons-vue'
 import { WebviewWindow, appWindow } from '@tauri-apps/api/window'
 import { UnlistenFn, listen } from '@tauri-apps/api/event'
+import User from './User.vue'
 
 let inputText = ref("");
 let isMinimize = ref(false);

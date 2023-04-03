@@ -67,6 +67,7 @@ import { Search } from '@element-plus/icons-vue'
 import useLocalStorage from '../../hooks/useLocalStorage'
 import { useMainStore } from '../../store/index';
 import { computed } from "@vue/reactivity";
+import { playOne, fileToSongx } from '../../utils/player'
 
 const mainStore = useMainStore();
 // 查找的主要文件格式
@@ -160,8 +161,9 @@ async function findMp3ByFiles() {
 }
 
 function tableDbClick(row: FileEntry) {
-  if (row.path) {
-    mainStore.setUrl("https://stream.localhost/" + row.path)
+  if (row.path && row.name) {
+    playOne(fileToSongx(row.name, row.path))
+    // mainStore.setUrl("https://stream.localhost/" + row.path)
   }
 }
 

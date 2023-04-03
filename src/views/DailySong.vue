@@ -48,20 +48,25 @@
 import { ref, onMounted } from "vue"
 import api from '../api/index'
 import { millisecondToTime } from '../utils/time'
-import { usePlayList } from '../store/playlist'
+import { usePlayListStore } from '../store/playlist'
+import { playOne } from '../utils/player'
 
-let playListStore = usePlayList();
+let playListStore = usePlayListStore();
 let dailySongs = ref([] as Playlist.dailySong[]);
 let date = new Date().getDate()
 
 function tableDbClick(row: Playlist.dailySong) {
-  playListStore.addOne(row);
+  playOne({ ...row, songType: 'daily_song' })
   // playListStore.removeOne(row.id);
 }
 
 // 全部添加到播放列表
 function playAll() {
-  playListStore.replaceAll(dailySongs.value);
+  let list = dailySongs.value.map(v => {
+    return { ...v, songType: 'daily_song' }
+  }) as Common.songX[];
+
+  playListStore.replaceAll(list);
 }
 
 onMounted(() => {

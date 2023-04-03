@@ -28,7 +28,7 @@ declare namespace Common {
 
   // store里面的音乐的数据格式
   // 歌曲面板信息
-  name: String, 歌曲标题
+  // name: String, 歌曲标题
   // id: u64, 歌曲ID
   // pst: 0，功能未知
   // t: enum,
@@ -97,40 +97,15 @@ declare namespace Common {
   // cp: u64, 功能未知
   // publishTime: i64, 毫秒为单位的Unix时间戳
   // pc: 云盘歌曲信息，如果不存在该字段，则为非云盘歌曲
-  export interface songX {
-    // 歌曲的id
-    id: string | number,
-    // 歌曲名称
-    name: string,
-    // 标签
-    alia: string[];
-    // 歌手
-    ar: {
-      // 歌手id
-      id: number
-      // 歌手名称
-      name: string
-    }[]
-    // 专辑
-    al: {
-      // 专辑id
-      id: number
-      // 专辑名称
-      name: string
-      // 专辑图片
-      picUrl: string
-      // 图片id
-      pic_str: string
-    },
-    // 时间戳（毫秒）
-    dt: number,
+  export interface songX extends Playlist.dailySong {
     // 本地音乐还是线上音乐, null为web
     // local: 本地
     // daily_song: 每日推荐
     // other: 其他
-    songType?: 'local' | 'daily_song' | 'other'
+    songType: 'local' | 'daily_song' | 'other',
+    // local时才有
+    filePath?: string
   }
-
 }
 
 // 主要响应字段
@@ -141,11 +116,6 @@ declare interface responseData {
 
 // 推荐类的数据接口
 declare namespace Playlist {
-  // 推荐歌单
-  export interface playlist {
-
-  }
-
   // 每日推荐
   export interface dailySong {
     // 音乐的id
@@ -164,7 +134,7 @@ declare namespace Playlist {
       name: string
     }[]
     // 专辑
-    al: {
+    al?: {
       // 专辑id
       id: number
       // 专辑名称
@@ -174,6 +144,15 @@ declare namespace Playlist {
       // 图片id
       pic_str: string
     }
+  }
+
+  export interface songUrl {
+    // 歌曲id
+    id: string | number
+    // 歌曲地址
+    url: string | null
+    // 歌曲总时长
+    time: number
   }
 }
 

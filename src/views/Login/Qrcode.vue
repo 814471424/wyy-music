@@ -9,24 +9,32 @@
     </div>
     <div class="check-login-type" data-tauri-drag-region="true"><span @click="basckLogin">选择其他登录模式 ></span></div>
   </div>
+  <div>{{ cookie }}</div>
+  <div v-if="cookie">
+    有cookie
+  </div>
+  <div v-else>没有cookie</div>
+  <button @click="testCookie">测试cookie</button>
+  <button @click="delCookie">删除cookie</button>
 </template>
 
 <script lang="ts" setup>
 import vueQr from 'vue-qr/src/packages/vue-qr.vue'
-import { onMounted, onUnmounted, ref } from "vue"
+import { computed, onMounted, onUnmounted, ref } from "vue"
 import api from '../../api/index'
 import { useUserStore } from '../../store/user'
 import { appWindow } from '@tauri-apps/api/window'
+import router from '../../router/index'
 
 const userStore = useUserStore();
 let avatarUrl = "";
 let nickname = "";
-let cookie = "";
 let key = "";
 let polling = false;  // 是否检测扫码状态接口
 let timer: NodeJS.Timeout | string | number | undefined = undefined;
 let qrurl = ref('');
 let showCreate = ref(false);
+let cookie = computed(() => userStore.cookie);
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件
@@ -58,17 +66,16 @@ async function getKeyAndCreateQr() {
 async function checkQr() {
   if (polling && key != '') {
     api.loginQrCodeCheck(key).then((res) => {
-      console.log(res)
       if (res.code == 803) {  // 成功扫码
         polling = false;
-        cookie = res.cookie;
-        userStore.setCookie(cookie);
+        userStore.setCookie(res.cookie);
         userStore.setUserInfo(avatarUrl, nickname)
         appWindow.close()
+        router.replace('/discover')
       } else if (res.code == 800) { // 需要显示重新扫码按钮
         polling = false;
         showCreate.value = true;
-      } else if (res.code == 802) { // 这里能获取到avatarUrl跟nickname
+      } else if (res.code == 802) { // 用户正在扫码 这里能获取到avatarUrl跟nickname
         avatarUrl = res.avatarUrl ?? ''
         nickname = res.nickname ?? ''
       } else {  // 801 不需要管
@@ -76,6 +83,17 @@ async function checkQr() {
       }
     })
   }
+}
+
+function basckLogin() {
+  props.basckLogin()
+}
+
+function testCookie() {
+  userStore.setCookie("ddddddddddddddddddddd");
+}
+function delCookie() {
+  userStore.cleanUser()
 }
 
 onMounted(() => {
@@ -90,9 +108,7 @@ onUnmounted(() => {
   clearInterval(timer);
 })
 
-function basckLogin() {
-  props.basckLogin()
-}
+
 
 </script>
 

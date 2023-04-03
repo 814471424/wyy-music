@@ -46,7 +46,7 @@ export const useMainStore = defineStore('main', {
             this.musicUrl = url;
         },
         // 更新歌词
-        setLycs(data: []) {
+        setLycs(data: Array<number | string>) {
             this.lycs = data
         },
         // 设置当前播放时间

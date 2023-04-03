@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts" setup>
-import MHeader from '../components/MHeader.vue'
+import MHeader from '../components/MHeader/Index.vue'
 import MPlayer from '../components/MPlayer/Index.vue'
 import MMenu from '../components/MMenu.vue'
 

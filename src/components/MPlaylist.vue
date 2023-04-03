@@ -13,7 +13,7 @@
     <div class="palylist-content">
       <el-table :data="list" stripe
         style="width: 100%;border-top-width: 1px;border-top-style: solid;border-top-color: #e0e0e0;" size="small"
-        :show-header="false">
+        :show-header="false" @row-dblclick="tableDbClick">
         <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
         <el-table-column label="歌手" :show-overflow-tooltip=true width="160">
           <template #default="scope">
@@ -32,11 +32,12 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import { usePlayList } from '../store/playlist'
+import { usePlayListStore } from '../store/playlist'
 import { storeToRefs } from 'pinia'
 import { millisecondToTime } from '../utils/time'
+import { playOne } from '../utils/player'
 
-let playListStore = usePlayList();
+let playListStore = usePlayListStore();
 let title = ref('打开播放列表')
 let show = ref(false)
 const { list } = storeToRefs(playListStore);
@@ -44,6 +45,11 @@ const { list } = storeToRefs(playListStore);
 function cleanAll() {
   playListStore.removeAll()
 }
+
+function tableDbClick(value: Common.songX) {
+  playOne(value);
+}
+
 
 onMounted(() => {
   const bt = document.getElementById('showButton');

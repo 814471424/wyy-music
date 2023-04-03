@@ -1,7 +1,5 @@
 // 用户登录信息的全局
-
 import { defineStore } from 'pinia'
-import { json } from 'stream/consumers'
 
 interface UserData {
     // 头像

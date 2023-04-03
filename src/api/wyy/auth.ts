@@ -1,4 +1,4 @@
-import axios from "../../utils/request";
+import request from "../../utils/request";
 
 /*
  * 描述: [手机登录(现在要求验证,暂时绕不过,请使用二维码登录)]
@@ -21,7 +21,7 @@ export function loginWithPhone(
         phone: string, password?: string, countrycode?: string, md5_password?: string, captcha?: string
     }
 ): Promise<responseData> {
-    return axios.post('/login/cellphone', null, { params: params })
+    return request.post('/login/cellphone', null, { params: params })
 }
 
 /*
@@ -36,7 +36,7 @@ export function loginWithPhone(
 export function loginWithEmail(
     params: { email: string, password?: string, md5_password?: string }
 ): Promise<responseData> {
-    return axios.post('/login', null, { params: params })
+    return request.post('/login', null, { params: params })
 }
 
 /*
@@ -44,7 +44,7 @@ export function loginWithEmail(
  * 时间: 2023/03/30 14:14:30
  */
 export function loginQrCodeKey(): Promise<responseData & { data: { code: number, unikey: string } }> {
-    return axios.get('/login/qr/key', {
+    return request.get('/login/qr/key', {
         params: { timestamp: new Date().getTime() }
     });
 }
@@ -56,7 +56,7 @@ export function loginQrCodeKey(): Promise<responseData & { data: { code: number,
 export function loginQrCodeCreate(
     params: { key: string, qrimg?: string }
 ): Promise<responseData & { data: { qrurl: string, qrimg: string } }> {
-    return axios.get('/login/qr/create', {
+    return request.get('/login/qr/create', {
         params: {
             ...params,
             timestamp: new Date().getTime(),
@@ -72,10 +72,18 @@ export function loginQrCodeCreate(
 export function loginQrCodeCheck(
     key: string
 ): Promise<responseData & { cookie: string, avatarUrl?: string, nickname?: string }> {
-    return axios.get('/login/qr/check', {
+    return request.get('/login/qr/check', {
         params: {
             key,
             timestamp: new Date().getTime(),
         }
     })
+}
+
+/**
+ * 退出登录
+ * 说明 : 调用此接口 , 可退出登录
+ */
+export function logout(): Promise<responseData> {
+    return request.post('/logout');
 }
