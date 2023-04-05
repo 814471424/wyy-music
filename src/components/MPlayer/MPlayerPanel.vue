@@ -1,5 +1,7 @@
 <template>
-  <div class="m-player-panel">
+  <div class="m-player-panel" :style="[{
+    background: '-webkit-linear-gradient(272deg, rgb(184 184 184), rgb(255 255 255 / 95%), rgba(255,255,255,1)),url(' + songX?.al?.picUrl + ')'
+  }]">
     <!-- 头部 -->
     <div class="m-player-panel-header" data-tauri-drag-region="true">
       <div><span class="iconfont wyy-xiangxia-a" style="margin-left: 35px;"></span></div>
@@ -7,7 +9,7 @@
       <div class="m-player-panel-header-system">
         <div title="设置" class="iconfont wyy-xitongguanli"></div>
         <div title="消息" class="iconfont wyy-youjian_o"></div>
-        <div class="div-no-select">|</div>
+        <div class="div-no-select">丨</div>
         <div title="mini模式" class="iconfont wyy-mini"> </div>
         <div title="最小化" class="iconfont wyy-suoxiao" @click="minimizeMain()"></div>
         <div v-if="!isMinimize" title="最大化" class="iconfont wyy-CZ_029" @click="maximizeMain()"></div>
@@ -22,61 +24,36 @@
       <div class="panel-main-one">
         <!-- 唱片部分 -->
         <div class="record-black">
-          <div style="width: 100%;height: 130px;text-align: center;z-index: 1; position: relative;"
+          <div style="width: 100%;height: 130px;text-align: center;z-index: 1; position: relative"
             :class="[{ 'pause-needle': playStatus == false, 'resume-needle': playStatus == true }]">
             <img :class="['play-needle-img']" src="../../assets/play_needle.png" />
           </div>
           <div :class="['record-in', { 'xuanzhuan': playStatus == true }]">
             <div class="lines">
               <img
-                src="https://ts1.cn.mm.bing.net/th/id/R-C.987f582c510be58755c4933cda68d525?rik=C0D21hJDYvXosw&riu=http%3a%2f%2fimg.pconline.com.cn%2fimages%2fupload%2fupc%2ftx%2fwallpaper%2f1305%2f16%2fc4%2f20990657_1368686545122.jpg&ehk=netN2qzcCVS4ALUQfDOwxAwFcy41oxC%2b0xTFvOYy5ds%3d&risl=&pid=ImgRaw&r=0"
+                :src="songX?.al?.picUrl || 'https://ts1.cn.mm.bing.net/th/id/R-C.987f582c510be58755c4933cda68d525?rik=C0D21hJDYvXosw&riu=http%3a%2f%2fimg.pconline.com.cn%2fimages%2fupload%2fupc%2ftx%2fwallpaper%2f1305%2f16%2fc4%2f20990657_1368686545122.jpg&ehk=netN2qzcCVS4ALUQfDOwxAwFcy41oxC%2b0xTFvOYy5ds%3d&risl=&pid=ImgRaw&r=0'"
                 class="cd" />
             </div>
           </div>
         </div>
         <div class="panel-main-lycs">
-          <span>歌曲名称</span>
           <div>
-            <button @click="demo1">测试</button>
-            <span>歌手: 1</span>
-            <span>专辑: 2</span>
-            <span>来源: 3</span>
+            <div class="panel-main-title">{{ songX?.name }}</div>
+            <div class="panel-main-info">
+              <div>歌手: {{ songX?.ar.map(res => res.name).join(' / ') ?? '未知' }}</div>
+              <div>专辑: {{ songX?.al?.name ?? '未知' }}</div>
+              <div>来源: {{ songX?.songType ?? '未知' }}</div>
+            </div>
           </div>
-          <div class="main-lycs">
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
-            <div>1</div>
+          <div id="wrapper" class="main-lycs" ref="scroll">
+            <div style="height: calc(50% - 20px)"></div>
+            <div v-if="lycs.length > 0">
+              <div :class="['lycs_item', { lycs_item_active: lycindex == key }]" v-for="(item, key) in lycs" :key="key">
+                <div>{{ item[1] }}</div>
+              </div>
+            </div>
+            <div v-else="">暂无歌曲</div>
+            <div style="height: calc(50% - 40px);"></div>
           </div>
         </div>
       </div>
@@ -107,19 +84,56 @@
 <script lang="ts" setup>
 import { UnlistenFn } from "@tauri-apps/api/event";
 import { WebviewWindow, appWindow, } from "@tauri-apps/api/window";
-import { ref, onMounted, onUnmounted, computed } from "vue"
+import { ref, onMounted, onUnmounted, watch } from "vue"
 import Windows from "../../windows/Windows";
 import { useMainStore } from '../../store/index'
+import { storeToRefs } from 'pinia'
+import { handleLrc } from '../../utils/player'
+import BScroll from 'better-scroll'
+import { BScrollConstructor } from "@better-scroll/core/dist/types/BScroll";
 
 const mainStore = useMainStore();
 let isMinimize = ref(false);
 let unlisten: UnlistenFn;
+let lycs = ref([] as Array<number | string>[]);
 // 音乐播放状态
-let playStatus = computed(() => mainStore.playStatus) // 是否播放
+let { playStatus, lyc, currentTime, songX } = storeToRefs(mainStore);
+// 当前歌词定位
+let lycindex = ref(0);
+// better-scroll
+let scroll: BScrollConstructor<{}> | null = null;
 
-function demo1() {
-  mainStore.setPlayStatus(!playStatus.value);
-}
+watch(() => currentTime.value, (value, _oldValue) => {
+  try {
+    timeupdate(value)
+  } catch (error) {
+    console.log(error)
+  }
+})
+watch(() => lyc.value, (value, _oldValue) => {
+  lycs.value = handleLrc(value);
+})
+
+onMounted(async () => {
+  // 获取歌词
+  lycs.value = handleLrc(lyc.value);
+  // 
+  let wrapper = document.getElementById("wrapper")
+  if (wrapper) {
+    scroll = new BScroll(wrapper, {});
+  }
+  // 监听窗口大小是否变化
+  unlisten = await appWindow.onResized(({ payload: size }) => {
+    WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
+      isMinimize.value = res
+    })
+  });
+})
+
+onUnmounted(() => {
+  unlisten
+})
+
 // 关闭窗口
 function closeMain() {
   Windows.closeMainWin()
@@ -144,25 +158,32 @@ function minimizeMain() {
   Windows.minimizeMainWin()
 }
 
-onMounted(async () => {
-  // 监听窗口大小是否变化
-  unlisten = await appWindow.onResized(({ payload: size }) => {
-    WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
-      isMinimize.value = res
-    })
-  });
-})
+// 当前播放时长
+function timeupdate(e: number | string) {
+  let currentTime = e;
 
-onUnmounted(() => {
-  unlisten()
-})
+  let lyc = lycs.value;
+  for (let i = 0; i < lyc.length; i++) {
+    // currentTime < lyc[i + 1] 超出
+    if (lyc[i][0] < currentTime && currentTime < (lyc[i + 1] ? lyc[i + 1][0] : 9999)) {
+      if (scroll && lycindex.value < i) {
+        lycindex.value = i;
+        scroll?.scrollTo(0, i * 60)
+      }
+    }
+  }
+  // console.log("timeupdate: " + currentTime);
+}
+
+
 </script>
 
 <style lang="less" scoped>
 .m-player-panel {
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #dfd8d3, #ffffff);
+  // background: linear-gradient(to bottom, #dfd8d3, #ffffff);
+  // background: -webkit-linear-gradient(272deg, rgb(167 167 167), rgb(122 122 122 / 95%), rgba(255,255,255,1)),url(https://p2.music.126.net/T01LxKNXKebyWE0GBPzyeA==/109951167953959333.jpg);
   color: #85817f;
   overflow-y: hidden;
 
@@ -175,11 +196,11 @@ onUnmounted(() => {
     justify-content: space-between;
     position: fixed;
     top: 0;
-    background-color: #e3dcd8;
+    // background-color: #e3dcd8;
     z-index: 2;
 
     .m-player-panel-header-system {
-      min-width: 265px;
+      min-width: 250px;
       display: flex;
       align-items: center;
       justify-content: space-evenly;
@@ -197,21 +218,23 @@ onUnmounted(() => {
     }
   }
 
+  .panel-main:hover {
+    overflow-y: overlay;
+  }
 
   .panel-main {
     height: calc(100vh - 134px);
     top: 60px;
     position: relative;
-    overflow-y: auto;
+    overflow-y: hidden;
 
     .panel-main-one {
       display: flex;
       justify-content: center;
 
       .record-black {
-        width: 400px;
+        width: 430px;
         height: 490px;
-        background-color: blueviolet;
         text-align: center;
 
         // 唱片上的
@@ -257,15 +280,52 @@ onUnmounted(() => {
       }
 
       .panel-main-lycs {
-        width: 450px;
+        width: 380px;
         height: 490px;
-        background-color: aqua;
+        margin-left: 40px;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
         .main-lycs {
-          min-height: 200px;
-          max-height: 350px;
-          background-color: cornflowerblue;
-          overflow-y: auto;
+          height: 360px;
+          overflow-y: hidden;
+          // box-shadow: inset 0px 16px 15px 0px #b1adad52, inset 0px -14px 17px 0px #acacac52;
+
+          .lycs_item {
+            text-align: center;
+            height: 60px;
+            line-height: 20px;
+          }
+
+          .lycs_item_active {
+            color: #000;
+            font-size: 25px;
+          }
+        }
+
+        .main-lycs:hover {
+          overflow-y: overlay;
+        }
+
+        .panel-main-title {
+          font-size: 23px;
+          margin: 5px 0px;
+          color: #000;
+        }
+
+        .panel-main-info {
+          display: flex;
+          font-size: 13px;
+
+          div {
+            width: 30%;
+            overflow: hidden; // 超出长度的文字隐藏
+            text-overflow: ellipsis; // 文字隐藏以后添加省略号
+            white-space: nowrap; // 强制不换行
+            margin-right: 15px;
+          }
         }
       }
     }
@@ -273,6 +333,7 @@ onUnmounted(() => {
     .panel-main-two {
       display: flex;
       justify-content: center;
+      padding-top: 20px;
 
       .panel-main-comment {
         width: 620px;

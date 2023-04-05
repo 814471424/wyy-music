@@ -2,8 +2,9 @@
   <div class="m-player">
 
     <!-- 歌词面板 -->
-    <el-drawer v-model="drawer" direction="btt" :modal="false" :class="[{ cancel_transition: cancelTransition }]"
-      title="I am the title" :with-header="false" :close-on-press-escape="true" :show-close="true" :z-index=2002>
+    <el-drawer v-model="drawer" direction="btt" :modal="false" :destroy-on-close="true"
+      :class="[{ cancel_transition: cancelTransition }]" title="I am the title" :with-header="false"
+      :close-on-press-escape="true" :show-close="true" :z-index=2002>
       <MPlayerPanel />
     </el-drawer>
 
@@ -34,7 +35,7 @@
         </div>
         <div class="play-radio-bar">
           <div style="margin-right: 5px;">{{ durationToTime(currentTime) }}</div>
-          <el-slider v-model="currentTime" size="small" height="120" :show-tooltip=false :max="duration"
+          <el-slider v-model="viedoDuration" size="small" height="120" :show-tooltip=false :max="duration"
             @input="sliderChange" />
           <div style="margin-left: 5px;">{{ durationToTime(duration) }}</div>
         </div>
@@ -54,7 +55,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, onUnmounted, ref, watch } from "vue"
+import { ref, watch } from "vue"
 import MPlayerPanel from './MPlayerPanel.vue'
 import { durationToTime } from '../../utils/time'
 import { useMainStore } from '../../store/index'
@@ -65,14 +66,17 @@ const mainStore = useMainStore(); // 目前关于应该相关的store
 
 const drawer = ref(false) // 控制歌词面板是否显示
 const cancelTransition = ref(false) // 用于取消 el-drawer 的过度动画，全屏的时候由于过度动画显示有点问题
-const audioIsPlaying = ref(false);  // 用于同步当前的播放状态
+let viedoDuration = 0;
 
-const { currentTime, duration, volume, playStatus, songX, lycs, musicUrl } = storeToRefs(mainStore)
+const { currentTime, duration, volume, playStatus, songX, musicUrl } = storeToRefs(mainStore)
 
 watch(() => drawer.value, (value, _oldValue) => {
   setTimeout(() => {
     cancelTransition.value = value
   }, 500);
+})
+watch(() => currentTime.value, (value, _oldValue) => {
+  viedoDuration = value
 })
 
 function audioPlay() {
@@ -98,7 +102,8 @@ function showDrawer() {
   height: calc(100vh - 74px) !important;
   margin-bottom: 74px;
   border-bottom-color: #e0e0e000;
-  border-bottom-width: 1px;
+  // border-bottom-width: 1px;
+  border-bottom-width: 0px;
   border-bottom-style: solid;
   padding: 0px !important;
 

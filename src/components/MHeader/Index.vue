@@ -10,7 +10,7 @@
 
       <!-- 搜索 -->
       <div class="header-search" data-tauri-drag-region="true">
-        <div class="header-back-url"><span class="iconfont wyy-xiangzuo"></span></div>
+        <div class="header-back-url" @click="router.go(-1)"><span class="iconfont wyy-xiangzuo"></span></div>
         <div class="header-back-url"><span class="iconfont wyy-xiangyou"></span></div>
         <div class="header-input">
           <el-input v-model="inputText" placeholder="Type something" :prefix-icon="Search" />
@@ -21,22 +21,22 @@
     <div class="header-system" data-tauri-drag-region="true">
 
       <!-- 用户信息(目前就未登录状态) -->
-      <div style="max-width: 150px;">
+      <div class="header-user" style="width: 140px;">
         <User />
       </div>
-      <!-- 占位用 -->
-      <div></div>
 
       <!-- 右上角各种设置跟窗体操作 -->
-      <div title="主题" class="iconfont wyy-zhuti-04"></div>
-      <div title="设置" class="iconfont wyy-xitongguanli"></div>
-      <div title="消息" class="iconfont wyy-youjian_o"></div>
-      <div class="div-no-select">|</div>
-      <div title="mini模式" class="iconfont wyy-mini" @click="mimiMain()"> </div>
-      <div title="最小化" class="iconfont wyy-suoxiao" @click="minimizeMain()"></div>
-      <div v-if="!isMinimize" title="最大化" class="iconfont wyy-CZ_029" @click="maximizeMain()"></div>
-      <div v-else title="向下还原" class="iconfont wyy-huanyuan" @click="unmaximizeMain()"></div>
-      <div title="关闭" class="iconfont wyy-guanbi" @click="closeMain()"></div>
+      <div style="display: flex;width: 245px;justify-content: space-between;align-items: center;">
+        <div title="主题" class="iconfont wyy-zhuti-04"></div>
+        <div title="设置" class="iconfont wyy-xitongguanli"></div>
+        <div title="消息" class="iconfont wyy-youjian_o"></div>
+        <div class="div-no-select">丨</div>
+        <div title="mini模式" class="iconfont wyy-mini" @click="mimiMain()"> </div>
+        <div title="最小化" class="iconfont wyy-suoxiao" @click="minimizeMain()"></div>
+        <div v-if="!isMinimize" title="最大化" class="iconfont wyy-CZ_029" @click="maximizeMain()"></div>
+        <div v-else title="向下还原" class="iconfont wyy-huanyuan" @click="unmaximizeMain()"></div>
+        <div title="关闭" class="iconfont wyy-guanbi" @click="closeMain()"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -48,6 +48,7 @@ import { Search } from '@element-plus/icons-vue'
 import { WebviewWindow, appWindow } from '@tauri-apps/api/window'
 import { UnlistenFn, listen } from '@tauri-apps/api/event'
 import User from './User.vue'
+import router from '../../router/index'
 
 let inputText = ref("");
 let isMinimize = ref(false);
@@ -195,7 +196,11 @@ onUnmounted(() => {
       }
     }
 
-    div:hover {
+    .header-user:hover {
+      color: #fff;
+    }
+
+    .iconfont:hover {
       color: #fff;
     }
   }

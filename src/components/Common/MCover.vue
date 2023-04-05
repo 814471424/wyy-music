@@ -1,15 +1,30 @@
+<!-- 歌单样式 -->
 <template>
-  <div class="cover-plays-item">
-    <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
+  <div class="cover-plays-item" @click="callback">
+    <div><img :src="props.value.picUrl" alt="">
     </div>
     <div class="item-text">
-      标题标题标题标题标题标题标题标题标题标题标题标题标题标题
+      {{ props.value.name }}
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { defineProps } from "vue"
+import router from '../../router/index'
+
+const props = defineProps<{
+  value: Playlist.playList,
+  callback?: () => {}
+}>();
+
+function callback() {
+  if (props.callback) {
+    props.callback()
+  } else {
+    router.push('/play_list/' + props.value.id)
+  }
+}
 
 </script>
 

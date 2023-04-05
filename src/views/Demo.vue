@@ -24,18 +24,14 @@ import Windows from '../windows/Windows'
 import User from '../components/MHeader/User.vue'
 
 const userStore = useUserStore();
-let list: Common.SongItem[] = [{ id: 1, name: '22', songType: 'local' }];
 
-let avatarUrl = computed(() => userStore.avatarUrl);
 let cookie = computed(() => userStore.cookie);
-let nickname = computed(() => userStore.nickname);
 
 function test() {
   // console.log(avatarUrl.value);
   // console.log(cookie.value);
   // console.log(nickname.value);
   // (new Windows()).createMini()
-  console.log(list)
 }
 
 function testCookie() {

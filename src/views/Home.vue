@@ -21,6 +21,7 @@
       <el-footer class="common-footer">
         <MPlayer />
       </el-footer>
+      <MAudio></MAudio>
     </el-container>
   </div>
 </template>
@@ -29,6 +30,7 @@
 import MHeader from '../components/MHeader/Index.vue'
 import MPlayer from '../components/MPlayer/Index.vue'
 import MMenu from '../components/MMenu.vue'
+import MAudio from '../components/MAudio.vue';
 
 </script>
 
@@ -44,6 +46,11 @@ import MMenu from '../components/MMenu.vue'
   border-right-width: 1px;
   border-right-style: solid;
   padding: 10px 0 0 10px;
+  overflow-y: hidden;
+}
+
+.common-left:hover {
+  overflow-y: overlay;
 }
 
 .common-main {
@@ -60,7 +67,7 @@ import MMenu from '../components/MMenu.vue'
 
 .common-right {
   padding: 0px 0px 0px 0px;
-  overflow: overlay;
-  overflow-x: hidden;
+  overflow: hidden;
+  overflow-y: overlay;
 }
 </style>

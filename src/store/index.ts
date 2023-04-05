@@ -9,10 +9,12 @@ interface MusicData {
     songX: Common.songX | null,
     // 歌词
     lycs: Array<number | string>,
+    lyc: string,
     // 是否在播放中
     playStatus: boolean,
     // 当前播放时间 
-    // Ex为滑块使用的字段
+    // currentTime主要显示用
+    // currentTimeEx为滑块使用的字段
     currentTime: number,
     currentTimeEx: number,
     // 音量
@@ -22,16 +24,21 @@ interface MusicData {
 }
 
 export const useMainStore = defineStore('main', {
-    state: (): MusicData => ({
-        musicUrl: '',
-        songX: null,
-        lycs: [],
-        playStatus: false,
-        currentTime: 0,
-        currentTimeEx: 0,
-        volume: 0,
-        duration: 0,
-    }),
+    state: (): MusicData => {
+        let song = JSON.parse(localStorage.getItem('song') ?? '{}');
+
+        return {
+            musicUrl: song['musicUrl'] ?? '',
+            songX: song['songX'] ?? null,
+            lycs: song['lycs'] ?? [],
+            lyc: song['lyc'] ?? '',
+            playStatus: false,
+            currentTime: 0,
+            currentTimeEx: 0,
+            volume: 0,
+            duration: 0,
+        }
+    },
     actions: {
         // 更新是否在播放
         setPlayStatus(data: boolean) {
@@ -40,14 +47,21 @@ export const useMainStore = defineStore('main', {
         // 更新歌曲信息
         setSongxData(songX: Common.songX) {
             this.songX = songX;
+            this.saveToLocal()
         },
         // 更新歌曲资源
         setUrl(url: string) {
             this.musicUrl = url;
+            this.saveToLocal()
         },
         // 更新歌词
         setLycs(data: Array<number | string>) {
             this.lycs = data
+            this.saveToLocal()
+        },
+        setLyc(data: string) {
+            this.lyc = data
+            this.saveToLocal()
         },
         // 设置当前播放时间
         setCurrentTime(time: number) {
@@ -63,6 +77,20 @@ export const useMainStore = defineStore('main', {
         // 设置时长
         setDuration(duration: number) {
             this.duration = duration;
+        },
+        // 正在播放歌曲存放到缓存里
+        saveToLocal() {
+            localStorage.setItem('song', JSON.stringify({
+                musicUrl: this.musicUrl,
+                songX: this.songX,
+                lycs: this.lycs,
+                lyc: this.lyc,
+                playStatus: this.playStatus,
+                currentTime: this.currentTime,
+                currentTimeEx: this.currentTimeEx,
+                volume: this.volume,
+                duration: this.duration,
+            }))
         }
     }
 })

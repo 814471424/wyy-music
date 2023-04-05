@@ -22,11 +22,14 @@ watch(() => playStatus.value, async (value, _oldValue) => {
     })
     return
   }
-
   audioELe?.pause()
+})
+watch(() => musicUrl.value, (value, _oldValue) => {
+  audioELe?.setAttribute("autoplay", "autoplay");
 })
 
 watch(() => currentTimeEx.value, async (value, _oldValue) => {
+  audioELe!.currentTime = value
   audioELe!.currentTime = value
 })
 watch(() => volume.value, async (value, _oldValue) => {
@@ -37,10 +40,9 @@ onMounted(async () => {
   // 页面加载完的时候获取audioel
   audioELe = document.querySelector("#mp3Btn");
   // 设置自动播放
-  audioELe?.setAttribute("autoplay", "autoplay");
+  // audioELe?.setAttribute("autoplay", "autoplay");
   // 可以播放的时候获取音频总时长
   audioELe?.addEventListener("canplay", function () {
-    console.log(mainStore)
     mainStore.setDuration(audioELe?.duration ?? 0);
   });
   // 获取播放音量

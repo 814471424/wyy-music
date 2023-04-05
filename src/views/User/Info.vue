@@ -1,6 +1,6 @@
 <template>
-  <div>
-
+  <div class="common-padding">
+    个人信息
   </div>
 </template>
 

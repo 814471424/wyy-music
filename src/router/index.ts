@@ -6,6 +6,8 @@ import Download from '../views/Download/Index.vue'
 import Unrealized from '../views/Unrealized.vue'
 import Discover from '../views/Discover/Index.vue'
 import DailySong from '../views/DailySong.vue'
+import UserInfo from '../views/User/Info.vue'
+import PlayList from '../views/PlayList.vue'
 
 
 const routes: RouteRecordRaw[] = [
@@ -71,6 +73,16 @@ const routes: RouteRecordRaw[] = [
                 // 每日歌曲
                 path: '/daily_song',
                 component: DailySong
+            },
+            {
+                // 个人信息
+                path: '/user_info',
+                component: UserInfo
+            },
+            {
+                // 歌单详情 id: 歌单的id
+                path: '/play_list/:id',
+                component: PlayList
             }
         ]
     },

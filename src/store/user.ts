@@ -2,30 +2,26 @@
 import { defineStore } from 'pinia'
 
 interface UserData {
-    // 头像
-    avatarUrl: string
-    // 昵称
-    nickname: string
     cookie: string
+    profile: Common.profileInfo | null
 }
 
 export const useUserStore = defineStore('user', {
     state: (): UserData => {
-        let user = JSON.parse(localStorage.getItem('user') ?? "{}");
+        let userCache = localStorage.getItem('profile')
+        let user = userCache ? JSON.parse(userCache) : null
         let cookie = localStorage.getItem('cookie') ?? '';
 
         return {
-            avatarUrl: user['avatarUrl'] ?? '',
-            nickname: user['nickname'] ?? '',
-            cookie: cookie
+            cookie: cookie,
+            profile: user
         }
     },
     actions: {
-        setUserInfo(avatarUrl: string, nickname: string) {
-            this.avatarUrl = avatarUrl
-            this.nickname = nickname
+        setUserInfo(profile: Common.profileInfo) {
+            this.profile = profile
 
-            localStorage.setItem('user', JSON.stringify({ avatarUrl: avatarUrl, nickname: nickname }))
+            localStorage.setItem('profile', JSON.stringify(this.profile))
         },
         setCookie(cookie: string) {
             this.cookie = cookie
@@ -34,12 +30,20 @@ export const useUserStore = defineStore('user', {
         },
         // 清除掉用户的数据
         cleanUser() {
-            this.avatarUrl = '';
-            this.nickname = '';
+            this.profile = null
             this.cookie = ''
 
+            localStorage.removeItem('profile')
             localStorage.removeItem('cookie')
-            localStorage.removeItem('user')
+        },
+        // 重新加载用户数据
+        reLoad() {
+            let userCache = localStorage.getItem('profile')
+            let user = userCache ? JSON.parse(userCache) : null
+            let cookie = localStorage.getItem('cookie') ?? '';
+
+            this.profile = user
+            this.cookie = cookie
         }
     },
 })

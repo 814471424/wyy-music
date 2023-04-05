@@ -9,6 +9,8 @@
     </el-carousel>
   </div>
   <div class="playlists">
+
+    <!-- 推荐歌单 -->
     <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
     <div class="plays">
       <div class="plays-item" @click="router.push('daily_song')">
@@ -22,85 +24,20 @@
           每日歌曲推荐
         </div>
       </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题标题标题标题标题标题标题标题标题标题标题标题标题标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <div><img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" alt="">
-        </div>
-        <div class="item-text">
-          标题
-        </div>
-      </div>
-      <div class="plays-item">
-        <MCover />
-      </div>
-      <div class="plays-item">
-        <MCover />
-      </div>
-      <div class="plays-item">
-        <MCover />
-      </div>
-      <div class="plays-item">
-        <MCover />
-      </div>
-      <div class="plays-item">
-        <MCover />
+      <div class="plays-item" v-for="(item, key) in playlists" :key="key">
+        <MCover :value="item" @callback="() => { router.push('/play_list/' + item.id) }" />
       </div>
     </div>
+
+    <!-- 热门播客 -->
+    <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div>
+    <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div>
+    <div class="common-title">独家放送<span class="iconfont wyy-xiangyou"></span></div>
+    <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div>
+    <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div>
+    <div class="common-title">推荐MV<span class="iconfont wyy-xiangyou"></span></div>
+    <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
+    <div class="common-title">看看<span class="iconfont wyy-xiangyou"></span></div>
   </div>
 </template>
 
@@ -111,9 +48,10 @@ import MCover from '../../components/Common/MCover.vue'
 import router from "../../router";
 
 let banners = ref([] as Common.bannerData[]);
+let playlists = ref([] as Playlist.playList[]);
 let date = new Date().getDate()
 
-onMounted(() => {
+onMounted(async () => {
   // 获取轮播图
   api.banner().then((res) => {
     if (res.code == 200) {
@@ -121,6 +59,22 @@ onMounted(() => {
     }
   })
   // 获取推荐歌单
+  let res = await api.dailyRecommendPlaylist()
+  if (res.code == 200) {
+    playlists.value = res.recommend
+  }
+  if (playlists.value.length >= 9) {
+    playlists.value = playlists.value.slice(0, 9)
+  } else {
+    let limit = 9 - playlists.value.length;
+    api.recommendPlaylist({ limit: limit }).then(res => {
+      if (res.code == 200) {
+        playlists.value = [...playlists.value, ...res.result]
+      }
+    })
+  }
+
+
   // 热门播客
   // 听见好书-新用户免费听
   // 独家放送
@@ -178,10 +132,13 @@ onMounted(() => {
 }
 
 .playlists {
+  margin-bottom: 20px;
+
   .plays {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    margin: 5px 0px 35px 0px;
 
     .plays-item {
       width: 18%;
@@ -227,7 +184,7 @@ onMounted(() => {
   font-size: 20px;
   font-weight: 800;
   color: #333333;
-  margin-top: 15px;
+  margin-top: 20px;
 
   span {
     font-size: 20px;

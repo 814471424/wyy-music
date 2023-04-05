@@ -89,7 +89,7 @@ onMounted(() => {
   background-color: #fff;
   right: 0px;
   position: fixed;
-  box-shadow: -1px 0px 3px 1px #aaa;
+  box-shadow: -2px 0px 20px 0px #94929252;
 }
 
 .right-item-data {

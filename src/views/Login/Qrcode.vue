@@ -9,22 +9,14 @@
     </div>
     <div class="check-login-type" data-tauri-drag-region="true"><span @click="basckLogin">选择其他登录模式 ></span></div>
   </div>
-  <div>{{ cookie }}</div>
-  <div v-if="cookie">
-    有cookie
-  </div>
-  <div v-else>没有cookie</div>
-  <button @click="testCookie">测试cookie</button>
-  <button @click="delCookie">删除cookie</button>
 </template>
 
 <script lang="ts" setup>
 import vueQr from 'vue-qr/src/packages/vue-qr.vue'
-import { computed, onMounted, onUnmounted, ref } from "vue"
+import { onMounted, onUnmounted, ref } from "vue"
 import api from '../../api/index'
 import { useUserStore } from '../../store/user'
-import { appWindow } from '@tauri-apps/api/window'
-import router from '../../router/index'
+import { appWindow, } from '@tauri-apps/api/window'
 
 const userStore = useUserStore();
 let avatarUrl = "";
@@ -34,7 +26,6 @@ let polling = false;  // 是否检测扫码状态接口
 let timer: NodeJS.Timeout | string | number | undefined = undefined;
 let qrurl = ref('');
 let showCreate = ref(false);
-let cookie = computed(() => userStore.cookie);
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件
@@ -65,35 +56,28 @@ async function getKeyAndCreateQr() {
 // 处理二维码检测扫码状态接口
 async function checkQr() {
   if (polling && key != '') {
-    api.loginQrCodeCheck(key).then((res) => {
-      if (res.code == 803) {  // 成功扫码
-        polling = false;
-        userStore.setCookie(res.cookie);
-        userStore.setUserInfo(avatarUrl, nickname)
-        appWindow.close()
-        router.replace('/discover')
-      } else if (res.code == 800) { // 需要显示重新扫码按钮
-        polling = false;
-        showCreate.value = true;
-      } else if (res.code == 802) { // 用户正在扫码 这里能获取到avatarUrl跟nickname
-        avatarUrl = res.avatarUrl ?? ''
-        nickname = res.nickname ?? ''
-      } else {  // 801 不需要管
+    let res = await api.loginQrCodeCheck(key);
+    if (res.code == 803) {  // 成功扫码
+      polling = false;
+      userStore.setCookie(res.cookie);
 
-      }
-    })
+      let userReq = await api.userAccount().then()
+      userStore.setUserInfo(userReq.profile)
+      appWindow.close()
+    } else if (res.code == 800) { // 需要显示重新扫码按钮
+      polling = false;
+      showCreate.value = true;
+    } else if (res.code == 802) { // 用户正在扫码 这里能获取到avatarUrl跟nickname
+      avatarUrl = res.avatarUrl ?? ''
+      nickname = res.nickname ?? ''
+    } else {  // 801 不需要管
+
+    }
   }
 }
 
 function basckLogin() {
-  props.basckLogin()
-}
-
-function testCookie() {
-  userStore.setCookie("ddddddddddddddddddddd");
-}
-function delCookie() {
-  userStore.cleanUser()
+  // props.basckLogin()
 }
 
 onMounted(() => {
