@@ -5,7 +5,7 @@
     <el-drawer v-model="drawer" direction="btt" :modal="false" :destroy-on-close="true"
       :class="[{ cancel_transition: cancelTransition }]" title="I am the title" :with-header="false"
       :close-on-press-escape="true" :show-close="true" :z-index=2002>
-      <MPlayerPanel />
+      <MPlayerPanel :closeDrawer="showDrawer" />
     </el-drawer>
 
     <!-- 播放器 -->

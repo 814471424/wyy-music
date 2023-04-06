@@ -10,6 +10,8 @@ interface MusicData {
     // 歌词
     lycs: Array<number | string>,
     lyc: string,
+    tlyric: string,
+    romalrc: string,
     // 是否在播放中
     playStatus: boolean,
     // 当前播放时间 
@@ -32,6 +34,8 @@ export const useMainStore = defineStore('main', {
             songX: song['songX'] ?? null,
             lycs: song['lycs'] ?? [],
             lyc: song['lyc'] ?? '',
+            tlyric: song['tlyric'] ?? '',
+            romalrc: song['romalrc'] ?? '',
             playStatus: false,
             currentTime: 0,
             currentTimeEx: 0,
@@ -59,8 +63,10 @@ export const useMainStore = defineStore('main', {
             this.lycs = data
             this.saveToLocal()
         },
-        setLyc(data: string) {
+        setLyc(data: string, tlyric = '', romalrc = '') {
             this.lyc = data
+            this.tlyric = tlyric
+            this.romalrc = romalrc
             this.saveToLocal()
         },
         // 设置当前播放时间
@@ -85,6 +91,8 @@ export const useMainStore = defineStore('main', {
                 songX: this.songX,
                 lycs: this.lycs,
                 lyc: this.lyc,
+                tlyric: this.tlyric,
+                romalrc: this.romalrc,
                 playStatus: this.playStatus,
                 currentTime: this.currentTime,
                 currentTimeEx: this.currentTimeEx,

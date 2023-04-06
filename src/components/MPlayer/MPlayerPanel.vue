@@ -4,7 +4,7 @@
   }]">
     <!-- 头部 -->
     <div class="m-player-panel-header" data-tauri-drag-region="true">
-      <div><span class="iconfont wyy-xiangxia-a" style="margin-left: 35px;"></span></div>
+      <div @click="props.closeDrawer()"><span class="iconfont wyy-xiangxia-a" style="margin-left: 35px;"></span></div>
       <div></div>
       <div class="m-player-panel-header-system">
         <div title="设置" class="iconfont wyy-xitongguanli"></div>
@@ -45,11 +45,13 @@
               <div>来源: {{ songX?.songType ?? '未知' }}</div>
             </div>
           </div>
-          <div id="wrapper" class="main-lycs" ref="scroll">
+          <div id="wrapper" class="main-lycs">
             <div style="height: calc(50% - 20px)"></div>
             <div v-if="lycs.length > 0">
               <div :class="['lycs_item', { lycs_item_active: lycindex == key }]" v-for="(item, key) in lycs" :key="key">
                 <div>{{ item[1] }}</div>
+                <div>{{ item[2] }}</div>
+                <div>{{ item[3] }}</div>
               </div>
             </div>
             <div v-else="">暂无歌曲</div>
@@ -58,7 +60,7 @@
         </div>
       </div>
       <!-- 评论及推荐歌单啥的 -->
-      <div class="panel-main-two">
+      <div class="panel-main-two" style="display: none;">
         <div class="panel-main-comment">
           <span>全部评论</span>
         </div>
@@ -84,24 +86,32 @@
 <script lang="ts" setup>
 import { UnlistenFn } from "@tauri-apps/api/event";
 import { WebviewWindow, appWindow, } from "@tauri-apps/api/window";
-import { ref, onMounted, onUnmounted, watch } from "vue"
+import { ref, onMounted, onUnmounted, watch, Ref } from "vue"
 import Windows from "../../windows/Windows";
 import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
 import { handleLrc } from '../../utils/player'
-import BScroll from 'better-scroll'
-import { BScrollConstructor } from "@better-scroll/core/dist/types/BScroll";
 
 const mainStore = useMainStore();
 let isMinimize = ref(false);
 let unlisten: UnlistenFn;
 let lycs = ref([] as Array<number | string>[]);
 // 音乐播放状态
-let { playStatus, lyc, currentTime, songX } = storeToRefs(mainStore);
+let { playStatus, lyc, currentTime, songX, tlyric, romalrc } = storeToRefs(mainStore);
 // 当前歌词定位
 let lycindex = ref(0);
 // better-scroll
-let scroll: BScrollConstructor<{}> | null = null;
+let wrapper: HTMLElement | null = null;
+
+const props = defineProps({
+  // 点击选择其他登录模式时的事件
+  closeDrawer: {
+    type: Function,
+    default: function (): void {
+      return undefined;
+    }
+  },
+});
 
 watch(() => currentTime.value, (value, _oldValue) => {
   try {
@@ -111,17 +121,15 @@ watch(() => currentTime.value, (value, _oldValue) => {
   }
 })
 watch(() => lyc.value, (value, _oldValue) => {
-  lycs.value = handleLrc(value);
+  lycs.value = handleLrc(value, tlyric.value, romalrc.value);
 })
 
 onMounted(async () => {
   // 获取歌词
-  lycs.value = handleLrc(lyc.value);
-  // 
-  let wrapper = document.getElementById("wrapper")
-  if (wrapper) {
-    scroll = new BScroll(wrapper, {});
-  }
+  lycs.value = handleLrc(lyc.value, tlyric.value, romalrc.value);
+  // 获取滚动条
+  wrapper = document.getElementById("wrapper")
+
   // 监听窗口大小是否变化
   unlisten = await appWindow.onResized(({ payload: size }) => {
     WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
@@ -166,9 +174,9 @@ function timeupdate(e: number | string) {
   for (let i = 0; i < lyc.length; i++) {
     // currentTime < lyc[i + 1] 超出
     if (lyc[i][0] < currentTime && currentTime < (lyc[i + 1] ? lyc[i + 1][0] : 9999)) {
-      if (scroll && lycindex.value < i) {
+      if (wrapper && lycindex.value < i) {
         lycindex.value = i;
-        scroll?.scrollTo(0, i * 60)
+        wrapper?.scrollTo(0, i * 60)
       }
     }
   }
@@ -186,7 +194,7 @@ function timeupdate(e: number | string) {
   // background: -webkit-linear-gradient(272deg, rgb(167 167 167), rgb(122 122 122 / 95%), rgba(255,255,255,1)),url(https://p2.music.126.net/T01LxKNXKebyWE0GBPzyeA==/109951167953959333.jpg);
   color: #85817f;
   overflow-y: hidden;
-
+  background-size: 100%;
 
   .m-player-panel-header {
     width: 100%;
@@ -301,7 +309,8 @@ function timeupdate(e: number | string) {
 
           .lycs_item_active {
             color: #000;
-            font-size: 25px;
+            // font-size: 23px;
+            font-weight: 600;
           }
         }
 

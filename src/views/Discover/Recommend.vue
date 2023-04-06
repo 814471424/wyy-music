@@ -92,6 +92,11 @@ onMounted(async () => {
   margin-top: 5px;
 }
 
+.el-carousel__item--card.is-active {
+  width: 60%;
+  left: -5%;
+}
+
 .el-carousel__item h3 {
   color: #475669;
   opacity: 0.75;

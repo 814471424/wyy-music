@@ -67,10 +67,12 @@ declare namespace Common {
       version: number,
       lyric: string
     },
+    // 罗马音音译
     tlyric: {
       version: number,
       lyric: string
     },
+    // 翻译
     romalrc: {
       version: number,
       lyric: string

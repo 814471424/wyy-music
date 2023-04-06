@@ -30,7 +30,6 @@ watch(() => musicUrl.value, (value, _oldValue) => {
 
 watch(() => currentTimeEx.value, async (value, _oldValue) => {
   audioELe!.currentTime = value
-  audioELe!.currentTime = value
 })
 watch(() => volume.value, async (value, _oldValue) => {
   audioELe!.volume = value / 100

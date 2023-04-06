@@ -13,7 +13,7 @@ import PlayList from '../views/PlayList.vue'
 const routes: RouteRecordRaw[] = [
     {
         path: '/',
-        redirect: "/daily_song"
+        redirect: "/discover"
     },
     {
         path: '/home',
