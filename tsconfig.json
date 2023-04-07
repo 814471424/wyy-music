@@ -19,7 +19,6 @@
   "include": [
     "src/**/*.ts",
     "src/**/*.d.ts",
-    "src/api/typing.d.ts",
     "src/**/*.tsx",
     "src/**/*.vue"
   ],
