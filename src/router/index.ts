@@ -8,7 +8,7 @@ import Discover from '../views/Discover/Index.vue'
 import DailySong from '../views/DailySong.vue'
 import UserInfo from '../views/User/Info.vue'
 import PlayList from '../views/PlayList.vue'
-
+import Search from '../views/Search/Index.vue'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -81,8 +81,12 @@ const routes: RouteRecordRaw[] = [
             },
             {
                 // 歌单详情 id: 歌单的id
-                path: '/play_list/:id',
+                path: '/playlist/:id',
                 component: PlayList
+            },
+            {
+                path: '/search/:keyword',
+                component: Search
             }
         ]
     },

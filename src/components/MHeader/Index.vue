@@ -3,8 +3,8 @@
     <!-- 网易云图标搜索部分 -->
 
     <div class="header-ico-search" data-tauri-drag-region="true">
-      <div class="header-ico" data-tauri-drag-region="true">
-        <span class="iconfont wyy-wangyiyunyinle1" data-tauri-drag-region="true">
+      <div class="header-ico" @click="() => router.push('/discover')">
+        <span class="iconfont wyy-wangyiyunyinle1" data-tauri-drag-region-container="true">
         </span>网易云音乐
       </div>
 
@@ -13,7 +13,7 @@
         <div class="header-back-url" @click="router.go(-1)"><span class="iconfont wyy-xiangzuo"></span></div>
         <div class="header-back-url"><span class="iconfont wyy-xiangyou"></span></div>
         <div class="header-input">
-          <el-input v-model="inputText" placeholder="Type something" :prefix-icon="Search" />
+          <el-input v-model="inputText" placeholder="Type something" @keyup.enter="inputSearch" :prefix-icon="Search" />
         </div>
         <div class="header-maikefeng"><span class="iconfont wyy-maikefengxianxing"></span></div>
       </div>
@@ -54,10 +54,23 @@ let inputText = ref("");
 let isMinimize = ref(false);
 let unlisten: UnlistenFn;
 
-// 显示登录页面
-function showLogin() {
-  (new Windows()).createLoginWin()
-}
+
+onMounted(async () => {
+  WebviewWindow.getByLabel('main')?.isFullscreen().then((res) => {
+    isMinimize.value = res
+  })
+
+  unlisten = await appWindow.onResized(({ payload: size }) => {
+    WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
+      isMinimize.value = res
+    })
+  });
+})
+
+
+onUnmounted(() => {
+  unlisten()
+})
 
 // 关闭窗口
 function closeMain() {
@@ -88,22 +101,11 @@ function mimiMain() {
   Windows.miniWin()
 }
 
-onMounted(async () => {
-  WebviewWindow.getByLabel('main')?.isFullscreen().then((res) => {
-    isMinimize.value = res
-  })
+// 跳转到search页面
+function inputSearch() {
+  router.replace('/search/' + inputText.value)
+}
 
-  unlisten = await appWindow.onResized(({ payload: size }) => {
-    WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
-      isMinimize.value = res
-    })
-  });
-})
-
-
-onUnmounted(() => {
-  unlisten()
-})
 </script>
 
 <style lang="less" scoped>

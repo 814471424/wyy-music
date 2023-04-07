@@ -1,6 +1,5 @@
 <template>
-  <el-tabs v-model="activeName" class="discover-tabs" @tab-click="handleClick" style="padding: 10px 30px 0px 30px;
-        box-sizing: border-box;">
+  <el-tabs v-model="activeName" class="discover-tabs common-padding" @tab-click="handleClick">
     <el-tab-pane label="个性推荐" name="recommend">
       <div class="right-main">
         <div class="right-content">

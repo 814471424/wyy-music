@@ -10,7 +10,6 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps } from "vue"
 import router from '../../router/index'
 
 const props = defineProps<{
@@ -22,7 +21,7 @@ function callback() {
   if (props.callback) {
     props.callback()
   } else {
-    router.push('/play_list/' + props.value.id)
+    router.push('/playlist/' + props.value.id)
   }
 }
 

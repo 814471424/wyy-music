@@ -25,7 +25,7 @@
         </div>
       </div>
       <div class="plays-item" v-for="(item, key) in playlists" :key="key">
-        <MCover :value="item" @callback="() => { router.push('/play_list/' + item.id) }" />
+        <MCover :value="item" @callback="() => { router.push('/playlist/' + item.id) }" />
       </div>
     </div>
 

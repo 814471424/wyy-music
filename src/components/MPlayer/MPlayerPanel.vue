@@ -86,7 +86,7 @@
 <script lang="ts" setup>
 import { UnlistenFn } from "@tauri-apps/api/event";
 import { WebviewWindow, appWindow, } from "@tauri-apps/api/window";
-import { ref, onMounted, onUnmounted, watch, Ref } from "vue"
+import { ref, onMounted, onUnmounted, watch } from "vue"
 import Windows from "../../windows/Windows";
 import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
