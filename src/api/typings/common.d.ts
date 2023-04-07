@@ -59,21 +59,21 @@ declare namespace Common {
             nickname: string
             uptime: number
         },
-        lrc: {
+        lrc?: {
             version: number
             lyric: string
         },
-        klyric: {
+        klyric?: {
             version: number,
             lyric: string
         },
         // 罗马音音译
-        tlyric: {
+        tlyric?: {
             version: number,
             lyric: string
         },
         // 翻译
-        romalrc: {
+        romalrc?: {
             version: number,
             lyric: string
         },

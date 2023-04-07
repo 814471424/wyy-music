@@ -1,7 +1,7 @@
 <template>
   <div v-if="cookie">
     <div id="showUserButton" class="header-system-login" @click.stop="showPanel">
-      <img class="header-user-image" :src="profile?.avatarUrl" alt="">
+      <img class="header-user-image" v-lazy="profile?.avatarUrl" alt="">
       <div class="header-user-text">{{ profile?.nickname }}</div>
       <span class="header-user-image iconfont wyy-xiangxia"></span>
     </div>

@@ -3,9 +3,21 @@ import App from "./App.vue";
 import Router from './router/index'
 import ElementPlus from 'element-plus'
 import { createPinia } from 'pinia'
+import VueLazyload from 'vue-lazyload'
 import "element-plus/dist/index.css"
 import "./styles.css";
 import './assets/iconfont/iconfont.css'
+import loadimage from './assets/loading.png'
+
 // import './assets/yunti.css'
 
-createApp(App).use(ElementPlus).use(Router).use(createPinia()).mount("#app");
+createApp(App)
+    .use(ElementPlus)
+    .use(Router)
+    .use(createPinia())
+    .use(VueLazyload, {
+        preLoad: 1.3,
+        loading: loadimage,
+        attempt: 1
+    })
+    .mount("#app");

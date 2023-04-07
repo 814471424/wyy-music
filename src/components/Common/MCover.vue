@@ -1,7 +1,7 @@
 <!-- 歌单样式 -->
 <template>
   <div class="cover-plays-item" @click="callback">
-    <div><img :src="props.value.picUrl" alt="">
+    <div><img v-lazy="props.value.picUrl" alt="">
     </div>
     <div class="item-text">
       {{ props.value.name }}

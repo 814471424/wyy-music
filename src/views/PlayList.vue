@@ -2,13 +2,13 @@
   <div class="common-padding" style="width: 100%; height: 100%; box-sizing: border-box;">
     <div class="playlist">
       <div class="playlist-cover">
-        <img :src="playlistDetail?.coverImgUrl" alt="">
+        <img v-lazy="playlistDetail?.coverImgUrl" alt="">
       </div>
       <div class="playlist-info">
         <div>
           <div class="playlist-title">{{ playlistDetail?.name ?? '未知' }}</div>
           <div class="playlist-creator">
-            <img :src="playlistDetail?.creator.avatarUrl" alt="" style="margin-right: 5px;">
+            <img v-lazy="playlistDetail?.creator.avatarUrl" alt="" style="margin-right: 5px;">
             <span style="color: #507daf">{{ playlistDetail?.creator.nickname ?? "未知" }}</span>
             <span style="margin-left: 10px;">{{ millisecondToDate(playlistDetail?.createTime ?? 0) }}创建</span>
           </div>
@@ -55,7 +55,7 @@ import { millisecondToTime, millisecondToDate } from '../utils/time'
 import { playOne } from "../utils/player";
 
 // 获取路由参数
-let id = router.currentRoute.value.params['id'].toString();
+let id = (router.currentRoute.value.params['id'] as string) ?? '';
 let tracks = ref([] as Playlist.dailySong[]);
 let playlistDetail: Ref<null | Playlist.playListDetail> = ref(null);
 

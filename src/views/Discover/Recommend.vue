@@ -3,7 +3,7 @@
     <el-carousel :interval="4000" type="card" height="200px" class="banner">
       <el-carousel-item v-for="(item, key) in banners" :key="key">
         <!-- <h3 text="2xl" justify="center">{{ item }}</h3> -->
-        <img class="banner-image" :src="item.imageUrl" alt="">
+        <img class="banner-image" v-lazy="item.imageUrl" alt="">
         <div class="banner-title" :style="[{ 'background-color': item.titleColor }]">{{ item.typeTitle }}</div>
       </el-carousel-item>
     </el-carousel>
@@ -15,8 +15,8 @@
     <div class="plays">
       <div class="plays-item" @click="router.push('daily_song')">
         <div class="item-img">
-          <img src="http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg" style="filter: blur(1px);"
-            alt="">
+          <img v-lazy="'http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg'"
+            style="filter: blur(1px);" alt="">
           <div class="item-img-text iconfont wyy-a-ziyuan16-copy-copy"></div>
           <div class="item-img-text" style="font-size: 30px; top: 5px;">{{ date }}</div>
         </div>

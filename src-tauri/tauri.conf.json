@@ -49,13 +49,23 @@
         "icons/icon.ico"
       ],
       "identifier": "com.tauri.dev",
-      "targets": "all"
+      "targets": "all",
+      "windows": {
+        "certificateThumbprint": "9FC7EDCA0EB25DC84A7230825CCB03D3184FC909",
+        "digestAlgorithm": "sha256",
+        "timestampUrl": "http://timestamp.comodoca.com"
+      }
     },
     "security": {
       "csp": "stream: https://stream.localhost asset: https://asset.localhost"
     },
     "updater": {
-      "active": false
+      "active": true,
+      "endpoints": [
+        "https://releases.myapp.com/{{target}}/{{arch}}/{{current_version}}"
+      ],
+      "dialog": true,
+      "pubkey": "YOUR_UPDATER_SIGNATURE_PUBKEY_HERE"
     },
     "systemTray": {
       "iconPath": "icons/icon.png",

@@ -21,9 +21,9 @@ export async function playOne(song: Common.songX) {
             // 之后获取歌词
             let lysRes = await api.getLyric(song.id)
             if (lysRes.code == 200) {
-                lyc = lysRes.lrc.lyric
-                tlyric = lysRes.tlyric.lyric
-                romalrc = lysRes.romalrc.lyric
+                lyc = lysRes.lrc?.lyric ?? ''
+                tlyric = lysRes.tlyric?.lyric ?? ''
+                romalrc = lysRes.romalrc?.lyric ?? ''
             }
         }
     } else {
