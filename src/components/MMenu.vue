@@ -4,7 +4,7 @@
       <el-menu-item index="/discover">
         <span>发现音乐</span>
       </el-menu-item>
-      <el-menu-item index="/podcast">
+      <!-- <el-menu-item index="/podcast">
         <span>播客</span>
       </el-menu-item>
       <el-menu-item index="/video">
@@ -18,7 +18,7 @@
       </el-menu-item>
       <el-menu-item index="/fm">
         <span>私人FM</span>
-      </el-menu-item>
+      </el-menu-item> -->
       <div><span>我的音乐</span></div>
       <el-menu-item index="/favorite" class="font-no-weight">
         <span class="iconfont wyy-xihuan"> 我喜欢的音乐</span>
@@ -29,9 +29,9 @@
       <el-menu-item index="/recently_played" class="font-no-weight">
         <span class="iconfont wyy-zuijinbofang"> 最近播放</span>
       </el-menu-item>
-      <el-menu-item index="/demo">
+      <!-- <el-menu-item index="/demo">
         <span> 测试页面</span>
-      </el-menu-item>
+      </el-menu-item> -->
       <div><span>创建的歌单</span></div>
     </el-menu>
   </div>
