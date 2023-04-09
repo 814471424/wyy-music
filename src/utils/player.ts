@@ -12,31 +12,44 @@ export async function playOne(song: Common.songX) {
     let lyc = '';
     let tlyric = '';
     let romalrc = '';
+    let songx = song
 
     // 不是本地的需要查找资源url, 查找歌词
     if (song.songType != 'local') {
+        // 先查找歌曲
+        let trackRes = await api.getTrackDetail(song.id as string);
+        let songCache = trackRes.songs[0];
+        if (songCache) {
+            songx = { ...songCache, songType: song.songType || 'other' }
+        } else {
+            return
+        }
+
         let res = await api.getMP3(song.id);
-        if (res.code == 200) {
-            url = res.data[0].url ?? "";
-            // 之后获取歌词
-            let lysRes = await api.getLyric(song.id)
-            if (lysRes.code == 200) {
-                lyc = lysRes.lrc?.lyric ?? ''
-                tlyric = lysRes.tlyric?.lyric ?? ''
-                romalrc = lysRes.romalrc?.lyric ?? ''
-            }
+        if (res.code != 200) {
+            return
+        }
+        url = res.data[0].url ?? "";
+        // 之后获取歌词
+        let lysRes = await api.getLyric(song.id)
+        if (lysRes.code == 200) {
+            lyc = lysRes.lrc?.lyric ?? ''
+            tlyric = lysRes.tlyric?.lyric ?? ''
+            romalrc = lysRes.romalrc?.lyric ?? ''
         }
     } else {
+        if (!song.filePath) {
+            return
+        }
         url = "https://stream.localhost/" + song.filePath
     }
 
+    // 播放并各种缓存
     mainStore.setUrl(url);
     mainStore.setLycs(lycs);
     mainStore.setLyc(lyc, tlyric, romalrc);
-    mainStore.setSongxData(song,);
-
-    // 播放
-    playListStore.addOne(song);
+    mainStore.setSongxData(songx);
+    playListStore.addOne(songx);
 }
 
 // 本地文件转化成通用播放音乐格式

@@ -103,7 +103,9 @@ function mimiMain() {
 
 // 跳转到search页面
 function inputSearch() {
-  router.replace('/search/' + inputText.value)
+  if (inputText.value) {
+    router.replace('/search/' + inputText.value)
+  }
 }
 
 </script>

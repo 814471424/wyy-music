@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="songList" stripe style="width: 100%" size="small">
+  <el-table :data="props.list" stripe style="width: 100%" size="small" @row-dblclick="tableDbClick">
     <el-table-column type="index" width="50" />
     <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true>
     </el-table-column>
@@ -22,33 +22,20 @@
 </template>
 
 <script lang="ts" setup>
-import { ref, onMounted, } from "vue"
-import api from '../../../api/index'
 import { millisecondToTime } from '../../../utils/time'
+import { playOne } from "../../../utils/player";
+import { onMounted } from 'vue';
 
-let songList = ref([] as Search.song[])
-let page = ref(1);
-let per_page = ref(50);
-let count = ref(0)
 const props = defineProps<{
-  keywords: string
+  list: Search.song[]
 }>();
 
-onMounted(async () => {
-  setTimeout(() => {
-    api.search(
-      {
-        keywords: props.keywords,
-        limit: per_page.value,
-        offset: (page.value - 1) * per_page.value
-      },
-    ).then(res => {
-      if (res.code == 200) {
-        console.log(res)
-        songList.value = res.result.songs ?? []
-      }
-    })
-  }, 500)
+function tableDbClick(value: Common.songX) {
+  playOne(value);
+}
+
+onMounted(() => {
+  console.log(props.list)
 })
 
 </script>

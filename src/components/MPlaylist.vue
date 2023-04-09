@@ -17,7 +17,7 @@
         <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
         <el-table-column label="歌手" :show-overflow-tooltip=true width="160">
           <template #default="scope">
-            {{ scope.row.ar.map((v: any) => v.name).join(' / ') }}
+            {{ (scope.row.ar ?? []).map((v: any) => v.name).join(' / ') }}
           </template>
         </el-table-column>
         <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true width="80">

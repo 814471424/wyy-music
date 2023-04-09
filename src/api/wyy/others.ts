@@ -1,5 +1,28 @@
 import request from '../../utils/request'
 
+type searchResponse = responseData & {
+    result: {
+        // 单曲跟歌词都用这个
+        songs?: Search.song[],
+        songCount?: number,
+        searchQcReminder?: any | null,
+        albums?: any[],
+        albumCount?: number,
+        artists?: any[],
+        artistCount?: number,
+        playlists?: any[],
+        playlistCount?: number,
+        userprofiles?: any[],
+        userprofileCount?: number,
+        mvs?: any[],
+        mvCount?: number,
+        djRadios?: any[],
+        djRadiosCount?: number,
+        videoCount?: any[],
+        videos?: number,
+    }
+}
+
 // 比较通用或者不知道分类的接口
 
 /*
@@ -37,6 +60,7 @@ export function banner(
  * @param {number=} params.offset
  * @param {number=} params.type
  */
+
 export function search(
     params: {
         keywords: string, offset?: number, limit?: number,
@@ -44,27 +68,16 @@ export function search(
     stype: Search.searchType.song = 1
 ): Promise<
     responseData & {
-        result: {
-            // 单曲跟歌词都用这个
-            songs?: Search.song[],
-            songCount?: number,
-            searchQcReminder?: any | null,
-            albums?: any[],
-            albumCount?: number,
-            artists?: any[],
-            artistCount?: number,
-            playlists?: any[],
-            playlistCount?: number,
-            userprofiles?: any[],
-            userprofileCount?: number,
-            mvs?: any[],
-            mvCount?: number,
-            djRadios?: any[],
-            djRadiosCount?: number,
-            videoCount?: any[],
-            videos?: number,
-        }
+        count?: number
+        list?: Array<Search.song | any>
     }
 > {
-    return request.get('/search', { params: { ...params, type: stype } })
+    return request.get<any, searchResponse, any>('/search', { params: { ...params, type: stype } }).then(res => {
+        return {
+            code: res.code,
+            message: res.message,
+            list: res.result.albums ?? res.result.artists ?? res.result.djRadios ?? res.result.mvs ?? res.result.playlists ?? res.result.songs,
+            count: res.result.albumCount ?? res.result.artistCount ?? res.result.djRadiosCount ?? res.result.mvCount ?? res.result.playlistCount ?? res.result.songCount
+        }
+    })
 }

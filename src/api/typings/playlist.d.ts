@@ -30,6 +30,7 @@ declare namespace Playlist {
         }
     }
 
+    // 查找歌曲连接时候获取到的字段
     export interface songUrl {
         // 歌曲id
         id: string | number
@@ -39,7 +40,7 @@ declare namespace Playlist {
         time: number
     }
 
-    // 歌单
+    // 歌单简要字段
     export interface playList {
         id: number,
         picUrl: string,
