@@ -106,6 +106,7 @@ export function handleLrc(lyric: string, tlyric = '', romalrc = ''): Array<strin
 
     return lyc
 }
+
 function getLrcByTime(lyric: string, time: number): string {
     let lrc = '';
     let lyclist = lyric.split('\n'); // 以换行来分割

@@ -6,10 +6,9 @@ import { createPinia } from 'pinia'
 import VueLazyload from 'vue-lazyload'
 import "element-plus/dist/index.css"
 import "./styles.css";
-import './assets/iconfont/iconfont.css'
 import loadimage from './assets/loading.png'
-
-// import './assets/yunti.css'
+// import './assets/iconfont/iconfont.css'
+import './assets/yunti.css'
 
 createApp(App)
     .use(ElementPlus)

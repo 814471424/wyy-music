@@ -1,7 +1,12 @@
 <!-- 歌单样式 -->
 <template>
   <div class="cover-plays-item" @click="callback">
-    <div><img v-lazy="props.value.picUrl" alt="">
+    <div style="position: relative;">
+      <img v-lazy="props.value.picUrl" alt="">
+      <div style="position: absolute; top: 0px; right: 5px; color: #fff; font-size: 10px;">
+        <span style="font-size: 10px;" class="iconfont wyy-bofangliang"></span>
+        {{ handlePlayCount((props.value.playcount || props.value.playCount) ?? 0) }}
+      </div>
     </div>
     <div class="item-text">
       {{ props.value.name }}
@@ -11,6 +16,7 @@
 
 <script lang="ts" setup>
 import router from '../../router/index'
+import { handlePlayCount } from '../../utils/handle'
 
 const props = defineProps<{
   value: Playlist.playList,

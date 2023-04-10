@@ -1,4 +1,3 @@
-
 // 搜索相关数据 
 declare namespace Search {
 
@@ -38,5 +37,34 @@ declare namespace Search {
         album: Common.album,
         // 歌曲时长
         duration: number,
+    }
+
+    // 搜索的歌曲
+    export interface artist extends Common.artist {
+        // 歌手图片
+        picUrl?: string
+        img1v1Url?: string
+        // 翻译名
+        transNames?: Array<string>
+        trans?: string,
+        // 别名
+        alias?: Array<string>
+    }
+
+    // 专辑
+    export interface album extends Common.album {
+        artist: artist
+    }
+
+    // 视频
+    export interface video {
+        coverUrl: string
+        title: string
+        creator: { userId: number, userName: string }[]
+        vid: string
+        // 0为mv, 1为其他
+        type: number
+        playTime?: number
+        durationms?: number
     }
 }

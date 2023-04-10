@@ -5,17 +5,17 @@
     </el-table-column>
     <el-table-column label="歌手">
       <template #default="scope">
-        {{ scope.row.artists.map((v: any) => v.name).join(' / ') }}
+        {{ (scope.row.artists ?? []).map((v: any) => v.name).join(' / ') }}
       </template>
     </el-table-column>
     <el-table-column prop="address" label="专辑" :show-overflow-tooltip=true>
       <template #default="scope">
-        {{ scope.row.album.name }}
+        {{ scope.row.album.name ?? '' }}
       </template>
     </el-table-column>
     <el-table-column label="时长" :show-overflow-tooltip=true>
       <template #default="scope">
-        {{ millisecondToTime(scope.row.duration) }}
+        {{ millisecondToTime(scope.row.duration ?? 0) }}
       </template>
     </el-table-column>
   </el-table>
@@ -35,7 +35,6 @@ function tableDbClick(value: Common.songX) {
 }
 
 onMounted(() => {
-  console.log(props.list)
 })
 
 </script>

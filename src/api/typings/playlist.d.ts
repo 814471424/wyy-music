@@ -44,7 +44,8 @@ declare namespace Playlist {
     export interface playList {
         id: number,
         picUrl: string,
-        playcount: number,
+        playCount?: number,
+        playcount?: number,
         name: string
     }
 

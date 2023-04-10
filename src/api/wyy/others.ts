@@ -6,9 +6,9 @@ type searchResponse = responseData & {
         songs?: Search.song[],
         songCount?: number,
         searchQcReminder?: any | null,
-        albums?: any[],
+        albums?: Search.album[],
         albumCount?: number,
-        artists?: any[],
+        artists?: Search.artist[],
         artistCount?: number,
         playlists?: any[],
         playlistCount?: number,
@@ -18,8 +18,8 @@ type searchResponse = responseData & {
         mvCount?: number,
         djRadios?: any[],
         djRadiosCount?: number,
-        videoCount?: any[],
-        videos?: number,
+        videos?: Search.video[],
+        videoCount?: number,
     }
 }
 
@@ -65,19 +65,21 @@ export function search(
     params: {
         keywords: string, offset?: number, limit?: number,
     },
-    stype: Search.searchType.song = 1
+    stype: Search.searchType = Search.searchType.sound
 ): Promise<
     responseData & {
         count?: number
-        list?: Array<Search.song | any>
+        list?: Array<Search.song | Search.artist | Search.video | any>
     }
 > {
     return request.get<any, searchResponse, any>('/search', { params: { ...params, type: stype } }).then(res => {
         return {
             code: res.code,
             message: res.message,
-            list: res.result.albums ?? res.result.artists ?? res.result.djRadios ?? res.result.mvs ?? res.result.playlists ?? res.result.songs,
-            count: res.result.albumCount ?? res.result.artistCount ?? res.result.djRadiosCount ?? res.result.mvCount ?? res.result.playlistCount ?? res.result.songCount
+            list: res.result.albums ?? res.result.artists ?? res.result.djRadios
+                ?? res.result.mvs ?? res.result.playlists ?? res.result.songs ?? res.result.videos ?? [],
+            count: res.result.albumCount ?? res.result.artistCount ?? res.result.djRadiosCount
+                ?? res.result.mvCount ?? res.result.playlistCount ?? res.result.songCount ?? res.result.videoCount ?? 0
         }
     })
 }

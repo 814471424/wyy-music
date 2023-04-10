@@ -4,11 +4,17 @@
     <div class="search-message">{{ searchMessage }}</div>
     <el-tabs class="search-tabs" v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="单曲" :name="1">
-        <Song :list="list"></Song>
+        <Song :list="songList" />
       </el-tab-pane>
-      <el-tab-pane label="歌手" :name="100">歌手</el-tab-pane>
-      <el-tab-pane label="专辑" :name="10">专辑</el-tab-pane>
-      <el-tab-pane label="视频" :name="1014">视频</el-tab-pane>
+      <el-tab-pane label="歌手" :name="100">
+        <Artist :list="artistList" :keywords="keyword" />
+      </el-tab-pane>
+      <el-tab-pane label="专辑" :name="10">
+        <Album :list="albumList" :keywords="keyword" />
+      </el-tab-pane>
+      <el-tab-pane label="视频" :name="1014">
+        <Video :list="videoList" />
+      </el-tab-pane>
       <el-tab-pane label="歌单" :name="1000">歌单</el-tab-pane>
       <el-tab-pane label="歌词" :name="1006">歌词</el-tab-pane>
       <el-tab-pane label="声音" :name="2000">声音</el-tab-pane>
@@ -26,32 +32,33 @@ import { Ref, onMounted, ref, watch } from "vue"
 import router from "../../router";
 import type { TabsPaneContext } from 'element-plus'
 import Song from './components/Song.vue'
+import Artist from './components/Artist.vue'
+import Album from './components/Album.vue'
+import Video from './components/Video.vue'
 import api from "../../api";
+import { searchType } from '../../api/typings/enum'
 
-const activeName: Ref<Search.searchType> = ref(1)
+const activeName: Ref<Search.searchType> = ref(searchType.song)
+
 let keyword: Ref<string> = ref('')
-let searchMessage = ''
+let searchMessage = ref('')
 // 分页相关参数
 let page = ref(1);
-let per_page = ref(50);
+let per_page = ref(30);
 let total = ref(0)
-let list: Ref<any[]> = ref([]);
+// 各个列表
+let songList: Ref<any[]> = ref([]);
+let artistList: Ref<any[]> = ref([]);
+let albumList: Ref<any[]> = ref([]);
+let videoList: Ref<any[]> = ref([]);
 
 watch(() => router.currentRoute.value.params, (value, _oldValue) => {
   keyword.value = value['keyword'] as string
+
+  search()
 })
 watch(() => activeName.value, (value, _oldValue) => {
-  console.log(value)
-})
-watch(() => total.value, (value, _oldValue) => {
-  switch (activeName.value) {
-    case 1:
-      searchMessage = '找到' + value + '首单曲'
-      break;
-    default:
-      searchMessage = '暂时未设置'
-      break;
-  }
+  search()
 })
 
 onMounted(() => {
@@ -74,11 +81,34 @@ function search() {
       limit: per_page.value,
       offset: (page.value - 1) * per_page.value
     },
+    activeName.value
   ).then(res => {
     if (res.code == 200) {
-      list.value = res.list ?? []
       total.value = res.count ?? 0
       console.log(total.value)
+      console.log(searchMessage.value)
+      switch (activeName.value) {
+        case searchType.song:
+          songList.value = res.list ?? []
+          searchMessage.value = '找到' + total.value + '首单曲'
+          break;
+        case searchType.artist:
+          artistList.value = res.list ?? []
+          searchMessage.value = '找到' + total.value + '位歌手'
+          break;
+        case searchType.album:
+          albumList.value = res.list ?? []
+          searchMessage.value = '找到' + total.value + '位专辑'
+          break;
+        case searchType.video:
+          videoList.value = res.list ?? []
+          searchMessage.value = '找到' + total.value + '个视频'
+          break;
+        default:
+          searchMessage.value = ''
+          break;
+      }
+      console.log(searchMessage.value)
     }
   })
 }
