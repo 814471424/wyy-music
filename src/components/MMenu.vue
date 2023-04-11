@@ -20,7 +20,7 @@
         <span>私人FM</span>
       </el-menu-item> -->
       <div><span>我的音乐</span></div>
-      <el-menu-item index="/favorite" class="font-no-weight">
+      <el-menu-item v-if="lovePlayList" :index="'/playlist/' + lovePlayList.id" class="font-no-weight">
         <span class="iconfont wyy-xihuan"> 我喜欢的音乐</span>
       </el-menu-item>
       <el-menu-item index="/download" class="font-no-weight">
@@ -33,21 +33,59 @@
         <span> 测试页面</span>
       </el-menu-item>
       <div><span>创建的歌单</span></div>
+      <el-menu-item :index="'/playlist/' + item.id" class="font-no-weight" v-for="(item, key) in createPlaylist"
+        :key="key">
+        <span class="iconfont wyy-iconfont-gedan"> {{ ' ' + item.name }}</span>
+      </el-menu-item>
+      <div><span>收藏的歌单</span></div>
+      <el-menu-item :index="'/playlist/' + item.id" class="font-no-weight" v-for="(item, key) in collectPlaylist"
+        :key="key">
+        <span class="iconfont wyy-iconfont-gedan"> {{ ' ' + item.name }}</span>
+      </el-menu-item>
     </el-menu>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue"
+import { Ref, computed, onMounted, ref, watch } from "vue"
 import { useRoute, } from 'vue-router'
+import api from '../api/index'
+import { useUserStore } from '../store/user'
+import { storeToRefs } from 'pinia'
 
 const route = useRoute()
+const userStore = useUserStore()
+const { profile } = storeToRefs(userStore)
 let path = computed(() => route.path);
+let lovePlayList: Playlist.playListDetail | null = null;
+let createPlaylist: Ref<Playlist.playListDetail[]> = ref([]);
+let collectPlaylist: Ref<Playlist.playListDetail[]> = ref([]);
+
+watch(() => profile.value, (value, _oldValue) => { })
+onMounted(() => {
+  getPlayList()
+})
+
+
+function getPlayList() {
+  if (profile.value?.userId) {
+    api.userPlaylist({ uid: profile.value.userId }).then(res => {
+      if (res.code == 200) {
+        lovePlayList = res.playlist.filter(v => v.name == '我喜欢的音乐')[0] ?? null;
+        createPlaylist.value = res.playlist.filter(v => (v.creator.userId == profile.value?.userId) && v.name != '我喜欢的音乐');
+        collectPlaylist.value = res.playlist.filter(v => v.creator.userId != profile.value?.userId);
+      }
+    })
+  }
+}
+
 </script>
 
 <style lang="less" scoped>
 .m-left {
   width: 100%;
+  padding-right: 8px;
+  box-sizing: border-box;
 
   .el-menu {
     border-right: solid 1px #dcdfe600;
@@ -74,6 +112,14 @@ let path = computed(() => route.path);
 
     .font-no-weight {
       font-weight: 100;
+
+      span {
+        font-size: 14px;
+        width: 100%;
+        overflow: hidden; // 超出长度的文字隐藏
+        text-overflow: ellipsis; // 文字隐藏以后添加省略号
+        white-space: nowrap; // 强制不换行
+      }
     }
   }
 }

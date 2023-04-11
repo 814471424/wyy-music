@@ -48,7 +48,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, onMounted, ref } from "vue"
+import { Ref, onMounted, ref, watch } from "vue"
 import router from '../router/index'
 import api from "../api";
 import { millisecondToTime, millisecondToDate } from '../utils/time'
@@ -59,7 +59,21 @@ let id = (router.currentRoute.value.params['id'] as string) ?? '';
 let tracks = ref([] as Playlist.dailySong[]);
 let playlistDetail: Ref<null | Playlist.playListDetail> = ref(null);
 
+watch(() => router.currentRoute.value.params, async (value, _oldValue) => {
+  id = value['id'] as string
+  await getPlaylistDetail()
+})
+
 onMounted(async () => {
+  await getPlaylistDetail()
+})
+
+function tableDbClick(row: Playlist.dailySong) {
+  playOne({ ...row, songType: 'playlist' })
+}
+
+async function getPlaylistDetail() {
+  tracks.value = [];
   let trackIds = [] as number[];
   // 获取歌单详情
   let res = await api.getPlaylistDetail({ id })
@@ -80,10 +94,6 @@ onMounted(async () => {
       tracks.value = [...tracks.value, ...res.songs ?? []]
     }
   }
-})
-
-function tableDbClick(row: Playlist.dailySong) {
-  playOne({ ...row, songType: 'playlist' })
 }
 </script>
 
