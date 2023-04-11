@@ -61,7 +61,9 @@ let lovePlayList: Playlist.playListDetail | null = null;
 let createPlaylist: Ref<Playlist.playListDetail[]> = ref([]);
 let collectPlaylist: Ref<Playlist.playListDetail[]> = ref([]);
 
-watch(() => profile.value, (value, _oldValue) => { })
+watch(() => profile.value, (value, _oldValue) => {
+  getPlayList()
+})
 onMounted(() => {
   getPlayList()
 })

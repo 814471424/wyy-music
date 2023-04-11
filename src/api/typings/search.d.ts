@@ -54,6 +54,7 @@ declare namespace Search {
     // 专辑
     export interface album extends Common.album {
         artist: artist
+        publishTime?: number
     }
 
     // 视频

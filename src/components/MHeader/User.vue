@@ -139,6 +139,12 @@ function signin() {
 onMounted(async () => {
   showPane = document.getElementById('showUserPanel')
 
+  if (cookie) {
+    api.userAccount().then(res => {
+      userStore.setUserInfo(res.profile)
+    })
+  }
+
   document.addEventListener('click', (event) => {
     showState.value = false;
   })

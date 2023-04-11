@@ -32,15 +32,20 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     response => {
         if (response.status == 200) {
+            if ((response.data.code ?? 200) == 302) {
+                let userStore = useUserStore();
+                userStore.cleanUser()
+            }
             return Promise.resolve(response.data);
-        } else if (response.status == 301 || 302) {
-            let userStore = useUserStore();
-            userStore.cleanUser()
         }
+        // else if (response.status == 302) {
+        //     let userStore = useUserStore();
+        //     userStore.cleanUser()
+        // }
         return Promise.reject(response.data);
     },
     error => {
-        if (error.response.status == 301 || 302) {
+        if (error.response.status == 301) {
             let userStore = useUserStore();
             userStore.cleanUser()
         }

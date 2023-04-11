@@ -11,6 +11,7 @@ import PlayList from '../views/PlayList.vue'
 import Search from '../views/Search/Index.vue'
 import Artist from '../views/Artist/Index.vue'
 import Setting from '../views/Setting/Index.vue'
+import Album from '../views/Album.vue'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -100,7 +101,12 @@ const routes: RouteRecordRaw[] = [
                 // 设置
                 path: '/setting',
                 component: Setting
-            }
+            },
+            {
+                // 专辑详情 id: 歌单的id
+                path: '/album/:id',
+                component: Album
+            },
         ]
     },
     {

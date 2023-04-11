@@ -61,7 +61,7 @@ async function checkQr() {
       polling = false;
       userStore.setCookie(res.cookie);
 
-      let userReq = await api.userAccount().then()
+      let userReq = await api.userAccount()
       userStore.setUserInfo(userReq.profile)
       appWindow.close()
     } else if (res.code == 800) { // 需要显示重新扫码按钮

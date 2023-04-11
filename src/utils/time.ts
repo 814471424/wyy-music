@@ -40,6 +40,7 @@ export function millisecondToDate(value: number) {
     if (isNaN(value)) {
         return "0000-00-00";
     }
-    let datetime = new Date(value - 8 * 3600 * 1000);
-    return datetime.getFullYear() + '-' + datetime.getMonth() + '-' + datetime.getDate()
+    // let datetime = new Date(value - 8 * 3600 * 1000);
+    let datetime = new Date(value);
+    return datetime.getFullYear() + '-' + (datetime.getMonth() + 1) + '-' + datetime.getDate()
 }

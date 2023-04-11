@@ -54,7 +54,7 @@
                 <div>{{ item[3] }}</div>
               </div>
             </div>
-            <div v-else="">暂无歌曲</div>
+            <div v-else="" class="lycs_item">暂无歌曲</div>
             <div style="height: calc(50% - 40px);"></div>
           </div>
         </div>

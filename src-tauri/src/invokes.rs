@@ -1,6 +1,7 @@
 use std::path::Path;
 
 use base64::{engine::general_purpose, Engine};
+use futures_util::StreamExt;
 use reqwest::header::USER_AGENT;
 use tauri::Window;
 use tokio::{fs::OpenOptions, io::AsyncWriteExt};
@@ -38,12 +39,12 @@ struct Payload {
  */
 #[tauri::command]
 pub async fn download(
-    window: Window,
     url: String,
     path: String,
     name_type: i32,
     name: String,
     ext: String,
+    window: Window,
 ) -> Result<(), String> {
     let user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.75 Safari/537.36";
 
@@ -62,15 +63,25 @@ pub async fn download(
     let mut download_size: u64 = 0;
 
     let path = format!("{}/{}.{}", &path, name, ext);
+    let mut stream = response.bytes_stream();
     let mut file = OpenOptions::new()
         .write(true)
         .create(true)
         .open(path)
         .await
         .map_err(|err| err.to_string())?;
-    while let Ok(Some(chunk)) = response.chunk().await {
-        download_size += chunk.len() as u64;
+    while let Some(chunk) = stream.next().await {
+        let chunk = chunk.map_err(|_| "网络错误")?;
 
+        if download_size > 1472468 {
+            break;
+        }
+
+        file.write_all(&chunk)
+            .await
+            .or(Err(format!("Error while writing to file")))?;
+
+        download_size += chunk.len() as u64;
         window
             .emit(
                 "progress",
@@ -80,10 +91,6 @@ pub async fn download(
                 },
             )
             .unwrap();
-
-        file.write(&chunk)
-            .await
-            .or(Err(format!("Error while writing to file")))?;
     }
 
     Ok(())

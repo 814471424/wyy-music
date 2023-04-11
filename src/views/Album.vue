@@ -2,24 +2,17 @@
   <div class="common-padding" style="width: 100%; height: 100%; box-sizing: border-box;">
     <div class="playlist">
       <div class="playlist-cover">
-        <img v-lazy="playlistDetail?.coverImgUrl" alt="">
+        <img v-lazy="albumDetail?.picUrl" alt="">
       </div>
       <div class="playlist-info">
         <div>
-          <div class="playlist-title">{{ playlistDetail?.name ?? '未知' }}</div>
-          <div class="playlist-creator">
-            <img v-lazy="playlistDetail?.creator.avatarUrl" style="margin-right: 5px;">
-            <span style="color: #507daf">{{ playlistDetail?.creator.nickname ?? "未知" }}</span>
-            <span style="margin-left: 10px;">{{ millisecondToDate(playlistDetail?.createTime ?? 0) }}创建</span>
-          </div>
+          <div class="playlist-title">{{ albumDetail?.name ?? '未知' }}</div>
         </div>
         <!-- <div>按钮</div> -->
         <div class="playlist-info-detail">
-          <div>标签 : <span>{{ playlistDetail?.tags.join(' / ') ?? '未知' }}</span></div>
-          <div>歌曲 : <span>{{ playlistDetail?.trackCount ?? 0 }}</span>
-            {{ " 播放 : " }}<span>{{ playlistDetail?.playCount ?? 0 }}</span>
-          </div>
-          <div class="playlist-description">简介 : <span>{{ playlistDetail?.description ?? '未知' }}</span></div>
+          <div class="playlist-description">歌手 : <span style="color: #507daf">{{ albumDetail?.artist.name ?? "未知"
+          }}</span></div>
+          <div class="playlist-description">时间 : <span>{{ millisecondToDate(albumDetail?.publishTime ?? 0) }}</span></div>
         </div>
       </div>
     </div>
@@ -57,7 +50,7 @@ import { playOne } from "../utils/player";
 // 获取路由参数
 let id = (router.currentRoute.value.params['id'] as string) ?? '';
 let tracks = ref([] as Playlist.dailySong[]);
-let playlistDetail: Ref<null | Playlist.playListDetail> = ref(null);
+let albumDetail: Ref<null | Search.album> = ref(null);
 
 watch(() => router.currentRoute.value.params, async (value, _oldValue) => {
   id = value['id'] as string
@@ -76,11 +69,11 @@ async function getPlaylistDetail() {
   tracks.value = [];
   let trackIds = [] as number[];
   // 获取歌单详情
-  let res = await api.getPlaylistDetail({ id })
+  let res = await api.getAlbum(id)
   if (res.code == 200) {
     // 获取所有歌曲的
-    playlistDetail.value = res.playlist
-    trackIds = res.playlist.trackIds.map(v => v.id)
+    albumDetail.value = res.album
+    trackIds = res.songs.map(v => v.id)
   }
 
   // 获取所有的歌曲信息
