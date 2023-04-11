@@ -9,6 +9,8 @@ import DailySong from '../views/DailySong.vue'
 import UserInfo from '../views/User/Info.vue'
 import PlayList from '../views/PlayList.vue'
 import Search from '../views/Search/Index.vue'
+import Artist from '../views/Artist/Index.vue'
+import Setting from '../views/Setting/Index.vue'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -85,8 +87,19 @@ const routes: RouteRecordRaw[] = [
                 component: PlayList
             },
             {
+                // 搜索页面
                 path: '/search/:keyword',
                 component: Search
+            },
+            {
+                // 歌手详情
+                path: '/artist/:id',
+                component: Artist
+            },
+            {
+                // 设置
+                path: '/setting',
+                component: Setting
             }
         ]
     },

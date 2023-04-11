@@ -10,7 +10,7 @@ type searchResponse = responseData & {
         albumCount?: number,
         artists?: Search.artist[],
         artistCount?: number,
-        playlists?: any[],
+        playlists?: Search.playlist[],
         playlistCount?: number,
         userprofiles?: any[],
         userprofileCount?: number,
@@ -69,7 +69,7 @@ export function search(
 ): Promise<
     responseData & {
         count?: number
-        list?: Array<Search.song | Search.artist | Search.video | any>
+        list?: Array<Search.song | Search.artist | Search.video | Search.playlist | any>
     }
 > {
     return request.get<any, searchResponse, any>('/search', { params: { ...params, type: stype } }).then(res => {

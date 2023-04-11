@@ -38,6 +38,9 @@ declare namespace Playlist {
         url: string | null
         // 歌曲总时长
         time: number
+        // 扩展类型
+        type: string
+        encodeType: string
     }
 
     // 歌单简要字段

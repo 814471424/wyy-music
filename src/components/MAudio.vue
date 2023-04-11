@@ -63,6 +63,7 @@ onMounted(async () => {
   }
   audioELe!.onerror = (_event, _source, _lineno, _colno, error) => {
     console.log("播放错误:" + error)
+    mainStore.clear()
   }
 })
 

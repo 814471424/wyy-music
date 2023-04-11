@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { useUserStore } from '../store/user'
 
 // 请求地址
 axios.defaults.baseURL = import.meta.env.VUE_APP_BASE_API
@@ -32,12 +33,18 @@ axios.interceptors.response.use(
     response => {
         if (response.status == 200) {
             return Promise.resolve(response.data);
-        } else {
-            return Promise.reject(response);
+        } else if (response.status == 301 || 302) {
+            let userStore = useUserStore();
+            userStore.cleanUser()
         }
+        return Promise.reject(response.data);
     },
     error => {
-        console.log(error);
+        if (error.response.status == 301 || 302) {
+            let userStore = useUserStore();
+            userStore.cleanUser()
+        }
+        return Promise.reject(error.response.data ?? {});
     }
 )
 

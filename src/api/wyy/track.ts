@@ -9,19 +9,13 @@ export default {}
  * @param {string} id - 音乐的 id，例如 id=405998841,33894312
  */
 export function getMP3(
-    id: string | number
+    id: string | number,
+    br = 320000
 ): Promise<responseData & { data: Playlist.songUrl[] }> {
-    const getBr = () => {
-        // 当返回的 quality >= 400000时，就会优先返回 hi-res
-        // const quality = store.state.settings?.musicQuality ?? '320000';
-        let quality = '320000';
-        return quality === 'flac' ? '350000' : quality;
-    };
-
     return request.get('/song/url', {
         params: {
             id,
-            br: getBr(),
+            br,
         }
     });
 }

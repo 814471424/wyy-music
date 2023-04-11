@@ -67,4 +67,7 @@ declare namespace Search {
         playTime?: number
         durationms?: number
     }
+
+    // 歌单
+    export interface playlist extends Playlist.playListDetail { }
 }

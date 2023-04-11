@@ -10,7 +10,11 @@ fn main() {
         .system_tray(system_tray::system_tray())
         .on_system_tray_event(system_tray::hander_system_tray)
         .register_uri_scheme_protocol("stream", web::hander_stream)
-        .invoke_handler(tauri::generate_handler![invokes::read_file_to_base64,])
+        .invoke_handler(tauri::generate_handler![
+            invokes::read_file_to_base64,
+            invokes::exist,
+            invokes::download
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

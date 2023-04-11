@@ -11,7 +11,7 @@
       <!-- 搜索 -->
       <div class="header-search" data-tauri-drag-region="true">
         <div class="header-back-url" @click="router.go(-1)"><span class="iconfont wyy-xiangzuo"></span></div>
-        <div class="header-back-url"><span class="iconfont wyy-xiangyou"></span></div>
+        <div class="header-back-url" @click="router.go(1)"><span class="iconfont wyy-xiangyou"></span></div>
         <div class="header-input">
           <el-input v-model="inputText" placeholder="Type something" @keyup.enter="inputSearch" :prefix-icon="Search" />
         </div>
@@ -28,7 +28,7 @@
       <!-- 右上角各种设置跟窗体操作 -->
       <div style="display: flex;width: 245px;justify-content: space-between;align-items: center;">
         <div title="主题" class="iconfont wyy-zhuti-04"></div>
-        <div title="设置" class="iconfont wyy-xitongguanli"></div>
+        <div title="设置" class="iconfont wyy-xitongguanli" @click="router.push('/setting')"></div>
         <div title="消息" class="iconfont wyy-youjian_o"></div>
         <div class="div-no-select">丨</div>
         <div title="mini模式" class="iconfont wyy-mini" @click="mimiMain()"> </div>

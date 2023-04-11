@@ -1,6 +1,8 @@
 import { useMainStore } from '../store/index'
 import { usePlayListStore } from '../store/playlist'
+import { useSettingStore } from '../store/setting'
 import api from '../api/index'
+import { invoke } from '@tauri-apps/api/tauri'
 
 // 播放歌曲
 export async function playOne(song: Common.songX) {
@@ -129,4 +131,42 @@ function getLrcByTime(lyric: string, time: number): string {
         }
     }
     return lrc
+}
+
+// 下载
+export async function download(songId: string | number) {
+    const settingStore = useSettingStore()
+
+    let exist = await invoke('exist', {
+        path: settingStore.setting.savePath ?? ''
+    });
+    if (!exist) {
+        console.log('找不到目录: ' + settingStore.setting.savePath ?? '')
+        return
+    }
+
+    // 查找歌曲详情
+    let trackRes = await api.getTrackDetail(songId as string);
+    let songCache = trackRes.songs[0];
+    if (!songCache) {
+        return
+    }
+
+    // 查找歌曲地址
+    let res = await api.getMP3(songId, 911000);
+    let songUrlData = res.data[0];
+    if (!songUrlData) {
+        return
+    }
+
+    invoke('download', {
+        url: songUrlData.url,
+        path: settingStore.setting.savePath ?? '',
+        nameType: 1,
+        name: songCache.name,
+        ext: songUrlData.encodeType || songUrlData.type || 'mp3',
+    }).then(res => {
+        console.log(res)
+    })
+    console.log(songUrlData)
 }

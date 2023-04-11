@@ -6,9 +6,9 @@
         <div class="search-name">
             {{ item.name }}
         </div>
-        <div class="search-artist">
+        <div class="search-artistname">
             <div style="display: flex;"
-                v-html="dealKeyword(item.artist.name + (item.artist.trans ? '(' + item.artist.trans + ')' : ''), props.keywords ?? '')">
+                v-html="handleKeyword(item.artist.name + (item.artist.trans ? '(' + item.artist.trans + ')' : ''), props.keywords ?? '')">
             </div>
 
         </div>
@@ -16,18 +16,12 @@
 </template>
   
 <script lang="ts" setup>
+import { handleKeyword } from '../../../utils/handle'
+
 const props = defineProps<{
     list: Search.album[],
     keywords?: string
 }>();
-
-function dealKeyword(data: string, keyword: string): string {
-    let key = data;
-    if (keyword) {
-        key = data.replaceAll(keyword, '<div style="color: #507daf">' + keyword + '</div>');
-    }
-    return key
-}
 </script>
   
 <style lang="less" scoped>
@@ -54,10 +48,13 @@ function dealKeyword(data: string, keyword: string): string {
         overflow: hidden; // 超出长度的文字隐藏
         text-overflow: ellipsis; // 文字隐藏以后添加省略号
         white-space: nowrap; // 强制不换行
+        font-size: 15px;
     }
 
-    .search-artist {
+    .search-artistname {
         margin-left: 15px;
+        color: #969696;
+        font-size: 12px;
     }
 }
 

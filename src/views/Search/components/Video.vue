@@ -68,6 +68,8 @@ const props = defineProps<{ list: Search.video[] }>()
   .viedo-title {
     position: absolute;
     margin-bottom: 10px;
+    margin-top: 5px;
+    font-size: 12px;
 
     div {
       overflow: hidden; //多出的隐藏

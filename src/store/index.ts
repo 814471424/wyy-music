@@ -99,6 +99,19 @@ export const useMainStore = defineStore('main', {
                 volume: this.volume,
                 duration: this.duration,
             }))
+        },
+        clear() {
+            this.musicUrl = '';
+            this.songX = null;
+            this.lycs = [];
+            this.lyc = '';
+            this.tlyric = '';
+            this.romalrc = '';
+            this.playStatus = false;
+            this.currentTime = 0;
+            this.currentTimeEx = 0;
+            this.duration = 0;
+            this.saveToLocal()
         }
     }
 })

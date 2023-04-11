@@ -22,7 +22,7 @@ import Recommend from './Recommend.vue'
 const activeName = ref('recommend')
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
-  console.log(tab, event)
+  // console.log(tab, event)
 }
 </script>
 

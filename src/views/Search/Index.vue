@@ -15,8 +15,12 @@
       <el-tab-pane label="视频" :name="1014">
         <Video :list="videoList" />
       </el-tab-pane>
-      <el-tab-pane label="歌单" :name="1000">歌单</el-tab-pane>
-      <el-tab-pane label="歌词" :name="1006">歌词</el-tab-pane>
+      <el-tab-pane label="歌单" :name="1000">
+        <PlayList :list="playList" :keywords="keyword" />
+      </el-tab-pane>
+      <el-tab-pane label="歌词" :name="1006">
+        <Lyric />
+      </el-tab-pane>
       <el-tab-pane label="声音" :name="2000">声音</el-tab-pane>
       <el-tab-pane label="用户" :name="1002">用户</el-tab-pane>
     </el-tabs>
@@ -35,6 +39,8 @@ import Song from './components/Song.vue'
 import Artist from './components/Artist.vue'
 import Album from './components/Album.vue'
 import Video from './components/Video.vue'
+import PlayList from './components/PlayList.vue'
+import Lyric from './components/Lyric.vue'
 import api from "../../api";
 import { searchType } from '../../api/typings/enum'
 
@@ -51,6 +57,8 @@ let songList: Ref<any[]> = ref([]);
 let artistList: Ref<any[]> = ref([]);
 let albumList: Ref<any[]> = ref([]);
 let videoList: Ref<any[]> = ref([]);
+let playList: Ref<any[]> = ref([]);
+let lyricList: Ref<any[]> = ref([]);
 
 watch(() => router.currentRoute.value.params, (value, _oldValue) => {
   keyword.value = value['keyword'] as string
@@ -103,6 +111,13 @@ function search() {
         case searchType.video:
           videoList.value = res.list ?? []
           searchMessage.value = '找到' + total.value + '个视频'
+          break;
+        case searchType.playlist:
+          playList.value = res.list ?? []
+          searchMessage.value = '找到' + total.value + '个歌单'
+          break;
+        case searchType.lyric:
+          searchMessage.value = '找到' + total.value + '首歌词'
           break;
         default:
           searchMessage.value = ''
