@@ -6,8 +6,9 @@
 
 <script lang="ts" setup>
 import { onMounted, onUnmounted, watch } from "vue"
-import { useMainStore } from "../store";
 import { storeToRefs } from 'pinia'
+import { useMainStore } from "../store";
+import { hanldError, handEnd } from '../utils/player'
 
 const mainStore = useMainStore(); // 目前关于应该相关的store
 let audioELe = <HTMLAudioElement | null>(null);  // audio 元素
@@ -60,10 +61,12 @@ onMounted(async () => {
   }
   audioELe!.onended = () => {
     console.log("播放结束")
+    handEnd()
   }
   audioELe!.onerror = (_event, _source, _lineno, _colno, error) => {
     console.log("播放错误:" + error)
-    mainStore.clear()
+    // mainStore.clear()
+    hanldError()
   }
 })
 

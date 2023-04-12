@@ -12,7 +12,7 @@
 * 1018: 综合
 * 2000: 声音
 */
-enum searchType {
+export enum searchType {
     song = 1,
     album = 10,
     artist = 100,
@@ -26,6 +26,17 @@ enum searchType {
     sound = 2000,
 }
 
-export {
-    searchType
+
+/**
+ * 音乐播放规则
+ * order: 顺序
+ * listLoop: 列表
+ * singleLoop: 单曲
+ * random: 随机
+ */
+export enum PlayRules {
+    order = 0,
+    listLoop = 1,
+    singleLoop = 2,
+    random = 3,
 }

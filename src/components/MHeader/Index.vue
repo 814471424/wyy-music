@@ -74,7 +74,8 @@ onUnmounted(() => {
 
 // 关闭窗口
 function closeMain() {
-  Windows.closeMainWin()
+  // Windows.closeMainWin()
+  Windows.miniWin()
 }
 
 // 最大化窗口

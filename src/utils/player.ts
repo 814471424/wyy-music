@@ -3,6 +3,7 @@ import { usePlayListStore } from '../store/playlist'
 import { useSettingStore } from '../store/setting'
 import api from '../api/index'
 import { invoke } from '@tauri-apps/api/tauri'
+import { PlayRules } from '../api/typings/enum'
 
 // 播放歌曲
 export async function playOne(song: Common.songX) {
@@ -169,4 +170,120 @@ export async function download(songId: string | number) {
         console.log(res)
     })
     console.log(songUrlData)
+}
+
+// 播放上一首
+export function playPrevious() {
+    const mainStore = useMainStore();
+    const playListStore = usePlayListStore();
+    const list = playListStore.list;
+    const songX = mainStore.songX;
+
+    if (list.length == 0) {
+        return
+    }
+
+    let id = songX?.id ?? '';
+    let index = list.findIndex((x) => x.id === id);
+    if (index == -1) {
+        return
+    }
+    let playIndex = ((index - 1) + list.length) % list.length
+    if (list[playIndex]) {
+        playOne(list[playIndex]);
+    }
+}
+
+// 播放下一首
+export function playNext() {
+    const mainStore = useMainStore();
+    const playListStore = usePlayListStore();
+    const list = playListStore.list;
+    const songX = mainStore.songX;
+
+    if (list.length == 0) {
+        return
+    }
+
+    let id = songX?.id ?? '';
+    let index = list.findIndex((x) => x.id === id);
+    if (index == -1) {
+        return
+    }
+
+    let playIndex = (index + 1) % list.length
+    if (list[playIndex]) {
+        playOne(list[playIndex]);
+    }
+}
+
+// 播放结束时的事件
+export function handEnd() {
+    const mainStore = useMainStore();
+    const playListStore = usePlayListStore();
+    const settingStore = useSettingStore()
+    const list = playListStore.list;
+    const songX = mainStore.songX;
+
+    const id = songX?.id ?? '';
+    let index = list.findIndex((x) => x.id === id);
+    // 不在播放列表里，忽略
+    if (index == -1) {
+        return
+    }
+
+    // 根据不同情况播放
+    switch (settingStore.setting.playRule) {
+        case PlayRules.listLoop:    // 列表循环
+            let listLoopIndex = (index + 1) % list.length
+            if (list[listLoopIndex]) {
+                playOne(list[listLoopIndex]);
+            }
+            break;
+        case PlayRules.singleLoop:  // 单曲循环
+            mainStore.setUrl(mainStore.musicUrl + '?timestamp' + new Date().getTime())
+            break;
+        case PlayRules.random: // 随机播放
+            let randomIndex = Math.floor(Math.random() * list.length);
+            if (randomIndex == index) {
+                mainStore.setUrl(mainStore.musicUrl + '?timestamp' + new Date().getTime())
+            } else {
+                if (list[randomIndex]) {
+                    playOne(list[randomIndex]);
+                }
+            }
+            break;
+        default:    // 顺序播放
+            let orderIndex = index + 1;
+            if (orderIndex > list.length) {
+                return
+            }
+
+            if (list[orderIndex]) {
+                playOne(list[orderIndex]);
+            }
+            break;
+    }
+}
+
+
+// 错误时的处理
+export function hanldError() {
+    const mainStore = useMainStore();
+    const playListStore = usePlayListStore();
+    const list = playListStore.list;
+    const songX = mainStore.songX;
+
+    const id = songX?.id ?? '';
+    // 查找错误的index
+    const errorIndex = list.findIndex((x) => x.id === id);
+    if (errorIndex == -1 || mainStore.musicUrl == '') {
+        return
+    }
+    playListStore.removeOne(id)
+
+    let playIndex = (errorIndex) % list.length
+    if (list[playIndex]) {
+        playOne(list[playIndex]);
+    }
 }

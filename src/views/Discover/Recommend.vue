@@ -15,8 +15,7 @@
     <div class="plays">
       <div class="plays-item" @click="router.push('daily_song')">
         <div class="item-img">
-          <img v-lazy="'http://p2.music.126.net/JTVLtO6EILup8TPfZ_dQfA==/109951166995461526.jpg'"
-            style="filter: blur(1px);" alt="">
+          <img v-lazy="dailybg" alt="">
           <div class="item-img-text iconfont wyy-a-ziyuan16-copy-copy"></div>
           <div class="item-img-text" style="font-size: 30px; top: 5px;">{{ date }}</div>
         </div>
@@ -46,6 +45,7 @@ import { onMounted, ref } from "vue"
 import api from '../../api/index'
 import MCover from '../../components/Common/MCover.vue'
 import router from "../../router";
+import dailybg from '../../assets/dailybg.jpg'
 
 let banners = ref([] as Common.bannerData[]);
 let playlists = ref([] as Playlist.playList[]);

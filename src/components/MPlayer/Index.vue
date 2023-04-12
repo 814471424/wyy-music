@@ -25,12 +25,25 @@
       <div v-else class="left-item"></div>
       <div class="play-radio">
         <div class="play-radio-button">
-          <div :class="['other-button', 'iconfont', 'wyy-shunxubofang1']"></div>
-          <div class="other-button iconfont wyy-previous-fill"></div>
+          <!-- 播放规则 -->
+          <div @click="changePlayRules">
+            <div v-if="setting.playRule == PlayRules.listLoop" :class="['other-button', 'iconfont', 'wyy-single-loop']"
+              title="列表循环">
+            </div>
+            <div v-else-if="setting.playRule == PlayRules.singleLoop"
+              :class="['other-button', 'iconfont', 'wyy-icon-test']" title="单曲循环"></div>
+            <div v-else-if="setting.playRule == PlayRules.random" :class="['other-button', 'iconfont', 'wyy-suijibofang']"
+              title="随机播放">
+            </div>
+            <div v-else :class="['other-button', 'iconfont', 'wyy-shunxubofang1']" title="顺序循环"></div>
+          </div>
+          <!-- 上一首 -->
+          <div class="other-button iconfont wyy-previous-fill" @click="playPrevious"></div>
           <div v-if="playStatus" @click="audioPause" class="main-button iconfont wyy-24gf-pause2">
           </div>
           <div v-else @click="audioPlay" class="main-button iconfont wyy-play"></div>
-          <div class="other-button iconfont wyy-next-fill"></div>
+          <!-- 下一首 -->
+          <div class="other-button iconfont wyy-next-fill" @click="playNext"></div>
           <div class="other-button iconfont wyy-geci"></div>
         </div>
         <div class="play-radio-bar">
@@ -56,19 +69,24 @@
 
 <script lang="ts" setup>
 import { ref, watch } from "vue"
+import { storeToRefs } from 'pinia'
 import MPlayerPanel from './MPlayerPanel.vue'
 import { durationToTime } from '../../utils/time'
+import { playNext, playPrevious } from '../../utils/player'
 import { useMainStore } from '../../store/index'
+import { useSettingStore } from '../../store/setting'
 import MPlaylist from '../MPlaylist.vue'
-import { storeToRefs } from 'pinia'
+import { PlayRules } from '../../api/typings/enum'
 
 const mainStore = useMainStore(); // 目前关于应该相关的store
+const settingStore = useSettingStore();
 
 const drawer = ref(false) // 控制歌词面板是否显示
 const cancelTransition = ref(false) // 用于取消 el-drawer 的过度动画，全屏的时候由于过度动画显示有点问题
 let viedoDuration = 0;
 
 const { currentTime, duration, volume, playStatus, songX, musicUrl } = storeToRefs(mainStore)
+const { setting } = storeToRefs(settingStore);
 
 watch(() => drawer.value, (value, _oldValue) => {
   setTimeout(() => {
@@ -95,6 +113,29 @@ function showDrawer() {
   cancelTransition.value = false;
   drawer.value = !drawer.value
 }
+
+// 切换播放规则
+function changePlayRules() {
+  switch (setting.value.playRule) {
+    case PlayRules.order:
+      settingStore.setPlayRule(PlayRules.listLoop)
+      break;
+    case PlayRules.listLoop:
+      settingStore.setPlayRule(PlayRules.singleLoop)
+      break;
+    case PlayRules.singleLoop:
+      settingStore.setPlayRule(PlayRules.random)
+      break;
+    case PlayRules.random:
+      settingStore.setPlayRule(PlayRules.order)
+      break;
+    default:
+      settingStore.setPlayRule(PlayRules.listLoop)
+      break;
+  }
+}
+
+
 </script>
 
 <style lang="less" scoped>

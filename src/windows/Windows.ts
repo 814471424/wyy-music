@@ -137,7 +137,7 @@ class Windows {
         await appWindow.minimize();
     }
 
-    // 最小化main窗口
+    // 隐藏main窗口
     public static async miniWin() {
         await appWindow.hide()
     }
