@@ -271,13 +271,13 @@ function changePlayRules() {
 
   :deep(.el-slider__bar) {
     height: 3px;
-    background-color: #ec4141;
+    background-color: var(--primary-color);
   }
 
   :deep(.el-slider__button) {
     height: 11px;
     width: 11px;
-    border: solid 2px #ec4141;
+    border: solid 2px var(--primary-color);
   }
 
   :deep(.el-slider__button-wrapper) {
@@ -313,11 +313,11 @@ function changePlayRules() {
   :deep(.el-slider__button) {
     height: 10px;
     width: 10px;
-    border: solid 2px #ec4141;
+    border: solid 2px var(--primary-color);
     position: absolute;
     left: 13px;
     top: 13px;
-    background-color: #ec4141;
+    background-color: var(--primary-color);
   }
 
   // 滑块
@@ -328,7 +328,7 @@ function changePlayRules() {
 
   :deep(.el-slider__bar) {
     width: 4px;
-    background-color: #ec4141;
+    background-color: var(--primary-color);
   }
 
   .corner {
