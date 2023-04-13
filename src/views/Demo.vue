@@ -18,20 +18,35 @@
       <button @click="demoDownload">invoke下载</button>
     </div>
     <div><button @click="ddDownload">测试下载</button></div>
+    <div><button @click="testSaveCookie">测试是否保存cookie</button></div>
+
+    <input type="color" v-model="color">
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted } from "vue"
+import { computed, onMounted, ref, watch } from "vue"
 import { useUserStore } from '../store/user'
 import Windows from '../windows/Windows'
 import User from '../components/MHeader/User.vue'
 import { invoke } from '@tauri-apps/api/tauri'
 import { appWindow, WebviewWindow } from '@tauri-apps/api/window'
 import { download } from '../utils/player'
+import request from '../utils/request'
+import Theme, { LightDarkenColor } from '../utils/theme'
 
 const userStore = useUserStore();
 let cookie = computed(() => userStore.cookie);
+const color = ref('');
+
+watch(() => color.value, (value, _oldValue) => {
+  console.log(value)
+
+  let a = LightDarkenColor(value, -20)
+  console.log(a)
+  // document.documentElement.style.setProperty('--primary-color', value)
+  Theme.setConfig({ primaryColor: value, primaryBackgroundColor: a })
+})
 
 function test() {
   // console.log(avatarUrl.value);
@@ -74,11 +89,19 @@ async function ddDownload() {
   await download(524149974)
 }
 
+// 测试请求是否保存cookie
+async function testSaveCookie() {
+  request.get('/register/anonimous').then(res => {
+    console.log(res)
+  })
+}
+
 onMounted(async () => {
   appWindow.listen('progress', (res) => {
     console.log(res.payload)
   })
 })
+
 </script>
 
 <style lang="less" scoped>

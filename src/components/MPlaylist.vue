@@ -65,13 +65,15 @@ onMounted(() => {
       title.value = '关闭播放列表';
       show.value = true;
     }
-    event.stopPropagation();//阻止冒泡
+    // event.stopPropagation();//阻止冒泡
   })
 
-  document.addEventListener('click', function () {
-    title.value = '打开播放列表';
-    div!.style.display = 'none';//隐藏
-    show.value = false;
+  document.addEventListener('click', function (event) {
+    if (!document.getElementById('showButton')?.contains(event.target as HTMLElement)) {
+      title.value = '打开播放列表';
+      div!.style.display = 'none';//隐藏
+      show.value = false;
+    }
   });
 
   div?.addEventListener('click', function (event) {

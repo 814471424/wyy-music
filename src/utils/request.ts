@@ -6,7 +6,7 @@ axios.defaults.baseURL = import.meta.env.VUE_APP_BASE_API
 // post请求头
 // axios.defaults.headers["Content-type"] = "application/x-www-form-urlencoded;charset=UTF-8";
 // 允许跨域携带cookie信息
-// axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = true;
 // 设置超时
 axios.defaults.timeout = 15000;
 
@@ -45,11 +45,11 @@ axios.interceptors.response.use(
         return Promise.reject(response.data);
     },
     error => {
-        if (error.response.status == 301) {
+        if (error.response && error.response.status == 301) {
             let userStore = useUserStore();
             userStore.cleanUser()
         }
-        return Promise.reject(error.response.data ?? {});
+        return Promise.reject(error.response ? error.response.data : {});
     }
 )
 

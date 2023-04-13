@@ -147,6 +147,7 @@ function changePlayRules() {
   border-bottom-width: 0px;
   border-bottom-style: solid;
   padding: 0px !important;
+  box-shadow: none;
 
   .el-drawer__body {
     padding: 0px;
@@ -161,7 +162,6 @@ function changePlayRules() {
   align-items: center;
   z-index: 2003;
   position: fixed;
-  background-color: #fff;
   border-top-color: #e0e0e000;
   border-top-width: 1px;
   border-top-style: solid;

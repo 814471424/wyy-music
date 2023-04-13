@@ -39,7 +39,7 @@
         </el-table-column>
         <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true>
           <template #default="scope">
-            {{ millisecondToTime(scope.row.dt) }}
+            {{ millisecondToTime(scope.row.dt ?? 0) }}
           </template>
         </el-table-column>
       </el-table>

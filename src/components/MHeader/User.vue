@@ -1,6 +1,6 @@
 <template>
   <div v-if="cookie">
-    <div id="showUserButton" class="header-system-login" @click.stop="showPanel">
+    <div id="showUserButton" class="header-system-login" @click="showPanel">
       <img class="header-user-image" v-lazy="profile?.avatarUrl" alt="">
       <div class="header-user-text">{{ profile?.nickname }}</div>
       <span class="header-user-image iconfont wyy-xiangxia"></span>
@@ -146,7 +146,9 @@ onMounted(async () => {
   }
 
   document.addEventListener('click', (event) => {
-    showState.value = false;
+    if (!document.getElementById('showUserButton')?.contains(event.target as HTMLElement)) {
+      showState.value = false
+    }
   })
   showPane?.addEventListener('click', (event) => {
     event.stopPropagation()

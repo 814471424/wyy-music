@@ -37,7 +37,11 @@ import MAudio from '../components/MAudio.vue';
 <style lang="less" scoped>
 .common-header {
   height: 60px;
-  background-color: #ec4141;
+  // background-color: #ec4141;
+  // background-color: var(--primary-color);
+  border-bottom-color: #e0e0e0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
 
 .common-left {

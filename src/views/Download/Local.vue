@@ -13,10 +13,10 @@
   <div class="local-button-all">
     <div>
       <el-button-group class="local-button-bofang">
-        <el-button type="danger" class="iconfont wyy-caret-right button-left">
+        <el-button class="iconfont wyy-caret-right button-left">
           播放全部
         </el-button>
-        <el-button type="danger" class="iconfont wyy-tianjia button-right" />
+        <el-button class="iconfont wyy-tianjia button-right" />
       </el-button-group>
       <el-button class="iconfont wyy-refresh button-pipei" :loading="buttonLoad" @click="findMp3ByFiles">匹配音乐</el-button>
     </div>
@@ -196,6 +196,10 @@ onMounted(() => {
   margin: 25px 0 25px 0;
 
   .local-button-bofang {
+    .el-button {
+      padding: 8px 10px;
+    }
+
     .button-left {
       border-radius: 20px 0 0 20px;
     }
@@ -203,12 +207,23 @@ onMounted(() => {
     .button-right {
       border-radius: 0 20px 20px 0;
     }
-
   }
 
   .button-pipei {
     border-radius: 20px;
     margin-left: 10px;
+
+
+  }
+
+  .button-pipei.el-button {
+    color: #000;
+    background-color: #fff;
+  }
+
+  .button-pipei.el-button:hover {
+    color: #000;
+    background-color: #fff;
   }
 
   .local-input-search {

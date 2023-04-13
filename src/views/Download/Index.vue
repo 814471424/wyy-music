@@ -43,9 +43,9 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
     color: #000;
 }
 
-:deep(.el-tabs__active-bar) {
-    background-color: red;
-}
+// :deep(.el-tabs__active-bar) {
+//     background-color: red;
+// }
 
 :deep(.el-tabs__nav-wrap::after) {
     height: 0px;

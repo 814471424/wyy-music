@@ -14,10 +14,10 @@
   </div>
   <div>
     <el-button-group class="daily-button-bofang">
-      <el-button type="danger" class="iconfont wyy-caret-right button-left">
+      <el-button class="iconfont wyy-caret-right button-left">
         播放全部
       </el-button>
-      <el-button type="danger" class="iconfont wyy-tianjia button-right" @click="playAll" />
+      <el-button class="iconfont wyy-tianjia button-right" @click="playAll" />
     </el-button-group>
   </div>
 
@@ -37,7 +37,7 @@
       </el-table-column>
       <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true width="80">
         <template #default="scope">
-          {{ millisecondToTime(scope.row.dt) }}
+          {{ millisecondToTime(scope.row.dt ?? 0) }}
         </template>
       </el-table-column>
     </el-table>
@@ -121,12 +121,8 @@ onMounted(() => {
   border-radius: 10px;
 
   .el-button {
-    background-color: rgb(236 65 65);
+    // background-color: rgb(236 65 65);
     padding: 8px 10px;
-  }
-
-  .el-button:hover {
-    background-color: rgb(227 62 62);
   }
 
   .button-left {

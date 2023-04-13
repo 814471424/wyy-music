@@ -53,3 +53,82 @@ body {
   padding: 10px 30px 0px 30px;
   box-sizing: border-box;
 }
+
+/**
+ * ====================全局样式相关设置===================
+ */
+/* element ui 相关样式 */
+.el-button {
+  color: #fff;
+  background-color: var(--primary-color);
+}
+
+.el-button:hover {
+  color: #fff;
+  background-color: var(--primary-background-color);
+}
+
+.el-button:focus {
+  color: #fff;
+  background-color: var(--primary-color);
+}
+
+.el-tabs__active-bar {
+  background-color: var(--primary-color);
+}
+
+.common-header {
+  background-color: var(--primary-color);
+}
+
+
+/* 全局主题 */
+:root {
+  /* 主题主要颜色 */
+  --primary-color: #ec4141;
+  --primary-text-color: #ec4141;
+  /* 主题背景色深 */
+  --primary-background-color: #e33e3e;
+  --primary-hover-color: hsl(0, 75%, 57%);
+  --primary-active-color: #e33e3e;
+  --primary-shadow-color: #e33e3e;
+}
+
+
+body {
+  background-color: #fff;
+  background-size: cover;
+  object-fit: cover;
+}
+
+.el-menu {
+  background-color: transparent;
+}
+
+.el-table {
+  background-color: #ffffff81;
+}
+
+.el-table tr {
+  background-color: transparent;
+}
+
+.el-table__row {
+  background-color: transparent;
+}
+
+:deep(.el-table__row--striped) {
+  background-color: transparent;
+}
+
+
+/* 
+.common-layout {
+  background-color: #ffffff87;
+}
+.common-header {
+  background-color: transparent;
+}
+body {
+  background-image: url('https://img.zcool.cn/community/0121bd578059b60000018c1b20c4c0.jpg@2o.jpg');
+} */
