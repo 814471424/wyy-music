@@ -87,7 +87,7 @@ onMounted(() => {
 
   .daily-icon {
     font-size: 85px;
-    color: #ec4141;
+    color: var(--primary-color);
     width: 100%;
     height: 100%;
     position: absolute;
@@ -101,7 +101,7 @@ onMounted(() => {
     top: 5px;
     width: 100%;
     height: 100%;
-    color: #ec4141;
+    color: var(--primary-color);
     position: absolute;
     display: flex;
     justify-content: center;

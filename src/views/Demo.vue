@@ -21,6 +21,8 @@
     <div><button @click="testSaveCookie">测试是否保存cookie</button></div>
 
     <input type="color" v-model="color">
+
+    <div><button @click="testRouter">测试路由相关</button></div>
   </div>
 </template>
 
@@ -34,6 +36,7 @@ import { appWindow, WebviewWindow } from '@tauri-apps/api/window'
 import { download } from '../utils/player'
 import request from '../utils/request'
 import Theme, { LightDarkenColor } from '../utils/theme'
+import router from '../router/index'
 
 const userStore = useUserStore();
 let cookie = computed(() => userStore.cookie);
@@ -91,9 +94,13 @@ async function ddDownload() {
 
 // 测试请求是否保存cookie
 async function testSaveCookie() {
-  request.get('/register/anonimous').then(res => {
+  request.get('/register/anonimous', { params: { timestamp: new Date().getTime(), } }).then(res => {
     console.log(res)
   })
+}
+
+function testRouter() {
+  console.log(router)
 }
 
 onMounted(async () => {

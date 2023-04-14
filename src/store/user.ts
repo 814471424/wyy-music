@@ -18,7 +18,7 @@ export const useUserStore = defineStore('user', {
         }
     },
     actions: {
-        setUserInfo(profile: Common.profileInfo) {
+        setUserInfo(profile: Common.profileInfo | null) {
             this.profile = profile
 
             localStorage.setItem('profile', JSON.stringify(this.profile))

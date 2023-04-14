@@ -50,12 +50,24 @@
             <div v-if="lycs.length > 0">
               <div :class="['lycs_item', { lycs_item_active: lycindex == key }]" v-for="(item, key) in lycs" :key="key">
                 <div>{{ item[1] }}</div>
-                <div>{{ item[2] }}</div>
-                <div>{{ item[3] }}</div>
+                <div v-if="lycsType == lycsTypeEnum.translate || lycsType == lycsTypeEnum.all">{{ item[2] }}</div>
+                <div v-if="lycsType == lycsTypeEnum.sound || lycsType == lycsTypeEnum.all">{{ item[3] }}</div>
               </div>
             </div>
             <div v-else="" class="lycs_item">暂无歌曲</div>
             <div style="height: calc(50% - 40px);"></div>
+            <div class="lycs-type">
+              <div :class="['lycs-type-button', { 'active-type': lycsType == lycsTypeEnum.sound }]"
+                @click="changeLycsType(lycsTypeEnum.sound)">
+                音</div>
+              <div style="border-top: 1px solid #dadada;"></div>
+              <div :class="['lycs-type-button', { 'active-type': lycsType == lycsTypeEnum.translate }]"
+                @click="changeLycsType(lycsTypeEnum.translate)">译</div>
+              <div style="border-top: 1px solid #dadada;"></div>
+              <div :class="['lycs-type-button', { 'active-type': lycsType == lycsTypeEnum.all }]"
+                @click="changeLycsType(lycsTypeEnum.all)">全
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -92,6 +104,14 @@ import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
 import { handleLrc } from '../../utils/player'
 
+// 歌词类型
+enum lycsTypeEnum {
+  sound = 0,   // 音
+  translate = 1,   // 译
+  all = 2,   // 音 + 译
+  null = 3   // 都不要
+}
+
 const mainStore = useMainStore();
 let isMinimize = ref(false);
 let unlisten: UnlistenFn;
@@ -102,6 +122,7 @@ let { playStatus, lyc, currentTime, songX, tlyric, romalrc } = storeToRefs(mainS
 let lycindex = ref(0);
 // better-scroll
 let wrapper: HTMLElement | null = null;
+let lycsType = ref(lycsTypeEnum.sound)
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件
@@ -169,6 +190,10 @@ function minimizeMain() {
 // 当前播放时长
 function timeupdate(e: number | string) {
   let currentTime = e;
+  if (currentTime == 0) {
+    wrapper?.scrollTo(0, 0);
+    lycindex.value = 0;
+  }
 
   let lyc = lycs.value;
   for (let i = 0; i < lyc.length; i++) {
@@ -180,9 +205,22 @@ function timeupdate(e: number | string) {
       }
     }
   }
-  // console.log("timeupdate: " + currentTime);
 }
 
+
+// 修改歌词显示类型
+function changeLycsType(value: lycsTypeEnum) {
+  console.log(value)
+  console.log(lycsType.value)
+
+  if (lycsType.value == value) {
+    lycsType.value = lycsTypeEnum.null
+  } else {
+    lycsType.value = value
+  }
+
+  console.log(lycsType.value)
+}
 
 </script>
 
@@ -295,6 +333,7 @@ function timeupdate(e: number | string) {
         display: flex;
         flex-direction: column;
         justify-content: space-between;
+        position: relative;
 
         .main-lycs {
           height: 360px;
@@ -312,10 +351,39 @@ function timeupdate(e: number | string) {
             // font-size: 23px;
             font-weight: 600;
           }
+
+          // 歌词翻译选项部分
+          .lycs-type {
+            display: none;
+            position: absolute;
+            bottom: 0px;
+            right: -20px;
+            font-size: 10px;
+            color: #858585;
+            padding-left: 25px;
+            padding-right: 10px;
+
+            .lycs-type-button {
+              padding: 1px;
+              background-color: #e9e9e9;
+            }
+
+            .lycs-type-button:hover {
+              color: #161616;
+            }
+
+            .active-type {
+              color: #161616;
+            }
+          }
         }
 
         .main-lycs:hover {
           overflow-y: overlay;
+
+          .lycs-type {
+            display: block;
+          }
         }
 
         .panel-main-title {

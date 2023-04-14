@@ -29,9 +29,9 @@
       <el-menu-item index="/recently_played" class="font-no-weight">
         <span class="iconfont wyy-zuijinbofang"> 最近播放</span>
       </el-menu-item>
-      <!-- <el-menu-item index="/demo">
+      <el-menu-item index="/demo">
         <span> 测试页面</span>
-      </el-menu-item> -->
+      </el-menu-item>
       <div><span>创建的歌单</span></div>
       <el-menu-item :index="'/playlist/' + item.id" class="font-no-weight" v-for="(item, key) in createPlaylist"
         :key="key">

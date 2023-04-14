@@ -1,5 +1,5 @@
 <template>
-  <div v-if="cookie">
+  <div v-if="profile">
     <div id="showUserButton" class="header-system-login" @click="showPanel">
       <img class="header-user-image" v-lazy="profile?.avatarUrl" alt="">
       <div class="header-user-text">{{ profile?.nickname }}</div>
@@ -137,14 +137,15 @@ function signin() {
 }
 
 onMounted(async () => {
-  showPane = document.getElementById('showUserPanel')
-
+  // 如果存在cookie，更新用户信息
   if (cookie) {
     api.userAccount().then(res => {
       userStore.setUserInfo(res.profile)
     })
   }
 
+  // 用户面板相关操作
+  showPane = document.getElementById('showUserPanel')
   document.addEventListener('click', (event) => {
     if (!document.getElementById('showUserButton')?.contains(event.target as HTMLElement)) {
       showState.value = false

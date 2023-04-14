@@ -83,3 +83,20 @@ export function userPlaylist(params: {
 }): Promise<responseData & { playlist: Playlist.playListDetail[] }> {
     return request.get('/user/playlist', { params })
 }
+
+
+/*
+ * 登录状态
+ */
+export function loginStatus(): Promise<{
+    data: {
+        code: number,
+        profile?: Common.profileInfo | null
+    }
+}> {
+    return request.get('/login/status', {
+        params: {
+            timestamp: new Date().getTime(),
+        }
+    });
+}

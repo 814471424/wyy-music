@@ -25,6 +25,7 @@ pub fn hander_system_tray(app: &AppHandle, event: SystemTrayEvent) {
     match event {
         SystemTrayEvent::LeftClick { .. } => {
             let window = app.get_window("main").unwrap();
+            window.unminimize().unwrap();
             window.show().unwrap();
             window.set_focus().unwrap();
         }
@@ -36,6 +37,7 @@ pub fn hander_system_tray(app: &AppHandle, event: SystemTrayEvent) {
                 let window = app.get_window("main").unwrap();
                 window.hide().unwrap();
             }
+            "test1" => {}
             _ => {}
         },
         _ => {}
