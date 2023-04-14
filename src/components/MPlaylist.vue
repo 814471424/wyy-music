@@ -92,6 +92,7 @@ onMounted(() => {
   right: 0px;
   position: fixed;
   box-shadow: -2px 0px 20px 0px #94929252;
+  z-index: 2004;
 }
 
 .right-item-data {

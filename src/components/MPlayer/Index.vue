@@ -3,8 +3,8 @@
 
     <!-- 歌词面板 -->
     <el-drawer v-model="drawer" direction="btt" :modal="false" :destroy-on-close="true"
-      :class="[{ cancel_transition: cancelTransition }]" title="I am the title" :with-header="false"
-      :close-on-press-escape="true" :show-close="true" :z-index=2002>
+      :class="[, { cancel_transition: cancelTransition }]" title="I am the title" :with-header="false"
+      :close-on-press-escape="true" :show-close="true" :z-index=2002 :height="'100vh'" modal-class="el-drawer-parent">
       <MPlayerPanel :closeDrawer="showDrawer" />
     </el-drawer>
 
@@ -161,11 +161,12 @@ function changePlayRules() {
   max-height: 74px;
   align-items: center;
   z-index: 2003;
-  position: fixed;
   border-top-color: #e0e0e000;
   border-top-width: 1px;
   border-top-style: solid;
   justify-content: space-between;
+  position: fixed;
+  // position: absolute;
 
   .left-item {
     display: flex;
@@ -327,7 +328,7 @@ function changePlayRules() {
   }
 
   :deep(.el-slider__bar) {
-    width: 4px;
+    // width: 4px;
     background-color: var(--primary-color);
   }
 
@@ -340,9 +341,13 @@ function changePlayRules() {
     /* 设置透明背景色 */
     border-left-color: transparent;
     border-right-color: transparent;
-    left: 20px;
+    left: 21px;
     position: absolute;
   }
+}
+
+:deep(.el-drawer-parent) {
+  height: 100vh;
 }
 
 // 歌曲信息滚动 todo!()

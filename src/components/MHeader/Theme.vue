@@ -46,7 +46,7 @@ function show() {
   width: 330px;
   height: 270px;
   background: cadetblue;
-  position: absolute;
+  position: fixed;
   z-index: 2004;
   top: 60px;
   right: 90px;

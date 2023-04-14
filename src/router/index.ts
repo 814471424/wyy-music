@@ -12,6 +12,7 @@ import Search from '../views/Search/Index.vue'
 import Artist from '../views/Artist/Index.vue'
 import Setting from '../views/Setting/Index.vue'
 import Album from '../views/Album.vue'
+import Test from '../views/Test.vue'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -113,6 +114,10 @@ const routes: RouteRecordRaw[] = [
         path: '/login',
         component: Login,
     },
+    {
+        path: '/test',
+        component: Test,
+    }
 ]
 
 export default createRouter({
