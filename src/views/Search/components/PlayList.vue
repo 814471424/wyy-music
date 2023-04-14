@@ -74,13 +74,13 @@ const props = defineProps<{
       font-size: 15px;
     }
   }
-}
 
-.search-play:hover {
-  background-color: #f5f5f5 !important;
-}
+  &:hover {
+    background-color: #f5f5f5 !important;
+  }
 
-.search-play:nth-child(2n) {
-  background-color: #fafafa
+  &:nth-child(2n) {
+    background-color: #fafafa
+  }
 }
 </style>

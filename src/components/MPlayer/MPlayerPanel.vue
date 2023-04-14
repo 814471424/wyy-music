@@ -45,6 +45,7 @@
               <div>来源: {{ songX?.songType ?? '未知' }}</div>
             </div>
           </div>
+          <!-- 歌词部分 -->
           <div id="wrapper" class="main-lycs">
             <div style="height: calc(50% - 20px)"></div>
             <div v-if="lycs.length > 0">
@@ -197,11 +198,11 @@ function timeupdate(e: number | string) {
 
   let lyc = lycs.value;
   for (let i = 0; i < lyc.length; i++) {
-    // currentTime < lyc[i + 1] 超出
     if (lyc[i][0] < currentTime && currentTime < (lyc[i + 1] ? lyc[i + 1][0] : 9999)) {
       if (wrapper && lycindex.value < i) {
         lycindex.value = i;
         wrapper?.scrollTo(0, i * 60)
+        // wrapper.animate()
       }
     }
   }
@@ -210,16 +211,11 @@ function timeupdate(e: number | string) {
 
 // 修改歌词显示类型
 function changeLycsType(value: lycsTypeEnum) {
-  console.log(value)
-  console.log(lycsType.value)
-
   if (lycsType.value == value) {
     lycsType.value = lycsTypeEnum.null
   } else {
     lycsType.value = value
   }
-
-  console.log(lycsType.value)
 }
 
 </script>
@@ -264,15 +260,15 @@ function changeLycsType(value: lycsTypeEnum) {
     }
   }
 
-  .panel-main:hover {
-    overflow-y: overlay;
-  }
-
   .panel-main {
     height: calc(100vh - 134px);
     top: 60px;
     position: relative;
     overflow-y: hidden;
+
+    &:hover {
+      overflow-y: overlay;
+    }
 
     .panel-main-one {
       display: flex;
@@ -339,6 +335,7 @@ function changeLycsType(value: lycsTypeEnum) {
           height: 360px;
           overflow-y: hidden;
           // box-shadow: inset 0px 16px 15px 0px #b1adad52, inset 0px -14px 17px 0px #acacac52;
+          // -webkit-mask-image: linear-gradient(175deg, hsla(0, 0%, 100%, 0) 0, hsla(0, 0%, 100%, 0.6) 15%, #fff 25%, #fff 75%, hsla(0, 0%, 100%, 0.6) 85%, hsla(0, 0%, 100%, 0));
 
           .lycs_item {
             text-align: center;
@@ -357,7 +354,7 @@ function changeLycsType(value: lycsTypeEnum) {
             display: none;
             position: absolute;
             bottom: 0px;
-            right: -20px;
+            right: -25px;
             font-size: 10px;
             color: #858585;
             padding-left: 25px;
@@ -366,23 +363,23 @@ function changeLycsType(value: lycsTypeEnum) {
             .lycs-type-button {
               padding: 1px;
               background-color: #e9e9e9;
-            }
 
-            .lycs-type-button:hover {
-              color: #161616;
+              &:hover {
+                color: #161616;
+              }
             }
 
             .active-type {
               color: #161616;
             }
           }
-        }
 
-        .main-lycs:hover {
-          overflow-y: overlay;
+          &:hover {
+            overflow-y: overlay;
 
-          .lycs-type {
-            display: block;
+            .lycs-type {
+              display: block;
+            }
           }
         }
 

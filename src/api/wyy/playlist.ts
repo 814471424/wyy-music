@@ -1,3 +1,4 @@
+import { type } from "os";
 import request from "../../utils/request";
 
 /*
@@ -48,4 +49,47 @@ export function getPlaylistDetail(
     params: { id: number | string, s?: number }
 ): Promise<responseData & { playlist: Playlist.playListDetail }> {
     return request.get('/playlist/detail', { params });
+}
+
+/**
+ * 歌单分类
+ * 说明 : 调用此接口,可获取歌单分类,包含 category 信息
+ */
+export function playlistCatlist()
+    : Promise<
+        responseData &
+        {
+            all: Playlist.Catlist,
+            sub: Playlist.Catlist,
+            categories: { [key: number]: string }
+        }
+    > {
+    return request.get('/playlist/catlist');
+}
+
+/**
+ * 获取精品歌单
+ * 说明 : 调用此接口 , 可获取精品歌单
+ * - cat: tag, 比如 " 华语 "、" 古风 " 、" 欧美 "、" 流行 ", 默认为 "全部", 可从精品歌单标签列表接口获取(/playlist/highquality/tags)
+ * - limit: 取出歌单数量 , 默认为 20
+ * - before: 分页参数,取上一页最后一个歌单的 updateTime 获取下一页数据
+ * @param {Object} params
+ * @param {string} params.cat
+ * @param {number=} params.limit
+ * @param {number} params.before
+ */
+export function highQualityPlaylist(params: {
+    cat?: string,
+    limit?: number,
+    before?: number
+}): Promise<
+    responseData &
+    {
+        playlists: Playlist.playListDetail[],
+        more: boolean,
+        lasttime: number,
+        total: number
+    }
+> {
+    return request.get('/top/playlist/highquality', { params });
 }

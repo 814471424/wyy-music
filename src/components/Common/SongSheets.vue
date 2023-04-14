@@ -61,13 +61,15 @@ let props = defineProps<{
       position: absolute;
       display: none;
     }
-  }
 
-  .image-wrapper:hover {
-    .playIcon {
-      display: block;
+    &:hover {
+      .playIcon {
+        display: block;
+      }
     }
   }
+
+
 
   @media screen and (min-width: 1200px) and (max-width: 1500px) {
     .image-wrapper {

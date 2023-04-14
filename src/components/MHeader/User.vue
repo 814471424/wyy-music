@@ -217,11 +217,11 @@ onUnmounted(() => {
       font-size: 17px;
       font-weight: 900;
     }
-  }
 
-  .common-info-item:hover {
-    .info-text {
-      color: #000;
+    &:hover {
+      .info-text {
+        color: #000;
+      }
     }
   }
 }

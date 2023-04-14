@@ -100,10 +100,10 @@ async function refurbishCookie() {
   border-right-style: solid;
   padding: 10px 0 0 10px;
   overflow-y: hidden;
-}
 
-.common-left:hover {
-  overflow-y: overlay;
+  &:hover {
+    overflow-y: overlay;
+  }
 }
 
 .common-main {

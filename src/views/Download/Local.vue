@@ -212,18 +212,16 @@ onMounted(() => {
   .button-pipei {
     border-radius: 20px;
     margin-left: 10px;
-
-
   }
 
   .button-pipei.el-button {
     color: #000;
     background-color: #fff;
-  }
 
-  .button-pipei.el-button:hover {
-    color: #000;
-    background-color: #fff;
+    &:hover {
+      color: #000;
+      background-color: #fff;
+    }
   }
 
   .local-input-search {

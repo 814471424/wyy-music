@@ -9,7 +9,11 @@
     </el-tab-pane>
     <el-tab-pane label="专属订制" name="customized">Config</el-tab-pane>
     <el-tab-pane label="歌单" name="playlist">
-      <SongSheet />
+      <div class="right-main">
+        <div class="right-content">
+          <SongSheet />
+        </div>
+      </div>
     </el-tab-pane>
     <el-tab-pane label="排行榜" name="ranking">Task</el-tab-pane>
     <el-tab-pane label="歌手" name="singer">Task</el-tab-pane>

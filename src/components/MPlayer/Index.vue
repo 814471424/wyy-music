@@ -232,10 +232,10 @@ function changePlayRules() {
         height: 35px;
         width: 35px;
         border-radius: 20px;
-      }
 
-      .main-button:hover {
-        background-color: #e0e0e0;
+        &:hover {
+          background-color: #e0e0e0;
+        }
       }
 
       .other-button:hover {

@@ -194,9 +194,9 @@ onMounted(async () => {
   span {
     font-size: 20px;
   }
-}
 
-.common-title:hover {
-  color: #000;
+  &:hover {
+    color: #000;
+  }
 }
 </style>

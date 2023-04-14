@@ -81,4 +81,18 @@ declare namespace Playlist {
         // 创建事件
         createTime: number
     }
+
+    // 歌单分类
+    export interface Catlist {
+        // 歌单分类时的字段
+        name?: string,
+        resourceCount?: number
+        imgId?: number
+        imgUrl?: string
+        type?: number
+        category?: number
+        resourceType?: number
+        hot?: boolean
+        activity?: boolean
+    }
 }

@@ -275,11 +275,14 @@ export function hanldError() {
     const songX = mainStore.songX;
 
     const id = songX?.id ?? '';
+
     // 查找错误的index
     const errorIndex = list.findIndex((x) => x.id === id);
     if (errorIndex == -1 || mainStore.musicUrl == '') {
+        mainStore.clear()
         return
     }
+    mainStore.clear()
     playListStore.removeOne(id)
 
     let playIndex = (errorIndex) % list.length

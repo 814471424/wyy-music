@@ -56,13 +56,13 @@ const props = defineProps<{
     color: #969696;
     font-size: 12px;
   }
-}
 
-.search-artist:hover {
-  background-color: #f5f5f5 !important;
-}
+  &:hover {
+    background-color: #f5f5f5 !important;
+  }
 
-.search-artist:nth-child(2n) {
-  background-color: #fafafa
+  &:nth-child(2n) {
+    background-color: #fafafa
+  }
 }
 </style>

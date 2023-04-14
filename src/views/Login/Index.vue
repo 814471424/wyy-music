@@ -95,10 +95,10 @@ function loginClose() {
       margin: 9px;
       font-size: 18px;
       color: #9f9f9f;
-    }
 
-    .login-guanbi:hover {
-      color: #000;
+      &:hover {
+        color: #000;
+      }
     }
   }
 

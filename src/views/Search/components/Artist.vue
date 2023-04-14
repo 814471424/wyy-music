@@ -41,13 +41,13 @@ function jumpArtist(id: number) {
       border-radius: 5px;
     }
   }
-}
 
-.search-artist:hover {
-  background-color: #f5f5f5 !important;
-}
+  &:hover {
+    background-color: #f5f5f5 !important;
+  }
 
-.search-artist:nth-child(2n) {
-  background-color: #fafafa
+  &:nth-child(2n) {
+    background-color: #fafafa
+  }
 }
 </style>
