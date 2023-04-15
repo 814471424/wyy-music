@@ -23,12 +23,14 @@
     <input type="color" v-model="color">
 
     <div><button @click="testRouter">测试路由相关</button></div>
+
   </div>
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref, watch } from "vue"
+import { Ref, computed, onMounted, ref, watch } from "vue"
 import { useUserStore } from '../store/user'
+import { useMainStore } from '../store/index'
 import Windows from '../windows/Windows'
 import User from '../components/MHeader/User.vue'
 import { invoke } from '@tauri-apps/api/tauri'
@@ -37,9 +39,12 @@ import { download } from '../utils/player'
 import request from '../utils/request'
 import Theme, { LightDarkenColor } from '../utils/theme'
 import router from '../router/index'
+import { valueEquals } from "element-plus"
 
 const userStore = useUserStore();
+const mainStore = useMainStore();
 let cookie = computed(() => userStore.cookie);
+let currentTime = computed(() => mainStore.currentTime);
 const color = ref('');
 
 watch(() => color.value, (value, _oldValue) => {
@@ -108,11 +113,32 @@ onMounted(async () => {
     console.log(res.payload)
   })
 })
-
 </script>
 
 <style lang="less" scoped>
 :deep(.el-overlay) {
   background-color: rgb(0 0 0 / 0%);
+}
+
+.container {
+  height: 420px;
+  overflow-y: scroll;
+}
+
+.container ul {
+  transition: 0.6s;
+  list-style: none;
+}
+
+.container li {
+  height: 30px;
+  line-height: 30px;
+  transition: 0.2s;
+}
+
+.container li.active {
+  color: #fff;
+  /* font-size: 40px; */
+  transform: scale(1.2);
 }
 </style> 

@@ -48,14 +48,21 @@
           <!-- 歌词部分 -->
           <div id="wrapper" class="main-lycs">
             <div style="height: calc(50% - 20px)"></div>
-            <div v-if="lycs.length > 0">
-              <div :class="['lycs_item', { lycs_item_active: lycindex == key }]" v-for="(item, key) in lycs" :key="key">
-                <div>{{ item[1] }}</div>
-                <div v-if="lycsType == lycsTypeEnum.translate || lycsType == lycsTypeEnum.all">{{ item[2] }}</div>
-                <div v-if="lycsType == lycsTypeEnum.sound || lycsType == lycsTypeEnum.all">{{ item[3] }}</div>
-              </div>
-            </div>
-            <div v-else="" class="lycs_item">暂无歌曲</div>
+            <ul>
+              <li v-if="lycs.length > 0" v-for="(item, key) in lycs" :key="key"
+                :class="[{ lycs_item_active: lycindex == key }]">
+                <div>
+                  {{ item[1] }}
+                </div>
+                <div v-if="lycsType == lycsTypeEnum.translate || lycsType == lycsTypeEnum.all">
+                  {{ item[2] }}
+                </div>
+                <div v-if="lycsType == lycsTypeEnum.sound || lycsType == lycsTypeEnum.all">
+                  {{ item[3] }}
+                </div>
+              </li>
+              <li v-else="">暂无歌曲</li>
+            </ul>
             <div style="height: calc(50% - 40px);"></div>
             <div class="lycs-type">
               <div :class="['lycs-type-button', { 'active-type': lycsType == lycsTypeEnum.sound }]"
@@ -99,7 +106,7 @@
 <script lang="ts" setup>
 import { UnlistenFn } from "@tauri-apps/api/event";
 import { WebviewWindow, appWindow, } from "@tauri-apps/api/window";
-import { ref, onMounted, onUnmounted, watch } from "vue"
+import { ref, onMounted, onUnmounted, watch, Ref } from "vue"
 import Windows from "../../windows/Windows";
 import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
@@ -202,7 +209,6 @@ function timeupdate(e: number | string) {
       if (wrapper && lycindex.value < i) {
         lycindex.value = i;
         wrapper?.scrollTo(0, i * 60)
-        // wrapper.animate()
       }
     }
   }
@@ -331,22 +337,32 @@ function changeLycsType(value: lycsTypeEnum) {
         justify-content: space-between;
         position: relative;
 
+        // 歌词部分
         .main-lycs {
           height: 360px;
           overflow-y: hidden;
+          overflow-x: hidden;
           // box-shadow: inset 0px 16px 15px 0px #b1adad52, inset 0px -14px 17px 0px #acacac52;
           // -webkit-mask-image: linear-gradient(175deg, hsla(0, 0%, 100%, 0) 0, hsla(0, 0%, 100%, 0.6) 15%, #fff 25%, #fff 75%, hsla(0, 0%, 100%, 0.6) 85%, hsla(0, 0%, 100%, 0));
 
-          .lycs_item {
-            text-align: center;
-            height: 60px;
-            line-height: 20px;
-          }
+          ul {
+            transition: 0.6s;
+            list-style: none;
+            padding-left: 0px;
+            margin: 0px;
 
-          .lycs_item_active {
-            color: #000;
-            // font-size: 23px;
-            font-weight: 600;
+            li {
+              height: 60px;
+              line-height: 20px;
+              transition: 0.2s;
+              text-align: center;
+            }
+
+            li.lycs_item_active {
+              color: #000;
+              font-weight: 600;
+              transform: scale(1.1);
+            }
           }
 
           // 歌词翻译选项部分
