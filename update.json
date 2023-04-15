@@ -1,11 +1,11 @@
 {
-    "version": "v0.0.5",
-    "notes": "首页追加游客校验信息",
+    "version": "v0.0.6",
+    "notes": "歌词部分滚动优化",
     "pub_date": "2023-04-13T08:25:57Z",
     "platforms": {
         "windows-x86_64": {
-            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRYmhORU5HbmZPa2FZZ0ozMTA3YWwwTE9rMWtYT2pmQmR5dWpDbzNkSVhTMlZwTk9iZUE0MGRVNnhRY1RBb2JKNi9PWStYdFk2bmliamtib2tiYys3b1hnNTEyTVh2cGdZPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjgxNDQzNzI1CWZpbGU6RTpc5a2m5LmgXDIwMjMtM1xtdXNpYy1hcHBcc3JjLXRhdXJpXHRhcmdldFxyZWxlYXNlXGJ1bmRsZS9tc2kvbXVzaWMtYXBwXzAuMC41X3g2NF9lbi1VUy5tc2kuemlwCnZPUndzRGZWbHp2QXlleVpUMzFuQk42R3liRmZZNnRGaldpamxtUVovTmJVRXFVVjRVRVhjRWkxNVhTRHJIQ1FWQjJYRHJLMVJSV1B4ZDRVNis0K0NnPT0K",
-            "url": "https://gitee.com/qq814471424/wyy-music/releases/download/v0.0.5/music-app_0.0.5_x64_en-US.msi.zip"
+            "signature": "dW50cnVzdGVkIGNvbW1lbnQ6IHNpZ25hdHVyZSBmcm9tIHRhdXJpIHNlY3JldCBrZXkKUlVRYmhORU5HbmZPa1RyN2NLMllFaklGelpJRjk3RlE0SXhLWTZEZWE3NTdxVjdRdWhvY3kzR3VGOS9zZXV6K1JubksrWmxVdk0wai9aMm9oZS9mdmVsLzJvK25WYnY2WndBPQp0cnVzdGVkIGNvbW1lbnQ6IHRpbWVzdGFtcDoxNjgxNTQxNTk0CWZpbGU6RTpc5a2m5LmgXDIwMjMtM1xtdXNpYy1hcHBcc3JjLXRhdXJpXHRhcmdldFxyZWxlYXNlXGJ1bmRsZS9tc2kvbXVzaWMtYXBwXzAuMC42X3g2NF9lbi1VUy5tc2kuemlwCitXbkJYUzY5d1lTMGN2WkROWGVMb2pNOUloSHJHUmV6b1VNUm1LanBRWGZOMk5rcmVhRWtxYStUMERUTUNpbkwxRmlhU0ZXZGVFcCtFMkU5SThEZURRPT0K",
+            "url": "https://gitee.com/qq814471424/wyy-music/releases/download/v0.0.6/music-app_0.0.6_x64_en-US.msi.zip"
         }
     }
 }
