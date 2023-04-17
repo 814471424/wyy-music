@@ -75,7 +75,7 @@ body {
   background-color: #fff;
   background-size: cover;
   object-fit: cover;
-  min-width: 1000px;
+  /* min-width: 1000px; */
 }
 
 .el-menu {
@@ -142,6 +142,10 @@ body {
   background-color: var(--primary-color);
 }
 
-.common-header {
+.container-header {
   background-color: var(--primary-color);
+}
+
+.container-left {
+  background-color: #fff;
 }

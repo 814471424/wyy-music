@@ -111,6 +111,7 @@ import Windows from "../../windows/Windows";
 import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
 import { handleLrc } from '../../utils/player'
+import { id } from "element-plus/es/locale";
 
 // 歌词类型
 enum lycsTypeEnum {
@@ -160,15 +161,17 @@ onMounted(async () => {
   wrapper = document.getElementById("wrapper")
 
   // 监听窗口大小是否变化
-  unlisten = await appWindow.onResized(({ payload: size }) => {
-    WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
-      isMinimize.value = res
-    })
-  });
+  if (window.__TAURI__ != undefined) {
+    unlisten = await appWindow.onResized(({ payload: size }) => {
+      WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
+        isMinimize.value = res
+      })
+    });
+  }
 })
 
 onUnmounted(() => {
-  unlisten
+  unlisten ? unlisten() : null
 })
 
 // 关闭窗口

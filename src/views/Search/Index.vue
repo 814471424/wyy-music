@@ -93,8 +93,6 @@ function search() {
   ).then(res => {
     if (res.code == 200) {
       total.value = res.count ?? 0
-      console.log(total.value)
-      console.log(searchMessage.value)
       switch (activeName.value) {
         case searchType.song:
           songList.value = res.list ?? []
@@ -123,7 +121,6 @@ function search() {
           searchMessage.value = ''
           break;
       }
-      console.log(searchMessage.value)
     }
   })
 }

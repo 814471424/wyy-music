@@ -78,7 +78,7 @@ async function getPlaylistDetail() {
   // 获取歌单详情
   let res = await api.getPlaylistDetail({ id })
   if (res.code == 200) {
-    // 获取所有歌曲的
+    // 获取所有的歌曲
     playlistDetail.value = res.playlist
     trackIds = res.playlist.trackIds.map(v => v.id)
   }

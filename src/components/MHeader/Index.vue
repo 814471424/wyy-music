@@ -2,9 +2,9 @@
   <div class="header-container" data-tauri-drag-region="true">
     <!-- 网易云图标搜索部分 -->
 
-    <div class="header-ico-search" data-tauri-drag-region="true">
-      <div class="header-ico" @click="() => router.push('/discover')">
-        <span class="iconfont wyy-wangyiyunyinle1" data-tauri-drag-region-container="true">
+    <div class="header-ico-search">
+      <div class="header-ico" @click="() => router.push('/discover')" data-tauri-drag-region="true">
+        <span class="iconfont wyy-wangyiyunyinle1" data-tauri-drag-region="true">
         </span>网易云音乐
       </div>
 
@@ -57,20 +57,22 @@ let unlisten: UnlistenFn;
 
 
 onMounted(async () => {
-  WebviewWindow.getByLabel('main')?.isFullscreen().then((res) => {
-    isMinimize.value = res
-  })
-
-  unlisten = await appWindow.onResized(({ payload: size }) => {
-    WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
+  if (window.__TAURI__ != undefined) {
+    WebviewWindow.getByLabel('main')?.isFullscreen().then((res) => {
       isMinimize.value = res
     })
-  });
+
+    unlisten = await appWindow.onResized(({ payload: size }) => {
+      WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
+        isMinimize.value = res
+      })
+    });
+  }
 })
 
 
 onUnmounted(() => {
-  unlisten()
+  unlisten ? unlisten() : null
 })
 
 // 关闭窗口
@@ -115,6 +117,7 @@ function inputSearch() {
 <style lang="less" scoped>
 .header-container {
   height: 100%;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -122,12 +125,13 @@ function inputSearch() {
 
 
   .header-ico-search {
-    width: 480px;
+    // width: 480px;
     display: flex;
     justify-content: space-between;
     align-items: center;
 
     .header-ico {
+      width: 200px;
       font-size: 18px;
       display: flex;
       color: #fff;
@@ -183,7 +187,7 @@ function inputSearch() {
 
   .header-system {
     display: flex;
-    min-width: 400px;
+    // min-width: 400px;
     justify-content: space-between;
     align-items: center;
 
@@ -243,5 +247,51 @@ function inputSearch() {
   /* 禁止 DIV 中的文本被鼠标选中 */
   user-select: none;
   /* 禁止 DIV 中的文本被鼠标选中 */
+}
+
+
+@media screen and (max-width: 600px) {
+  .header-container {
+    justify-content: space-around;
+
+    .header-ico-search {
+      .header-ico {
+        display: none;
+      }
+
+      .header-search {
+        .header-maikefeng {
+          display: none;
+        }
+      }
+    }
+
+    .header-system {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .header-container {
+    .header-system {
+      .header-user {
+        display: none;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 850px) {
+  .header-container {
+    justify-content: space-around;
+
+    .header-ico-search {
+      .header-ico {
+        display: none;
+      }
+    }
+  }
 }
 </style>

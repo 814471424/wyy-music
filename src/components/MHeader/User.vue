@@ -55,6 +55,7 @@ import api from '../../api/index'
 import router from '../../router/index'
 import { WebviewWindow, } from '@tauri-apps/api/window'
 import { UnlistenFn } from '@tauri-apps/api/event';
+import { i } from '@tauri-apps/api/tauri-44146e48';
 
 let userStore = useUserStore();
 const { profile, cookie } = storeToRefs(userStore);
@@ -68,18 +69,24 @@ let trends = ref(0);
 
 // 显示登录页面
 async function showLogin() {
-  await (new Windows()).createLoginWin();
+  console.log()
+  if (window.__TAURI__ == undefined) {
+    router.push('/login');
+  } else {
+    await (new Windows()).createLoginWin();
 
-  // 目前先这样子来刷新头像
-  setTimeout(async () => {
-    let win = WebviewWindow.getByLabel('login');
-    unlistenClose = await win?.listen('tauri://destroyed', (event) => {
-      if (event.windowLabel == 'login') {
-        userStore.reLoad();
-        router.replace('discover')
-      }
-    })
-  }, 1000);
+    // 目前先这样子来刷新头像
+    setTimeout(async () => {
+
+      let win = WebviewWindow.getByLabel('login');
+      unlistenClose = await win?.listen('tauri://destroyed', (event) => {
+        if (event.windowLabel == 'login') {
+          userStore.reLoad();
+          router.replace('discover')
+        }
+      })
+    }, 1000);
+  }
 }
 
 function showPanel() {

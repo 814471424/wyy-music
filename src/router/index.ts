@@ -1,5 +1,4 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router'
-import Home from '../views/Home.vue'
 import Login from '../views/Login/Index.vue'
 import Demo from '../views/Demo.vue'
 import Download from '../views/Download/Index.vue'
@@ -12,7 +11,8 @@ import Search from '../views/Search/Index.vue'
 import Artist from '../views/Artist/Index.vue'
 import Setting from '../views/Setting/Index.vue'
 import Album from '../views/Album.vue'
-import Test from '../views/Test.vue'
+import Home from '../views/Home.vue'
+import HomeOld from '../views/HomeOld.vue'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -113,10 +113,6 @@ const routes: RouteRecordRaw[] = [
     {
         path: '/login',
         component: Login,
-    },
-    {
-        path: '/test',
-        component: Test,
     }
 ]
 

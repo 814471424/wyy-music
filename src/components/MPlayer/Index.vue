@@ -38,13 +38,13 @@
             <div v-else :class="['other-button', 'iconfont', 'wyy-shunxubofang1']" title="顺序循环"></div>
           </div>
           <!-- 上一首 -->
-          <div class="other-button iconfont wyy-previous-fill" @click="playPrevious"></div>
+          <div class="other-button previous-button iconfont wyy-previous-fill" @click="playPrevious"></div>
           <div v-if="playStatus" @click="audioPause" class="main-button iconfont wyy-24gf-pause2">
           </div>
           <div v-else @click="audioPlay" class="main-button iconfont wyy-play"></div>
           <!-- 下一首 -->
           <div class="other-button iconfont wyy-next-fill" @click="playNext"></div>
-          <div class="other-button iconfont wyy-geci"></div>
+          <div class="other-button lycs-button iconfont wyy-geci"></div>
         </div>
         <div class="play-radio-bar">
           <div style="margin-right: 5px;">{{ durationToTime(currentTime) }}</div>
@@ -140,8 +140,8 @@ function changePlayRules() {
 
 <style lang="less" scoped>
 :deep(.el-drawer) {
-  height: calc(100vh - 74px) !important;
-  margin-bottom: 74px;
+  height: calc(100vh - 73px) !important;
+  margin-bottom: 73px;
   border-bottom-color: #e0e0e000;
   // border-bottom-width: 1px;
   border-bottom-width: 0px;
@@ -350,39 +350,63 @@ function changePlayRules() {
   height: 100vh;
 }
 
-// 歌曲信息滚动 todo!()
-// .left-content-rowup {
-//   width: 100%;
-//   display: inline-block;
-//   vertical-align: top;
-//   overflow: hidden;
-//   white-space: nowrap;
+@media screen and (max-width: 600px) {
+  .m-player {
+    .player {
+      .left-item {
+        width: 50%;
 
-//   .content-rowup {
-//     animation: scroll linear 4s alternate infinite;
-//     position: relative;
-//   }
-// }
+        .left-content {
+          width: calc(100% - 70px);
+        }
+      }
 
-// @keyframes scroll {
-//   0% {
-//     margin-left: 0;
-//     transform: translateX(0);
-//   }
+      .play-radio {
+        width: 140px;
 
-//   10% {
-//     margin-left: 0;
-//     transform: translateX(0);
-//   }
+        .play-radio-button {
+          .previous-button {
 
-//   90% {
-//     margin-left: 100%;
-//     transform: translateX(-100%);
-//   }
+            display: none;
+          }
 
-//   100% {
-//     margin-left: 100%;
-//     transform: translateX(-100%);
-//   }
-// }
+          .lycs-button {
+            display: none;
+          }
+
+          div {
+            // margin: 0px;
+          }
+
+
+          .main-button {
+            // margin: 0px 10px;
+            // padding: 0px 10px;
+            box-sizing: border-box;
+            margin: 0px;
+          }
+        }
+
+        .play-radio-bar {
+          position: absolute;
+          top: -7px;
+          left: 0px;
+          width: 100%;
+        }
+      }
+
+      .right-item {
+        width: 40px;
+
+        .right-icon-volume {
+          display: none;
+        }
+
+        .right-item-data {
+          display: none;
+        }
+      }
+    }
+  }
+}
 </style>

@@ -1,7 +1,7 @@
 <template>
-    <div style="width: 100%; height: 100%; background-color: blue;">
-
-    </div>
+  <div>
+    grid布局
+  </div>
 </template>
 
 <script lang="ts" setup>
