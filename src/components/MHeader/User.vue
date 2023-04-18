@@ -70,7 +70,7 @@ let trends = ref(0);
 // 显示登录页面
 async function showLogin() {
   console.log()
-  if (window.__TAURI__ == undefined) {
+  if ((window as any).__TAURI__ == undefined) {
     router.push('/login');
   } else {
     await (new Windows()).createLoginWin();

@@ -1,7 +1,9 @@
 interface themeConfig {
     // 主要主题颜色
     primaryColor?: string;
+    // 背景颜色
     primaryBackgroundColor?: string;
+    // 文字主要颜色
     primaryTextColor?: string;
 }
 

@@ -57,7 +57,7 @@ let unlisten: UnlistenFn;
 
 
 onMounted(async () => {
-  if (window.__TAURI__ != undefined) {
+  if ((window as any).__TAURI__ != undefined) {
     WebviewWindow.getByLabel('main')?.isFullscreen().then((res) => {
       isMinimize.value = res
     })

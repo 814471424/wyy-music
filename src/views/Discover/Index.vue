@@ -66,4 +66,16 @@ const handleClick = (tab: TabsPaneContext, event: Event) => {
     max-width: 1110px
   }
 }
+
+
+@media screen and (max-width: 600px) {
+  .el-tabs {
+    width: calc(100% + 10px);
+    padding-right: 10px;
+  }
+
+  :deep(.el-tabs__content) {
+    padding-right: 10px;
+  }
+}
 </style>

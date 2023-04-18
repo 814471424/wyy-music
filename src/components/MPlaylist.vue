@@ -86,7 +86,7 @@ onMounted(() => {
 #showDiv {
   display: none;
   top: 60px;
-  height: calc(100vh - 134px);
+  height: calc(100vh - 133px);
   width: 420px;
   background-color: #fff;
   right: 0px;
@@ -154,6 +154,12 @@ onMounted(() => {
 
   100% {
     transform: translateX(0px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  #showDiv {
+    width: 100%;
   }
 }
 </style>

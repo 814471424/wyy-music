@@ -68,6 +68,12 @@ body {
   box-sizing: border-box;
 }
 
+@media screen and (max-width: 600px) {
+  .common-padding {
+    padding: 10px 10px 0px 10px;
+  }
+}
+
 /**
  * ====================全局样式相关设置===================
  */

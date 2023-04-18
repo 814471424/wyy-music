@@ -374,11 +374,6 @@ function changePlayRules() {
             display: none;
           }
 
-          div {
-            // margin: 0px;
-          }
-
-
           .main-button {
             // margin: 0px 10px;
             // padding: 0px 10px;

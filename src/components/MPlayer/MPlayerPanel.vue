@@ -28,7 +28,7 @@
             :class="[{ 'pause-needle': playStatus == false, 'resume-needle': playStatus == true }]">
             <img :class="['play-needle-img']" src="../../assets/play_needle.png" />
           </div>
-          <div :class="['record-in', { 'xuanzhuan': playStatus == true }]">
+          <div :class="['record-in', 'xuanzhuan']" ref="cd">
             <div class="lines">
               <img
                 v-lazy="songX?.al?.picUrl || 'https://ts1.cn.mm.bing.net/th/id/R-C.987f582c510be58755c4933cda68d525?rik=C0D21hJDYvXosw&riu=http%3a%2f%2fimg.pconline.com.cn%2fimages%2fupload%2fupc%2ftx%2fwallpaper%2f1305%2f16%2fc4%2f20990657_1368686545122.jpg&ehk=netN2qzcCVS4ALUQfDOwxAwFcy41oxC%2b0xTFvOYy5ds%3d&risl=&pid=ImgRaw&r=0'"
@@ -111,7 +111,6 @@ import Windows from "../../windows/Windows";
 import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
 import { handleLrc } from '../../utils/player'
-import { id } from "element-plus/es/locale";
 
 // 歌词类型
 enum lycsTypeEnum {
@@ -132,6 +131,7 @@ let lycindex = ref(0);
 // better-scroll
 let wrapper: HTMLElement | null = null;
 let lycsType = ref(lycsTypeEnum.sound)
+let cd: HTMLElement | null = null;
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件
@@ -153,6 +153,15 @@ watch(() => currentTime.value, (value, _oldValue) => {
 watch(() => lyc.value, (value, _oldValue) => {
   lycs.value = handleLrc(value, tlyric.value, romalrc.value);
 })
+watch(() => playStatus.value, (value, _oldValue) => {
+  if (cd) {
+    if (!playStatus.value) {
+      cd.style.animationPlayState = 'paused'
+    } else {
+      cd.style.animationPlayState = 'running '
+    }
+  }
+})
 
 onMounted(async () => {
   // 获取歌词
@@ -161,12 +170,21 @@ onMounted(async () => {
   wrapper = document.getElementById("wrapper")
 
   // 监听窗口大小是否变化
-  if (window.__TAURI__ != undefined) {
+  if ((window as any).__TAURI__ != undefined) {
     unlisten = await appWindow.onResized(({ payload: size }) => {
       WebviewWindow.getByLabel('main')?.isMaximized().then((res) => {
         isMinimize.value = res
       })
     });
+  }
+
+  // 唱片旋转状态
+  if (cd) {
+    if (!playStatus.value) {
+      cd.style.animationPlayState = 'paused'
+    } else {
+      cd.style.animationPlayState = 'running '
+    }
   }
 })
 
@@ -502,6 +520,43 @@ function changeLycsType(value: lycsTypeEnum) {
 
   100% {
     transform: rotateZ(0deg);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .m-player-panel {
+    .m-player-panel-header {
+      .m-player-panel-header-system {
+        display: none;
+      }
+    }
+
+    .panel-main {
+      .panel-main-one {
+        overflow-x: hidden;
+
+        .record-black {
+          .record-in {
+            width: 250px;
+            height: 250px;
+
+            .lines {
+              height: 230px;
+              width: 230px;
+
+              .cd {
+                height: 160px;
+                width: 160px;
+              }
+            }
+          }
+        }
+
+        .panel-main-lycs {
+          display: none;
+        }
+      }
+    }
   }
 }
 </style>

@@ -68,7 +68,7 @@ onMounted(async () => {
                 if (leftRef.value) {
                     leftRef.value.style.visibility = 'hidden'
                 }
-            }, 500);
+            }, 400);
         }
     })
 
@@ -87,7 +87,7 @@ function showLeftContainer() {
             if (leftRef.value) {
                 leftRef.value.style.visibility = 'hidden'
             }
-        }, 500);
+        }, 400);
     }
 
     leftStatus.value = !leftStatus.value
