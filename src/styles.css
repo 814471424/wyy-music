@@ -121,6 +121,7 @@ body {
 :root {
   /* 主题主要颜色 */
   --primary-color: #ec4141;
+  --primary-opacity-color: rgb(236 65 65 / 8%);
   --primary-text-color: #ec4141;
   /* 主题背景色深 */
   --primary-background-color: #e33e3e;

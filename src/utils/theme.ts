@@ -1,6 +1,8 @@
 interface themeConfig {
     // 主要主题颜色
     primaryColor?: string;
+    // 主题颜色(有透明度的)
+    primaryOpacityColor?: string;
     // 背景颜色
     primaryBackgroundColor?: string;
     // 文字主要颜色
@@ -20,12 +22,25 @@ class Theme {
         if (config.primaryTextColor) {
             document.documentElement.style.setProperty('--primary-text-color', config.primaryTextColor)
         }
+        if (config.primaryOpacityColor) {
+            document.documentElement.style.setProperty('--primary-opacity-color', config.primaryOpacityColor)
+        }
     }
 
     static setConfig(config: themeConfig) {
         localStorage.setItem('theme', JSON.stringify(config))
 
         this.init()
+    }
+
+    // 修改
+    static setByColor(primaryColor: string) {
+        const config: themeConfig = JSON.parse(localStorage.getItem('theme') ?? "{}");
+
+        let primaryBackgroundColor = LightDarkenColor(primaryColor)
+        let primaryOpacityColor = colorRgba(primaryColor, 0.08)
+
+        Theme.setConfig({ ...config, primaryColor: primaryColor, primaryBackgroundColor, primaryOpacityColor })
     }
 }
 

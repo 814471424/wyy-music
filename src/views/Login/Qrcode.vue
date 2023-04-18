@@ -17,6 +17,7 @@ import { onMounted, onUnmounted, ref } from "vue"
 import api from '../../api/index'
 import { useUserStore } from '../../store/user'
 import { appWindow, } from '@tauri-apps/api/window'
+import router from '../../router'
 
 const userStore = useUserStore();
 let avatarUrl = "";
@@ -63,7 +64,12 @@ async function checkQr() {
 
       let userReq = await api.userAccount()
       userStore.setUserInfo(userReq.profile)
-      appWindow.close()
+
+      if ((window as any).__TAURI__ == undefined) {
+        router.push('/discover');
+      } else {
+        appWindow.close()
+      }
     } else if (res.code == 800) { // 需要显示重新扫码按钮
       polling = false;
       showCreate.value = true;

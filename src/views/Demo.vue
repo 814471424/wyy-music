@@ -1,144 +1,100 @@
 <template>
   <div>
     <h1>测试页面</h1>
-    <div class="context-menu" @click.right.native="showContextMenu($event)">
-      展示右键菜单
+    <div class="wrapper">
+      <div class="item" v-for="i in 17" :key="i">
+        <img class="background"
+          src="https://images.pexels.com/photos/4587991/pexels-photo-4587991.jpeg?cs=srgb&dl=pexels-anna-shvets-4587991.jpg&fm=jpg"
+          alt="">
+        <img class="playIcon" :src="paly_icon" alt="">
+        <div class="title">
+          <div>歌单标题</div>
+        </div>
+      </div>
     </div>
-    <div @click="test()">测试cookie</div>
-    <div>
-      <!-- <User></User> -->
-    </div>
-    <div v-if="cookie">
-      有cookie
-    </div>
-    <div v-else>没有cookie</div>
-    <button @click="testCookie">测试cookie</button>
-    <button @click="delCookie">删除cookie</button>
-    <div>
-      <button @click="demoDownload">invoke下载</button>
-    </div>
-    <div><button @click="ddDownload">测试下载</button></div>
-    <div><button @click="testSaveCookie">测试是否保存cookie</button></div>
-
-    <input type="color" v-model="color">
-
-    <div><button @click="testRouter">测试路由相关</button></div>
-
+    <div style="margin-top: 200px;"></div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Ref, computed, onMounted, ref, watch } from "vue"
-import { useUserStore } from '../store/user'
-import { useMainStore } from '../store/index'
-import Windows from '../windows/Windows'
-import User from '../components/MHeader/User.vue'
-import { invoke } from '@tauri-apps/api/tauri'
-import { appWindow, WebviewWindow } from '@tauri-apps/api/window'
-import { download } from '../utils/player'
-import request from '../utils/request'
-import Theme, { LightDarkenColor } from '../utils/theme'
-import router from '../router/index'
-import { valueEquals } from "element-plus"
-
-const userStore = useUserStore();
-const mainStore = useMainStore();
-let cookie = computed(() => userStore.cookie);
-let currentTime = computed(() => mainStore.currentTime);
-const color = ref('');
-
-watch(() => color.value, (value, _oldValue) => {
-  console.log(value)
-
-  let a = LightDarkenColor(value, -20)
-  console.log(a)
-  // document.documentElement.style.setProperty('--primary-color', value)
-  Theme.setConfig({ primaryColor: value, primaryBackgroundColor: a })
-})
-
-function test() {
-  // console.log(avatarUrl.value);
-  // console.log(cookie.value);
-  // console.log(nickname.value);
-  // (new Windows()).createMini()
-}
-
-function testCookie() {
-  userStore.setCookie("ddddddddddddddddddddd");
-}
-function delCookie() {
-  userStore.cleanUser()
-}
-
-onMounted(() => {
-  // let audio = new window.Audio();
-  // audio.src = "https://stream.localhost/D:\\CloudMusic\\7!! - オレンジ.MP3"
-  // audio.play()
-})
-
-const showContextMenu = (e: any) => {
-  e.preventDefault()
-  console.log('监听右键点击')
-}
-
-function demoDownload() {
-  invoke('download', {
-    url: "String",
-    path: "String",
-    nameType: 4,
-    name: "String",
-    ext: "String",
-  }).then(res => {
-    console.log(res)
-  })
-}
-
-async function ddDownload() {
-  await download(524149974)
-}
-
-// 测试请求是否保存cookie
-async function testSaveCookie() {
-  request.get('/register/anonimous', { params: { timestamp: new Date().getTime(), } }).then(res => {
-    console.log(res)
-  })
-}
-
-function testRouter() {
-  console.log(router)
-}
+import { onMounted } from 'vue';
+import paly_icon from '../assets/paly_icon.png'
 
 onMounted(async () => {
-  appWindow.listen('progress', (res) => {
-    console.log(res.payload)
-  })
+
 })
 </script>
 
 <style lang="less" scoped>
-:deep(.el-overlay) {
-  background-color: rgb(0 0 0 / 0%);
+.wrapper {
+  /* 声明一个容器 */
+  display: grid;
+  // /*  声明列的宽度  */
+  grid-template-columns: repeat(3, 32%);
+  // /*  声明行间距和列间距  */
+  grid-gap: 7px;
+  // grid-g // overflow: scroll;
+  justify-content: space-between;
+
+  .item {
+    padding-top: 100%;
+    position: relative;
+    // background-color: aquamarine;
+    margin-bottom: 40px;
+  }
+
+  .item .background {
+    position: absolute;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    margin: auto;
+    object-fit: cover;
+    width: 100%;
+    border-radius: 5px;
+  }
+
+  .item .playIcon {
+    bottom: 7px;
+    right: 7px;
+    width: 42px;
+    position: absolute;
+    display: none;
+  }
+
+  .item .title {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    background-color: aqua;
+    color: #000;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+
+  .item:hover {
+    .playIcon {
+      display: block;
+    }
+  }
 }
 
-.container {
-  height: 420px;
-  overflow-y: scroll;
+
+@media screen and (min-width:601px) and (max-width:1200px) {
+  .wrapper {
+    grid-template-columns: repeat(4, 24%);
+  }
 }
 
-.container ul {
-  transition: 0.6s;
-  list-style: none;
-}
-
-.container li {
-  height: 30px;
-  line-height: 30px;
-  transition: 0.2s;
-}
-
-.container li.active {
-  color: #fff;
-  /* font-size: 40px; */
-  transform: scale(1.2);
+@media screen and (min-width:1201px) {
+  .wrapper {
+    grid-template-columns: repeat(5, 19.8%);
+  }
 }
 </style> 

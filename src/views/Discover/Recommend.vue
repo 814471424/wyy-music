@@ -60,7 +60,7 @@ onMounted(async () => {
   // 获取推荐歌单
   let res = await api.dailyRecommendPlaylist()
   if (res.code == 200) {
-    playlists.value = res.recommend
+    playlists.value = res.recommend;
   }
   if (playlists.value.length >= 9) {
     playlists.value = playlists.value.slice(0, 9)

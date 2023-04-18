@@ -16,8 +16,7 @@ let showState = ref(false)
 const color = ref('');
 
 watch(() => color.value, (value, _oldValue) => {
-  let primaryBackgroundColor = LightDarkenColor(value)
-  Theme.setConfig({ primaryColor: value, primaryBackgroundColor })
+  Theme.setByColor(value)
 })
 
 onMounted(() => {

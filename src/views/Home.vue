@@ -176,7 +176,7 @@ async function refurbishCookie() {
                 position: absolute;
                 top: 0px;
                 visibility: hidden;
-                z-index: 4;
+                z-index: 9999;
             }
         }
     }
