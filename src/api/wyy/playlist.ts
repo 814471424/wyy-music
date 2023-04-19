@@ -60,7 +60,7 @@ export function playlistCatlist()
         responseData &
         {
             all: Playlist.Catlist,
-            sub: Playlist.Catlist,
+            sub: Playlist.Catlist[],
             categories: { [key: number]: string }
         }
     > {

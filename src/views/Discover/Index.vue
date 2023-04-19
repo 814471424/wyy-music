@@ -23,10 +23,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import type { TabsPaneContext } from 'element-plus'
-import Recommend from './Recommend.vue'
-import SongSheet from './SongSheet.vue'
+import Recommend from './components/Recommend.vue'
+import SongSheet from './components/SongSheet.vue'
 
-const activeName = ref('recommend')
+const activeName = ref('playlist')
 
 const handleClick = (tab: TabsPaneContext, event: Event) => {
   // console.log(tab, event)

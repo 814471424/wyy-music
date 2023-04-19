@@ -41,10 +41,10 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from "vue"
-import api from '../../api/index'
-import MCover from '../../components/Common/MCover.vue'
-import router from "../../router";
-import dailybg from '../../assets/dailybg.jpg'
+import api from '../../../api/index'
+import MCover from '../../../components/Common/MCover.vue'
+import router from "../../../router";
+import dailybg from '../../../assets/dailybg.jpg'
 
 let banners = ref([] as Common.bannerData[]);
 let playlists = ref([] as Playlist.playList[]);

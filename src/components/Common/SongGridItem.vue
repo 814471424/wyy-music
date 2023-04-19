@@ -125,15 +125,15 @@ function itemClick(item: listItem) {
   }
 }
 
-@media screen and (min-width:601px) and (max-width:1200px) {
+@media screen and (min-width:601px) and (max-width:1050px) {
   .wrapper {
     grid-template-columns: repeat(4, 24%);
   }
 }
 
-@media screen and (min-width:1201px) {
+@media screen and (min-width:1051px) {
   .wrapper {
-    grid-template-columns: repeat(5, 19.8%);
+    grid-template-columns: repeat(5, 18.7%);
   }
 }
 </style> 
