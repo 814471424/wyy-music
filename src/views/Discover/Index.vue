@@ -43,7 +43,7 @@ import { ref } from 'vue'
 import Recommend from './components/Recommend.vue'
 import SongSheet from './components/SongSheet.vue'
 
-const activeName = ref('playlist')
+const activeName = ref('recommend')
 
 const handleClick = (tab: string) => {
   activeName.value = tab
@@ -55,15 +55,17 @@ const handleClick = (tab: string) => {
   display: -webkit-box;
   font-size: 17px;
   align-items: flex-end;
-  height: 45px;
+  height: 50px;
   padding-top: 18px;
+  padding-bottom: 5px;
+  box-sizing: border-box;
   overflow-x: scroll;
   overflow-y: hidden;
 
   .tab {
     margin: 0px 10px;
     border-bottom-color: rgba(255, 255, 255, 0);
-    border-bottom-width: 3.5px;
+    border-bottom-width: 2px;
     border-bottom-style: solid;
   }
 
@@ -80,7 +82,7 @@ const handleClick = (tab: string) => {
 }
 
 .discover-body {
-  height: calc(100% - 45px);
+  height: calc(100% - 50px);
 
   div {
     height: 100%;

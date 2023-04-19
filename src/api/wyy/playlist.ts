@@ -122,6 +122,10 @@ export function topPlaylist(
         limit?: number,
         offset?: number
     }
-): Promise<responseData & { playlists: Playlist.playListDetail[] }> {
+): Promise<responseData & {
+    playlists: Playlist.playListDetail[],
+    total?: number,
+    cat?: string
+}> {
     return request.get('/top/playlist', { params });
 }

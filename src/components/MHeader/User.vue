@@ -55,7 +55,6 @@ import api from '../../api/index'
 import router from '../../router/index'
 import { WebviewWindow, } from '@tauri-apps/api/window'
 import { UnlistenFn } from '@tauri-apps/api/event';
-import { i } from '@tauri-apps/api/tauri-44146e48';
 
 let userStore = useUserStore();
 const { profile, cookie } = storeToRefs(userStore);
@@ -69,7 +68,6 @@ let trends = ref(0);
 
 // 显示登录页面
 async function showLogin() {
-  console.log()
   if ((window as any).__TAURI__ == undefined) {
     router.push('/login');
   } else {
@@ -93,30 +91,7 @@ function showPanel() {
   if (showState.value) {
     showState.value = false;
   } else {
-    // 获取签到状态
-    api.signinProgress(true).then(res => {
-      if (res.code == 200) {
-        todaySignedIn.value = res.data.today.todaySignedIn
-      }
-    })
-    // 获取收藏数量
-    api.userFollows({ uid: profile.value?.userId ?? '', offset: 0, limit: 10000 }).then(res => {
-      if (res.code == 200) {
-        followCount.value = res.follow.length
-      }
-    })
-    // 粉丝数量
-    api.userFolloweds({ uid: profile.value?.userId ?? '' }).then(res => {
-      if (res.code == 200) {
-        fans.value = res.size
-      }
-    })
-    // 动态数量
-    api.userEvent({ uid: profile.value?.userId ?? '' }).then(res => {
-      if (res.code == 200) {
-        trends.value = res.size
-      }
-    })
+    update()
     showState.value = true;
   }
 }
@@ -143,6 +118,33 @@ function signin() {
   })
 }
 
+function update() {
+  // 获取签到状态
+  api.signinProgress(true).then(res => {
+    if (res.code == 200) {
+      todaySignedIn.value = res.data.today.todaySignedIn
+    }
+  })
+  // 获取收藏数量
+  api.userFollows({ uid: profile.value?.userId ?? '', offset: 0, limit: 10000 }).then(res => {
+    if (res.code == 200) {
+      followCount.value = res.follow.length
+    }
+  })
+  // 粉丝数量
+  api.userFolloweds({ uid: profile.value?.userId ?? '' }).then(res => {
+    if (res.code == 200) {
+      fans.value = res.size
+    }
+  })
+  // 动态数量
+  api.userEvent({ uid: profile.value?.userId ?? '' }).then(res => {
+    if (res.code == 200) {
+      trends.value = res.size
+    }
+  })
+}
+
 onMounted(async () => {
   // 如果存在cookie，更新用户信息
   if (cookie) {
@@ -161,6 +163,9 @@ onMounted(async () => {
   showPane?.addEventListener('click', (event) => {
     event.stopPropagation()
   })
+
+  // 适配手机端(手机端面板不是主动触发的，这个事件无法完成)
+  update()
 })
 
 onUnmounted(() => {

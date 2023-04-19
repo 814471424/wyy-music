@@ -1,29 +1,40 @@
 <template>
   <div class="common-padding" id="songSheet-main">
-    <!-- 精品歌单推荐封面 -->
-    <div class="highquality-playlist-cover" :style="'background-image: url(' + highquality?.coverImgUrl + ');'"
-      v-if="highquality">
-      <div class="highquality-content">
-        <div class="highquality-image">
-          <img v-lazy="highquality.coverImgUrl" alt="">
+    <div class="songSheet-body">
+      <!-- 精品歌单推荐封面 -->
+      <div class="highquality-playlist-cover" :style="'background-image: url(' + highquality?.coverImgUrl + ');'"
+        v-if="highquality">
+        <div class="highquality-content">
+          <div class="highquality-image">
+            <img v-lazy="highquality.coverImgUrl" alt="">
+          </div>
+          <div>
+            <div class="highquality-icon">精品歌单</div>
+            <div class="highquality-name">{{ highquality.name }}</div>
+          </div>
         </div>
-        <div>
-          <div class="highquality-icon">精品歌单</div>
-          <div class="highquality-name">{{ highquality.name }}</div>
-        </div>
-      </div>
 
-    </div>
-    <div class="tags">
-      <div class="catlist">
-        <div id="catlist-button" @click="show" style="margin: 0px 10px;">{{ cat }}
-          <span class="iconfont wyy-xiangyou"></span>
+      </div>
+      <div class="tags">
+        <div class="catlist">
+          <div id="catlist-button" @click="show" style="margin: 0px 10px;">{{ cat }}
+            <span class="iconfont wyy-xiangyou"></span>
+          </div>
         </div>
+        <div class="highquality">
+          <div @click="checkCat(item.name ?? '')" :class="[{ 'highquality-active': item.name == cat }]"
+            v-for="(item, key) in hotTags" :key="key">
+            {{ item.name }}
+          </div>
+        </div>
+
+        <!-- 歌单类型面板 -->
         <div class="catlist-panel" v-if="panelStatus">
           <div class="panel">
             <div style="padding: 20px; display: flex;">
-              <div :class="['cat-item', { 'highquality-active': catAll?.name == cat }]" @click="checkCat(catAll?.name)">{{
-                catAll?.name }}</div>
+              <div :class="['cat-item', { 'highquality-active': catAll?.name == cat }]" @click="checkCat(catAll?.name)">
+                {{
+                  catAll?.name }}</div>
             </div>
             <div class="common-line-style"></div>
             <div style="padding: 20px;">
@@ -86,19 +97,13 @@
           </div>
         </div>
       </div>
-      <div class="highquality">
-        <div @click="checkCat(item.name ?? '')" :class="[{ 'highquality-active': item.name == cat }]"
-          v-for="(item, key) in hotTags" :key="key">
-          {{ item.name }}
-        </div>
+      <div>
+        <SongGridItem :list="list" />
       </div>
-    </div>
-    <div>
-      <SongGridItem :list="list" />
-    </div>
-    <div class="search-page">
-      <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
-        v-model:current-page="page" @current-change="handleCurrentChange" class="mt-4" />
+      <div class="search-page">
+        <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
+          v-model:current-page="page" @current-change="handleCurrentChange" class="mt-4" />
+      </div>
     </div>
   </div>
 </template>
@@ -116,16 +121,18 @@ let catAll: Ref<Playlist.Catlist | null> = ref(null);
 let catSub: Ref<Playlist.Catlist[]> = ref([]);
 // 分页相关参数
 let panelStatus = ref(false);
-let total = ref(100)
+let total = ref(0)
 let per_page = ref(50)
 let page = ref(1)
 
-onMounted(() => {
-  search()
-})
 
 watch(() => cat.value, (value, _oldValue) => {
+  page.value = 1
   updateList()
+})
+
+onMounted(() => {
+  search()
 
   document.addEventListener('click', (event) => {
     if (!document.getElementById('catlist-button')?.contains(event.target as HTMLElement)) {
@@ -161,8 +168,17 @@ function updateList() {
     highquality.value = res.playlists[0] ?? null
   })
 
-  api.topPlaylist({ cat: cat.value }).then(res => {
+  updateTopList()
+}
+
+function updateTopList() {
+  api.topPlaylist({
+    cat: cat.value,
+    limit: per_page.value,
+    offset: (page.value - 1) * per_page.value
+  }).then(res => {
     list.value = res.playlists.map(v => { return { picUrl: v.coverImgUrl, ...v, itemType: 1 } });
+    total.value = res.total ?? 0
   })
 }
 
@@ -172,7 +188,11 @@ function show() {
 }
 
 // 分页相关
-function handleCurrentChange() { }
+const handleCurrentChange = (val: number) => {
+  updateTopList()
+
+  document.getElementById('songSheet-main')?.scrollTo(0, 0)
+}
 
 </script>
 
@@ -260,6 +280,7 @@ function handleCurrentChange() { }
   margin: 15px 0;
   justify-content: space-between;
   align-items: center;
+  position: relative;
 
   .catlist {
     border: 1px solid #888888;
@@ -271,53 +292,52 @@ function handleCurrentChange() { }
     color: #181818;
     font-size: 15px;
 
+  }
 
-    .catlist-panel {
-      margin-top: 10px;
-      max-width: 750px;
-      left: 0.16px;
-      // width: 100%;
-      position: absolute;
-      z-index: 2;
+  .catlist-panel {
+    margin-top: 10px;
+    max-width: 750px;
+    position: absolute;
+    z-index: 2;
+    border-radius: 3px;
+    top: 30px;
+
+    .panel {
+      width: 100%;
+      height: 100%;
+      background-color: #ffffff;
       border-radius: 3px;
+      box-shadow: -2px 0px 20px 0px #94929252;
+      padding-bottom: 50px;
 
-      .panel {
-        width: 100%;
-        height: 100%;
-        background-color: #ffffff;
-        border-radius: 3px;
-        box-shadow: -2px 0px 20px 0px #94929252;
-        padding-bottom: 50px;
+      .catlist-sub {
+        display: flex;
 
-        .catlist-sub {
+        .sub-title {
+          width: 20%;
+          min-width: 70px;
+          max-width: 100px;
           display: flex;
+          color: #9c9c9c;
+          font-size: 13px;
 
-          .sub-title {
-            width: 20%;
-            min-width: 70px;
-            max-width: 100px;
-            display: flex;
-            color: #9c9c9c;
-            font-size: 13px;
-
-            span {
-              font-size: 23px;
-              margin-right: 5px;
-            }
+          span {
+            font-size: 23px;
+            margin-right: 5px;
           }
+        }
 
-          .catlist-item {
-            flex: 1;
+        .catlist-item {
+          flex: 1;
+          display: flex;
+          flex-wrap: wrap;
+          padding-bottom: 20px;
+
+          div {
+            width: 16%;
+            font-size: 13px;
+            margin-bottom: 10px;
             display: flex;
-            flex-wrap: wrap;
-            padding-bottom: 20px;
-
-            div {
-              width: 16%;
-              font-size: 13px;
-              margin-bottom: 10px;
-              display: flex;
-            }
           }
         }
       }
@@ -344,7 +364,7 @@ function handleCurrentChange() { }
   display: flex;
   justify-content: center;
 
-  margin: 10px 0px 30px 0px;
+  padding: 10px 0px 30px 0px;
 }
 
 .highquality-active {
@@ -359,5 +379,13 @@ function handleCurrentChange() { }
 
 .common-padding {
   overflow-y: overlay;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.songSheet-body {
+  max-width: 1110px;
+  width: 100%;
 }
 </style>

@@ -2,7 +2,9 @@
 import { defineStore } from 'pinia'
 
 interface UserData {
+    // 用户或者游客的cookie
     cookie: string
+    // 用户基础信息
     profile: Common.profileInfo | null
 }
 

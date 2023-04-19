@@ -23,7 +23,6 @@ interface MusicData {
     volume: number,
     // 音乐时长
     duration: number,
-
 }
 
 export const useMainStore = defineStore('main', {

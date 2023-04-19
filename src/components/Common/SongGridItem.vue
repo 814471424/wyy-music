@@ -2,10 +2,15 @@
   <div style="width: 100%; padding-right: 1px; padding-left: 1px;">
     <div class="wrapper">
       <div class="item" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
-        <img class="background" :src="item.picUrl" alt="">
+        <img class="background" v-lazy="item.picUrl" alt="">
         <img class="playIcon" :src="paly_icon" alt="">
-        <div class="playCount"><span class="iconfont wyy-bofangliang"></span> {{ handlePlayCount(item.playCount ?? 0) }}
+        <div v-if="item.itemType != itemEnumType.dailySong" class="playCount"><span
+            class="iconfont wyy-bofangliang"></span> {{ handlePlayCount((item.playCount ||
+              item.playcount) ?? 0) }}
         </div>
+        <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text iconfont wyy-a-ziyuan16-copy-copy"></div>
+        <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text" style="font-size: 30px; top: 5px;">{{
+          new Date().getDate() }}</div>
         <div class="title">
           <div>{{ item.name }}</div>
         </div>
@@ -41,6 +46,7 @@ onMounted(async () => {
 function itemClick(item: listItem) {
   switch (item.itemType) {
     case itemEnumType.dailySong:
+      router.push('/daily_song')
       break;
     case itemEnumType.playList:
       router.push('/playlist/' + item.id)
@@ -118,6 +124,18 @@ function itemClick(item: listItem) {
     }
   }
 
+  .item .item-img-text {
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    position: absolute;
+    top: 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 60px;
+  }
+
   .item:hover {
     .playIcon {
       display: block;
@@ -125,13 +143,13 @@ function itemClick(item: listItem) {
   }
 }
 
-@media screen and (min-width:601px) and (max-width:1050px) {
+@media screen and (min-width:601px) and (max-width:1000px) {
   .wrapper {
     grid-template-columns: repeat(4, 24%);
   }
 }
 
-@media screen and (min-width:1051px) {
+@media screen and (min-width:1001px) {
   .wrapper {
     grid-template-columns: repeat(5, 18.7%);
   }

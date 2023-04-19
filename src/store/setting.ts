@@ -4,6 +4,7 @@ import { PlayRules } from '../api/typings/enum'
 
 interface Setting {
     setting: {
+        // 文件保存路径
         savePath?: string
         // 播放规则
         playRule?: PlayRules,

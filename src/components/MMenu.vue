@@ -1,5 +1,9 @@
 <template>
   <div class="m-left">
+    <div class="left-user">
+      <User />
+    </div>
+    <div class="common-line-style"></div>
     <el-menu :default-active="path" :router=true class="m-menu">
       <el-menu-item index="/discover">
         <span>发现音乐</span>
@@ -23,7 +27,7 @@
       <el-menu-item v-if="lovePlayList" :index="'/playlist/' + lovePlayList.id" class="font-no-weight">
         <span class="iconfont wyy-xihuan"> 我喜欢的音乐</span>
       </el-menu-item>
-      <el-menu-item index="/download" class="font-no-weight">
+      <el-menu-item v-if="tauriResult" index="/download" class="font-no-weight">
         <span class="iconfont wyy-shangchuan"> 本地与下载</span>
       </el-menu-item>
       <el-menu-item index="/recently_played" class="font-no-weight">
@@ -52,6 +56,7 @@ import { useRoute, } from 'vue-router'
 import api from '../api/index'
 import { useUserStore } from '../store/user'
 import { storeToRefs } from 'pinia'
+import User from './MHeader/User.vue'
 
 const route = useRoute()
 const userStore = useUserStore()
@@ -60,6 +65,8 @@ let path = computed(() => route.path);
 let lovePlayList: Playlist.playListDetail | null = null;
 let createPlaylist: Ref<Playlist.playListDetail[]> = ref([]);
 let collectPlaylist: Ref<Playlist.playListDetail[]> = ref([]);
+// 判断是否在tauri环境中
+const tauriResult = (window as any).__TAURI__ != undefined;
 
 watch(() => profile.value, (value, _oldValue) => {
   getPlayList()
@@ -130,5 +137,42 @@ function getPlayList() {
   font-weight: 900;
   color: #000;
   background-color: #f6f6f7;
+}
+
+// 用户相关
+.left-user {
+  display: none;
+  padding-top: 10px;
+}
+
+.common-line-style {
+  display: none;
+}
+
+@media screen and (max-width: 600px) {
+  .left-user {
+    display: block;
+
+    :deep(.header-system-login) {
+      justify-content: space-evenly;
+    }
+
+    :deep(#showUserButton) {
+      justify-content: space-evenly;
+    }
+
+    :deep(#showUserPanel) {
+      display: block !important;
+      position: unset;
+      width: 100%;
+      box-shadow: none
+    }
+  }
+
+  .common-line-style {
+    display: block;
+    margin-bottom: 20px;
+  }
+
 }
 </style>

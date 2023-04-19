@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 
 export const usePlayListStore = defineStore('playlist', {
   state: (): {
+    // 播放列表
     list: Common.songX[]
   } => ({
     list: JSON.parse(localStorage.getItem('playlist') ?? '[]')
