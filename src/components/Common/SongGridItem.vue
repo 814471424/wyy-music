@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 100%;">
+  <div style="width: 100%; padding-right: 1px; padding-left: 1px;">
     <div class="wrapper">
       <div class="item" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
         <img class="background" :src="item.picUrl" alt="">

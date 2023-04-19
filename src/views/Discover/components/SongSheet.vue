@@ -1,98 +1,105 @@
 <template>
-  <!-- 精品歌单推荐封面 -->
-  <div class="highquality-playlist-cover" :style="'background-image: url(' + highquality?.coverImgUrl + ');'"
-    v-if="highquality">
-    <div class="highquality-content">
-      <div class="highquality-image">
-        <img v-lazy="highquality.coverImgUrl" alt="">
+  <div class="common-padding" id="songSheet-main">
+    <!-- 精品歌单推荐封面 -->
+    <div class="highquality-playlist-cover" :style="'background-image: url(' + highquality?.coverImgUrl + ');'"
+      v-if="highquality">
+      <div class="highquality-content">
+        <div class="highquality-image">
+          <img v-lazy="highquality.coverImgUrl" alt="">
+        </div>
+        <div>
+          <div class="highquality-icon">精品歌单</div>
+          <div class="highquality-name">{{ highquality.name }}</div>
+        </div>
       </div>
-      <div>
-        <div class="highquality-icon">精品歌单</div>
-        <div class="highquality-name">{{ highquality.name }}</div>
-      </div>
-    </div>
 
-  </div>
-  <div class="tags">
-    <div class="catlist">
-      <div id="catlist-button" @click="show" style="margin: 0px 10px;">{{ cat }}
-        <span class="iconfont wyy-xiangyou"></span>
-      </div>
-      <div class="catlist-panel" v-if="panelStatus">
-        <div class="panel">
-          <div style="padding: 20px; display: flex;">
-            <div :class="['cat-item', { 'highquality-active': catAll?.name == cat }]" @click="checkCat(catAll?.name)">{{
-              catAll?.name }}</div>
-          </div>
-          <div class="common-line-style"></div>
-          <div style="padding: 20px;">
-            <div class="catlist-sub">
-              <div class="sub-title"><span class="iconfont wyy-yuzhongguanli"></span>语种</div>
-              <div class="catlist-item">
-                <div v-for="(item, key) in catSub.filter(v => v.category == 0)" :key="item.imgId">
-                  <span :class="['cat-item', { 'highquality-active': item.name == cat }]" @click="checkCat(item.name)">{{
-                    item.name
-                  }}</span>
+    </div>
+    <div class="tags">
+      <div class="catlist">
+        <div id="catlist-button" @click="show" style="margin: 0px 10px;">{{ cat }}
+          <span class="iconfont wyy-xiangyou"></span>
+        </div>
+        <div class="catlist-panel" v-if="panelStatus">
+          <div class="panel">
+            <div style="padding: 20px; display: flex;">
+              <div :class="['cat-item', { 'highquality-active': catAll?.name == cat }]" @click="checkCat(catAll?.name)">{{
+                catAll?.name }}</div>
+            </div>
+            <div class="common-line-style"></div>
+            <div style="padding: 20px;">
+              <div class="catlist-sub">
+                <div class="sub-title"><span class="iconfont wyy-yuzhongguanli"></span>语种</div>
+                <div class="catlist-item">
+                  <div v-for="(item, key) in catSub.filter(v => v.category == 0)" :key="item.imgId">
+                    <span :class="['cat-item', { 'highquality-active': item.name == cat }]"
+                      @click="checkCat(item.name)">{{
+                        item.name
+                      }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="catlist-sub">
-              <div class="sub-title"><span class="iconfont wyy-gangqin"></span>风格</div>
-              <div class="catlist-item">
-                <div v-for="(item, key) in catSub.filter(v => v.category == 1)" :key="item.imgId">
-                  <span :class="['cat-item', { 'highquality-active': item.name == cat }]" @click="checkCat(item.name)">{{
-                    item.name
-                  }}</span>
+              <div class="catlist-sub">
+                <div class="sub-title"><span class="iconfont wyy-gangqin"></span>风格</div>
+                <div class="catlist-item">
+                  <div v-for="(item, key) in catSub.filter(v => v.category == 1)" :key="item.imgId">
+                    <span :class="['cat-item', { 'highquality-active': item.name == cat }]"
+                      @click="checkCat(item.name)">{{
+                        item.name
+                      }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="catlist-sub">
-              <div class="sub-title"><span class="iconfont wyy-coffekafei"></span>场景</div>
-              <div class="catlist-item">
-                <div v-for="(item, key) in catSub.filter(v => v.category == 2)" :key="item.imgId">
-                  <span :class="['cat-item', { 'highquality-active': item.name == cat }]" @click="checkCat(item.name)">{{
-                    item.name
-                  }}</span>
+              <div class="catlist-sub">
+                <div class="sub-title"><span class="iconfont wyy-coffekafei"></span>场景</div>
+                <div class="catlist-item">
+                  <div v-for="(item, key) in catSub.filter(v => v.category == 2)" :key="item.imgId">
+                    <span :class="['cat-item', { 'highquality-active': item.name == cat }]"
+                      @click="checkCat(item.name)">{{
+                        item.name
+                      }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="catlist-sub">
-              <div class="sub-title"><span class="iconfont wyy-xiaolian"></span>情感</div>
-              <div class="catlist-item">
-                <div v-for="(item, key) in catSub.filter(v => v.category == 3)" :key="item.imgId">
-                  <span :class="['cat-item', { 'highquality-active': item.name == cat }]" @click="checkCat(item.name)">{{
-                    item.name
-                  }}</span>
+              <div class="catlist-sub">
+                <div class="sub-title"><span class="iconfont wyy-xiaolian"></span>情感</div>
+                <div class="catlist-item">
+                  <div v-for="(item, key) in catSub.filter(v => v.category == 3)" :key="item.imgId">
+                    <span :class="['cat-item', { 'highquality-active': item.name == cat }]"
+                      @click="checkCat(item.name)">{{
+                        item.name
+                      }}</span>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="catlist-sub">
-              <div class="sub-title"><span class="iconfont wyy-zhuti"></span>主题</div>
-              <div class="catlist-item">
-                <div v-for="(item, key) in catSub.filter(v => v.category == 4)" :key="item.imgId">
-                  <span :class="['cat-item', { 'highquality-active': item.name == cat }]" @click="checkCat(item.name)">{{
-                    item.name
-                  }}</span>
+              <div class="catlist-sub">
+                <div class="sub-title"><span class="iconfont wyy-zhuti"></span>主题</div>
+                <div class="catlist-item">
+                  <div v-for="(item, key) in catSub.filter(v => v.category == 4)" :key="item.imgId">
+                    <span :class="['cat-item', { 'highquality-active': item.name == cat }]"
+                      @click="checkCat(item.name)">{{
+                        item.name
+                      }}</span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="highquality">
-      <div @click="checkCat(item.name ?? '')" :class="[{ 'highquality-active': item.name == cat }]"
-        v-for="(item, key) in hotTags" :key="key">
-        {{ item.name }}
+      <div class="highquality">
+        <div @click="checkCat(item.name ?? '')" :class="[{ 'highquality-active': item.name == cat }]"
+          v-for="(item, key) in hotTags" :key="key">
+          {{ item.name }}
+        </div>
       </div>
     </div>
-  </div>
-  <div>
-    <SongGridItem :list="list" />
-  </div>
-  <div class="search-page">
-    <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
-      v-model:current-page="page" @current-change="handleCurrentChange" class="mt-4" />
+    <div>
+      <SongGridItem :list="list" />
+    </div>
+    <div class="search-page">
+      <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
+        v-model:current-page="page" @current-change="handleCurrentChange" class="mt-4" />
+    </div>
   </div>
 </template>
 
@@ -107,6 +114,7 @@ let hotTags: Ref<Playlist.Catlist[]> = ref([]);
 let cat = ref('全部歌单')
 let catAll: Ref<Playlist.Catlist | null> = ref(null);
 let catSub: Ref<Playlist.Catlist[]> = ref([]);
+// 分页相关参数
 let panelStatus = ref(false);
 let total = ref(100)
 let per_page = ref(50)
@@ -142,9 +150,9 @@ function search() {
 function checkCat(newCat: string | undefined) {
   if (newCat) {
     cat.value = newCat
-  }
 
-  document.documentElement.scrollTo(0, 0);
+    document.getElementById('songSheet-main')?.scrollTo(0, 0)
+  }
 }
 
 // 更新歌单数据
@@ -347,5 +355,9 @@ function handleCurrentChange() { }
 .cat-item {
   border-radius: 15px;
   padding: 1px 8px;
+}
+
+.common-padding {
+  overflow-y: overlay;
 }
 </style>

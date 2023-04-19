@@ -1,81 +1,89 @@
 <template>
-  <el-tabs v-model="activeName" class="discover-tabs common-padding" @tab-click="handleClick">
-    <el-tab-pane label="个性推荐" name="recommend">
-      <div class="right-main">
-        <div class="right-content">
-          <Recommend />
-        </div>
+  <div style="overflow: hidden; height: 100%; width: 100%;">
+    <div class="discover-tabs common-padding">
+      <div :class="['tab', { 'tab-active': activeName == 'recommend' }]" @click="handleClick('recommend')">
+        个性推荐
       </div>
-    </el-tab-pane>
-    <el-tab-pane label="专属订制" name="customized">Config</el-tab-pane>
-    <el-tab-pane label="歌单" name="playlist">
-      <div class="right-main">
-        <div class="right-content">
-          <SongSheet />
-        </div>
+      <div :class="['tab', { 'tab-active': activeName == 'customized' }]" @click="handleClick('customized')">
+        专属订制
       </div>
-    </el-tab-pane>
-    <el-tab-pane label="排行榜" name="ranking">Task</el-tab-pane>
-    <el-tab-pane label="歌手" name="singer">Task</el-tab-pane>
-    <el-tab-pane label="最新音乐" name="latest">Task</el-tab-pane>
-  </el-tabs>
+      <div :class="['tab', { 'tab-active': activeName == 'playlist' }]" @click="handleClick('playlist')">
+        歌单
+      </div>
+      <div :class="['tab', { 'tab-active': activeName == 'ranking' }]" @click="handleClick('ranking')">
+        排行榜
+      </div>
+      <div :class="['tab', { 'tab-active': activeName == 'singer' }]" @click="handleClick('singer')">
+        歌手
+      </div>
+      <div :class="['tab', { 'tab-active': activeName == 'latest' }]" @click="handleClick('latest')">
+        最新音乐
+      </div>
+    </div>
+    <div class="discover-body">
+      <Recommend v-show="activeName == 'recommend'" />
+      <div v-show="activeName == 'customized'">
+        专属订制
+      </div>
+      <SongSheet v-show="activeName == 'playlist'" />
+      <div v-show="activeName == 'ranking'">
+        排行榜
+      </div>
+      <div v-show="activeName == 'singer'">
+        歌手
+      </div>
+      <div v-show="activeName == 'latest'">
+        最新音乐
+      </div>
+    </div>
+  </div>
 </template>
 <script lang="ts" setup>
 import { ref } from 'vue'
-import type { TabsPaneContext } from 'element-plus'
 import Recommend from './components/Recommend.vue'
 import SongSheet from './components/SongSheet.vue'
 
 const activeName = ref('playlist')
 
-const handleClick = (tab: TabsPaneContext, event: Event) => {
-  // console.log(tab, event)
+const handleClick = (tab: string) => {
+  activeName.value = tab
 }
 </script>
 
 <style lang="less" scoped>
-.el-tabs {
-  width: calc(100% + 30px);
-  height: 100%;
-  overflow: hidden;
-  padding-right: 30px;
-}
+.discover-tabs {
+  display: -webkit-box;
+  font-size: 17px;
+  align-items: flex-end;
+  height: 45px;
+  padding-top: 18px;
+  overflow-x: scroll;
+  overflow-y: hidden;
 
-:deep(.el-tabs__content) {
-  height: calc(100% - 46px);
-  overflow-y: overlay;
-  padding-right: 30px;
-}
+  .tab {
+    margin: 0px 10px;
+    border-bottom-color: rgba(255, 255, 255, 0);
+    border-bottom-width: 3.5px;
+    border-bottom-style: solid;
+  }
 
-:deep(.el-tabs__nav-wrap::after) {
-  background-color: #e4e7ed00;
-}
+  .tab-active {
+    font-weight: 800;
+    transform: scale(1.1);
+    border-bottom-color: var(--primary-color) !important;
+  }
 
-:deep(.el-tabs__header) {
-  margin-bottom: 8px;
-}
-
-
-.right-main {
-  display: flex;
-  justify-content: center;
-
-  .right-content {
-    // background-color: aqua;
-    width: 100%;
-    max-width: 1110px
+  &::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
   }
 }
 
+.discover-body {
+  height: calc(100% - 45px);
 
-@media screen and (max-width: 600px) {
-  .el-tabs {
-    width: calc(100% + 10px);
-    padding-right: 10px;
-  }
-
-  :deep(.el-tabs__content) {
-    padding-right: 10px;
+  div {
+    height: 100%;
   }
 }
 </style>

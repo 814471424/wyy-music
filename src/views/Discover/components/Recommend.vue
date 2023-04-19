@@ -1,41 +1,43 @@
 <template>
-  <div>
-    <el-carousel :interval="4000" class="banner">
-      <el-carousel-item v-for="(item, key) in banners" :key="key">
-        <img class="banner-image" v-lazy="item.imageUrl" alt="">
-        <div class="banner-title" :style="[{ 'background-color': item.titleColor }]">{{ item.typeTitle }}</div>
-      </el-carousel-item>
-    </el-carousel>
-  </div>
-  <div class="playlists">
-
-    <!-- 推荐歌单 -->
-    <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
-    <div class="plays">
-      <div class="plays-item" @click="router.push('daily_song')">
-        <div class="item-img">
-          <img v-lazy="dailybg" alt="">
-          <div class="item-img-text iconfont wyy-a-ziyuan16-copy-copy"></div>
-          <div class="item-img-text" style="font-size: 30px; top: 5px;">{{ date }}</div>
-        </div>
-        <div class="item-text">
-          每日歌曲推荐
-        </div>
-      </div>
-      <div class="plays-item" v-for="(item, key) in playlists" :key="key">
-        <MCover :value="item" @callback="() => { router.push('/playlist/' + item.id) }" />
-      </div>
+  <div class="common-padding">
+    <div>
+      <el-carousel :interval="4000" class="banner">
+        <el-carousel-item v-for="(item, key) in banners" :key="key">
+          <img class="banner-image" v-lazy="item.imageUrl" alt="">
+          <div class="banner-title" :style="[{ 'background-color': item.titleColor }]">{{ item.typeTitle }}</div>
+        </el-carousel-item>
+      </el-carousel>
     </div>
+    <div class="playlists">
 
-    <!-- 热门播客 -->
-    <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div>
-    <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div>
-    <div class="common-title">独家放送<span class="iconfont wyy-xiangyou"></span></div>
-    <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div>
-    <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div>
-    <div class="common-title">推荐MV<span class="iconfont wyy-xiangyou"></span></div>
-    <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
-    <div class="common-title">看看<span class="iconfont wyy-xiangyou"></span></div>
+      <!-- 推荐歌单 -->
+      <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
+      <div class="plays">
+        <div class="plays-item" @click="router.push('daily_song')">
+          <div class="item-img">
+            <img v-lazy="dailybg" alt="">
+            <div class="item-img-text iconfont wyy-a-ziyuan16-copy-copy"></div>
+            <div class="item-img-text" style="font-size: 30px; top: 5px;">{{ date }}</div>
+          </div>
+          <div class="item-text">
+            每日歌曲推荐
+          </div>
+        </div>
+        <div class="plays-item" v-for="(item, key) in playlists" :key="key">
+          <MCover :value="item" @callback="() => { router.push('/playlist/' + item.id) }" />
+        </div>
+      </div>
+
+      <!-- 热门播客 -->
+      <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div>
+      <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div>
+      <div class="common-title">独家放送<span class="iconfont wyy-xiangyou"></span></div>
+      <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div>
+      <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div>
+      <div class="common-title">推荐MV<span class="iconfont wyy-xiangyou"></span></div>
+      <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
+      <div class="common-title">看看<span class="iconfont wyy-xiangyou"></span></div>
+    </div>
   </div>
 </template>
 
@@ -203,6 +205,11 @@ onMounted(async () => {
   &:hover {
     color: #000;
   }
+}
+
+.common-padding {
+  height: 100%;
+  overflow-y: overlay;
 }
 
 
