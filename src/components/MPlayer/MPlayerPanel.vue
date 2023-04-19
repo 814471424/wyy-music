@@ -23,7 +23,14 @@
       <!-- 封面跟歌词部分 -->
       <div class="panel-main-one">
         <!-- 唱片部分 -->
-        <div class="record-black">
+        <div class="record-black" v-show="showStatus" @click="showStatus = !showStatus">
+          <div class="record-black-title">
+            <div class="panel-main-title">{{ songX?.name }}</div>
+            <div class="panel-main-info">
+              <div>歌手: {{ songX?.ar.map(res => res.name).join(' / ') ?? '未知' }}</div>
+              <div>专辑: {{ songX?.al?.name ?? '未知' }}</div>
+            </div>
+          </div>
           <div style="width: 100%;height: 130px;text-align: center;z-index: 1; position: relative"
             :class="[{ 'pause-needle': playStatus == false, 'resume-needle': playStatus == true }]">
             <img :class="['play-needle-img']" src="../../assets/play_needle.png" />
@@ -36,7 +43,7 @@
             </div>
           </div>
         </div>
-        <div class="panel-main-lycs">
+        <div class="panel-main-lycs" v-show="!showStatus" @click="showStatus = !showStatus">
           <div>
             <div class="panel-main-title">{{ songX?.name }}</div>
             <div class="panel-main-info">
@@ -132,6 +139,7 @@ let lycindex = ref(0);
 let wrapper: HTMLElement | null = null;
 let lycsType = ref(lycsTypeEnum.sound)
 let cd: HTMLElement | null = null;
+let showStatus = ref(true); // 歌词或者唱片切换状态
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件
@@ -346,6 +354,28 @@ function changeLycsType(value: lycsTypeEnum) {
             }
           }
         }
+
+        // 唱片上的标题
+        .record-black-title {
+          .panel-main-title {
+            font-size: 23px;
+            margin: 5px 0px;
+            color: #000;
+          }
+
+          .panel-main-info {
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+
+            div {
+              overflow: hidden; // 超出长度的文字隐藏
+              text-overflow: ellipsis; // 文字隐藏以后添加省略号
+              white-space: nowrap; // 强制不换行
+              margin-right: 15px;
+            }
+          }
+        }
       }
 
       .panel-main-lycs {
@@ -534,6 +564,7 @@ function changeLycsType(value: lycsTypeEnum) {
     .panel-main {
       .panel-main-one {
         overflow-x: hidden;
+        overflow-y: hidden;
 
         .record-black {
           .record-in {
@@ -553,10 +584,50 @@ function changeLycsType(value: lycsTypeEnum) {
         }
 
         .panel-main-lycs {
-          display: none;
+          width: 100%;
+          justify-content: space-around;
+          margin-left: 0px;
+
+          .main-lycs {
+            overflow-y: overlay;
+
+            .lycs-type {
+              right: 20px;
+            }
+          }
+
+          .panel-main-title {
+            text-align: center;
+          }
+
+          .panel-main-info {
+            text-align: center;
+            flex-direction: column;
+            align-items: center;
+
+            div {
+              width: 100%;
+            }
+          }
         }
       }
     }
+  }
+}
+
+@media screen and (min-width: 601px) {
+  .record-black {
+    display: block !important;
+
+    .record-black-title {
+      display: none;
+    }
+  }
+
+  .panel-main-lycs {
+    display: flex !important;
+
+    justify-content: space-between;
   }
 }
 </style>

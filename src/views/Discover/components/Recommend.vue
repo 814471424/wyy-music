@@ -18,15 +18,15 @@
         </div>
 
         <!-- 热门播客 -->
-        <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div>
+        <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div>
         <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div>
         <div class="common-title">独家放送<span class="iconfont wyy-xiangyou"></span></div>
         <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div>
-        <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div>
+        <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">推荐MV<span class="iconfont wyy-xiangyou"></span></div>
-        <div v-for="(item, key) in personalizedMvs">{{ item.name }}</div>
-        <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
-        <div class="common-title">看看<span class="iconfont wyy-xiangyou"></span></div>
+        <VideoGridItem :list="personalizedMvs" />
+        <!-- <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
+        <div class="common-title">看看<span class="iconfont wyy-xiangyou"></span></div> -->
       </div>
     </div>
   </div>
@@ -37,6 +37,7 @@ import { Ref, onMounted, ref } from "vue"
 import api from '../../../api/index'
 import dailybg from '../../../assets/dailybg.jpg'
 import SongGridItem from '../../../components/Common/SongGridItem.vue'
+import VideoGridItem from '../../../components/Common/VideoGridItem.vue'
 
 let banners = ref([] as Common.bannerData[]);
 let playlists: Ref<Array<Playlist.playList & { itemType: number }>> = ref([]);
@@ -84,6 +85,7 @@ onMounted(async () => {
   api.PersonalizedMv().then((res) => {
     personalizedMvs.value = res.result ?? []
   })
+
 
   // 听听
 })

@@ -141,19 +141,28 @@ async function refurbishCookie() {
         .container-left {
             width: 200px;
             height: 100%;
-            overflow-y: overlay;
             overflow-x: hidden;
+            overflow-y: hidden;
 
             border-right-color: #e0e0e0;
             border-right-width: 1px;
             border-right-style: solid;
+
+
+
+            &:hover {
+                overflow-y: overlay;
+            }
+
+            &:active {
+                overflow-y: overlay;
+            }
         }
 
         .container-right {
             height: 100%;
             overflow-y: overlay;
             overflow-x: hidden;
-            // flex-grow: 1;
         }
     }
 
@@ -177,6 +186,13 @@ async function refurbishCookie() {
                 top: 0px;
                 visibility: hidden;
                 z-index: 9999;
+
+                overflow-y: overlay;
+
+                &::-webkit-scrollbar {
+                    width: 1px;
+                    height: 1px;
+                }
             }
         }
     }

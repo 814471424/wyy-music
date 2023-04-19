@@ -171,6 +171,7 @@ function getPlayList() {
 
   .common-line-style {
     display: block;
+    margin-top: 20px;
     margin-bottom: 20px;
   }
 

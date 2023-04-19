@@ -1,16 +1,19 @@
 <template>
   <div style="width: 100%; padding-right: 1px; padding-left: 1px;">
     <div class="wrapper">
-      <div class="item" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
-        <img class="background" v-lazy="item.picUrl" alt="">
-        <img class="playIcon" :src="paly_icon" alt="">
-        <div v-if="item.itemType != itemEnumType.dailySong" class="playCount"><span
-            class="iconfont wyy-bofangliang"></span> {{ handlePlayCount((item.playCount ||
-              item.playcount) ?? 0) }}
+      <div v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
+        <div class="item">
+          <img class="background" v-lazy="item.picUrl" alt="">
+          <img class="playIcon" :src="paly_icon" alt="">
+          <div v-if="item.itemType != itemEnumType.dailySong" class="playCount"><span
+              class="iconfont wyy-bofangliang"></span> {{ handlePlayCount((item.playCount ||
+                item.playcount) ?? 0) }}
+          </div>
+          <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text iconfont wyy-a-ziyuan16-copy-copy">
+          </div>
+          <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text" style="font-size: 30px; top: 5px;">{{
+            new Date().getDate() }}</div>
         </div>
-        <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text iconfont wyy-a-ziyuan16-copy-copy"></div>
-        <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text" style="font-size: 30px; top: 5px;">{{
-          new Date().getDate() }}</div>
         <div class="title">
           <div>{{ item.name }}</div>
         </div>
@@ -74,7 +77,6 @@ function itemClick(item: listItem) {
     padding-top: 100%;
     position: relative;
     // background-color: aquamarine;
-    margin-bottom: 40px;
   }
 
   .item .background {
@@ -98,13 +100,13 @@ function itemClick(item: listItem) {
     display: none;
   }
 
-  .item .title {
+  .title {
     width: 100%;
     height: 40px;
-    position: absolute;
     color: #000;
     font-size: 14px;
 
+    // 标题最多两行
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
