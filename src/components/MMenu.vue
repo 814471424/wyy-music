@@ -107,6 +107,10 @@ function getPlayList() {
       border-radius: 5px;
       padding-left: 10px !important;
     }
+
+    .el-menu-item span {
+      line-height: initial;
+    }
   }
 
   .m-menu {

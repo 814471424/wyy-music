@@ -47,10 +47,10 @@
           <div class="other-button lycs-button iconfont wyy-geci"></div>
         </div>
         <div class="play-radio-bar">
-          <div style="margin-right: 5px;">{{ durationToTime(currentTime) }}</div>
+          <div class="radio-time">{{ durationToTime(currentTime) }}</div>
           <el-slider v-model="viedoDuration" size="small" height="120" :show-tooltip=false :max="duration"
             @input="sliderChange" />
-          <div style="margin-left: 5px;">{{ durationToTime(duration) }}</div>
+          <div class="radio-time">{{ durationToTime(duration) }}</div>
         </div>
       </div>
       <div class="right-item">
@@ -244,13 +244,17 @@ function changePlayRules() {
     }
 
     .play-radio-bar {
-      font-size: 5px;
+      font-size: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
 
       div {
         margin: 0px 3px;
+      }
+
+      .radio-time {
+        margin-right: 5px;
       }
     }
   }

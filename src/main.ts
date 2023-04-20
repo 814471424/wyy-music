@@ -21,7 +21,7 @@ createApp(App)
     .use(VueLazyload, {
         preLoad: 1.3,
         loading: loadimage,
-        attempt: 2,
+        attempt: 1,
         lazyComponent: true
     })
     .mount("#app");

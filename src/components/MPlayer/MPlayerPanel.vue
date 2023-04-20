@@ -9,12 +9,12 @@
       <div class="m-player-panel-header-system">
         <div title="设置" class="iconfont wyy-xitongguanli"></div>
         <div title="消息" class="iconfont wyy-youjian_o"></div>
-        <div class="div-no-select">丨</div>
-        <div title="mini模式" class="iconfont wyy-mini"> </div>
-        <div title="最小化" class="iconfont wyy-suoxiao" @click="minimizeMain()"></div>
-        <div v-if="!isMinimize" title="最大化" class="iconfont wyy-CZ_029" @click="maximizeMain()"></div>
-        <div v-else title="向下还原" class="iconfont wyy-huanyuan" @click="unmaximizeMain()"></div>
-        <div title="关闭" class="iconfont wyy-guanbi" @click="closeMain()"></div>
+        <div v-if="tauriResult" class="div-no-select">丨</div>
+        <div v-if="tauriResult" title="mini模式" class="iconfont wyy-mini"> </div>
+        <div v-if="tauriResult" title="最小化" class="iconfont wyy-suoxiao" @click="minimizeMain()"></div>
+        <div v-if="tauriResult && !isMinimize" title="最大化" class="iconfont wyy-CZ_029" @click="maximizeMain()"></div>
+        <div v-if="tauriResult && isMinimize" title="向下还原" class="iconfont wyy-huanyuan" @click="unmaximizeMain()"></div>
+        <div v-if="tauriResult" title="关闭" class="iconfont wyy-guanbi" @click="closeMain()"></div>
       </div>
     </div>
 
@@ -140,6 +140,8 @@ let wrapper: HTMLElement | null = null;
 let lycsType = ref(lycsTypeEnum.sound)
 let cd: HTMLElement | null = null;
 let showStatus = ref(true); // 歌词或者唱片切换状态
+// 判断是否在tauri环境中
+const tauriResult = (window as any).__TAURI__ != undefined;
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件
@@ -277,10 +279,13 @@ function changeLycsType(value: lycsTypeEnum) {
     z-index: 2;
 
     .m-player-panel-header-system {
-      min-width: 250px;
       display: flex;
       align-items: center;
-      justify-content: space-evenly;
+      margin-right: 20px;
+
+      div {
+        margin-left: 15px;
+      }
 
       .div-no-select {
         -webkit-user-select: none;

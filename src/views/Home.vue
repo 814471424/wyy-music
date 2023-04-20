@@ -164,7 +164,7 @@ async function refurbishCookie() {
     .container {
         .container-main {
             .container-left {
-                width: 60%;
+                width: 70%;
                 position: absolute;
                 top: 0px;
                 // visibility: hidden;

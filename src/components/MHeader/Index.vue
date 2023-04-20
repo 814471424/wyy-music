@@ -26,16 +26,16 @@
       </div>
 
       <!-- 右上角各种设置跟窗体操作 -->
-      <div style="display: flex;width: 245px;justify-content: space-between;align-items: center;">
+      <div class="header-button" style="">
         <Theme />
         <div title="设置" class="iconfont wyy-xitongguanli" @click="router.push('/setting')"></div>
         <div title="消息" class="iconfont wyy-youjian_o"></div>
-        <div class="div-no-select">丨</div>
-        <div title="mini模式" class="iconfont wyy-mini" @click="mimiMain()"> </div>
-        <div title="最小化" class="iconfont wyy-suoxiao" @click="minimizeMain()"></div>
-        <div v-if="!isMinimize" title="最大化" class="iconfont wyy-CZ_029" @click="maximizeMain()"></div>
-        <div v-else title="向下还原" class="iconfont wyy-huanyuan" @click="unmaximizeMain()"></div>
-        <div title="关闭" class="iconfont wyy-guanbi" @click="closeMain()"></div>
+        <div v-if="tauriResult" class="div-no-select">丨</div>
+        <div v-if="tauriResult" title="mini模式" class="iconfont wyy-mini" @click="mimiMain()"> </div>
+        <div v-if="tauriResult" title="最小化" class="iconfont wyy-suoxiao" @click="minimizeMain()"></div>
+        <div v-if="tauriResult && !isMinimize" title="最大化" class="iconfont wyy-CZ_029" @click="maximizeMain()"></div>
+        <div v-if="tauriResult && isMinimize" title="向下还原" class="iconfont wyy-huanyuan" @click="unmaximizeMain()"></div>
+        <div v-if="tauriResult" title="关闭" class="iconfont wyy-guanbi" @click="closeMain()"></div>
       </div>
     </div>
   </div>
@@ -54,6 +54,8 @@ import Theme from './Theme.vue'
 let inputText = ref("");
 let isMinimize = ref(false);
 let unlisten: UnlistenFn;
+// 判断是否在tauri环境中
+const tauriResult = (window as any).__TAURI__ != undefined;
 
 
 onMounted(async () => {
@@ -213,6 +215,15 @@ function inputSearch() {
     .iconfont:hover {
       color: #fff;
     }
+
+    .header-button {
+      display: flex;
+      align-items: center;
+
+      div {
+        margin-left: 15px;
+      }
+    }
   }
 }
 
@@ -272,15 +283,15 @@ function inputSearch() {
   }
 }
 
-@media screen and (max-width: 850px) {
-  .header-container {
-    .header-system {
-      .header-user {
-        display: none;
-      }
-    }
-  }
-}
+// @media screen and (max-width: 850px) {
+//   .header-container {
+//     .header-system {
+//       .header-user {
+//         display: none;
+//       }
+//     }
+//   }
+// }
 
 
 @media screen and (max-width: 850px) {

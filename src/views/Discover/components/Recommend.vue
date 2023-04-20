@@ -13,7 +13,7 @@
         <!-- 推荐歌单 -->
         <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
         <div class="plays">
-          <SongGridItem :list="playlists" />
+          <SongGridItemTwo :list="playlists" />
         </div>
         <!-- 热门播客 -->
         <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div> -->
@@ -36,6 +36,7 @@ import { Ref, onMounted, ref } from "vue"
 import api from '../../../api/index'
 import dailybg from '../../../assets/dailybg.jpg'
 import SongGridItem from '../../../components/Common/SongGridItem.vue'
+import SongGridItemTwo from '../../../components/Common/SongGridItemTwo.vue'
 import VideoGridItem from '../../../components/Common/VideoGridItem.vue'
 import VideoGridItemTwo from '../../../components/Common/VideoGridItemTwo.vue'
 

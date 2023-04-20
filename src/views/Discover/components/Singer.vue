@@ -96,30 +96,27 @@ const limit = 30;
 let singerRef: HTMLElement | null = null
 
 onMounted(() => {
-  singerRef = document.getElementById('artist')
-
   update()
 
+  singerRef = document.getElementById('artist')
   singerRef?.addEventListener('scroll', (event) => {
     let clientHeight = singerRef!.clientHeight;
     let scrollHeight = singerRef!.scrollHeight;
     let scrollTop = singerRef!.scrollTop;
-
     let distance = 50;
 
-    console.log('scrollTop + clientHeight: ' + (scrollTop + clientHeight))
-    console.log('(scrollTop + clientHeight): ' + (scrollTop + clientHeight))
     if ((scrollTop + clientHeight) >= (scrollHeight - distance)) {
       update()
     }
-    // console.log('clientHeight:' + clientHeight);
-    // console.log('scrollHeight:' + scrollHeight);
-    // console.log('scrollTop:' + scrollTop);
   })
 })
 
 function update() {
-  if (more && requestStatus) {
+  if (!requestStatus) {
+    return
+  }
+
+  if (more) {
     page += 1;
     requestStatus = false;
 
@@ -132,8 +129,11 @@ function update() {
     }).then(res => {
       artistList.value = [...artistList.value, ...(res.artists ?? [])]
       more = res.more ?? false
-      requestStatus = true
     })
+
+    setTimeout(() => {
+      requestStatus = true
+    }, 500);
   }
 }
 </script>

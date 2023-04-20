@@ -105,7 +105,9 @@ async function getPlaylistDetail() {
   margin-bottom: 40px;
 
   .playlist-cover {
-    width: 180px;
+    width: 30%;
+    min-width: 100px;
+    max-width: 180px;
 
     img {
       width: 100%;
