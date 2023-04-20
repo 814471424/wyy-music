@@ -13,17 +13,17 @@
         <!-- 推荐歌单 -->
         <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
         <div class="plays">
-          <SongGridItemTwo :list="playlists" />
+          <SongGridItemRow :list="playlists" />
         </div>
         <!-- 热门播客 -->
         <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div> -->
         <!-- <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">独家放送<span class="iconfont wyy-xiangyou"></span></div>
-        <VideoGridItemTwo :list="privatecontentList" />
+        <VideoGridItemRow :list="privatecontentList" />
         <!-- <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div> -->
         <!-- <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">推荐MV<span class="iconfont wyy-xiangyou"></span></div>
-        <VideoGridItem :list="personalizedMvs" />
+        <VideoGridItemColumn :list="personalizedMvs" />
         <!-- <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
         <div class="common-title">看看<span class="iconfont wyy-xiangyou"></span></div> -->
       </div>
@@ -35,10 +35,9 @@
 import { Ref, onMounted, ref } from "vue"
 import api from '../../../api/index'
 import dailybg from '../../../assets/dailybg.jpg'
-import SongGridItem from '../../../components/Common/SongGridItem.vue'
-import SongGridItemTwo from '../../../components/Common/SongGridItemTwo.vue'
-import VideoGridItem from '../../../components/Common/VideoGridItem.vue'
-import VideoGridItemTwo from '../../../components/Common/VideoGridItemTwo.vue'
+import SongGridItemRow from '../../../components/Common/SongGridItemRow.vue'
+import VideoGridItemColumn from '../../../components/Common/VideoGridItemColumn.vue'
+import VideoGridItemRow from '../../../components/Common/VideoGridItemRow.vue'
 
 let banners = ref([] as Common.bannerData[]);
 let playlists: Ref<Array<Playlist.playList & { itemType: number }>> = ref([]);

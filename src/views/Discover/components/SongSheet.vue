@@ -98,7 +98,7 @@
         </div>
       </div>
       <div>
-        <SongGridItem :list="list" />
+        <SongGridItemColumn :list="list" />
       </div>
       <div class="search-page">
         <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
@@ -110,7 +110,7 @@
 
 <script lang="ts" setup>
 import { Ref, onMounted, ref, watch } from "vue"
-import SongGridItem from '../../../components/Common/SongGridItem.vue'
+import SongGridItemColumn from '../../../components/Common/SongGridItemColumn.vue'
 import api from '../../../api/index'
 
 let highquality: Ref<null | Playlist.playListDetail> = ref(null);
