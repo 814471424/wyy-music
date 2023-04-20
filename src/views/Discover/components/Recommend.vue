@@ -10,19 +10,18 @@
         </el-carousel>
       </div>
       <div class="playlists">
-
         <!-- 推荐歌单 -->
         <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
         <div class="plays">
           <SongGridItem :list="playlists" />
         </div>
-
         <!-- 热门播客 -->
-        <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div>
-        <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div>
+        <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div> -->
+        <!-- <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">独家放送<span class="iconfont wyy-xiangyou"></span></div>
-        <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div>
-        <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div> -->
+        <VideoGridItemTwo :list="privatecontentList" />
+        <!-- <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div> -->
+        <!-- <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">推荐MV<span class="iconfont wyy-xiangyou"></span></div>
         <VideoGridItem :list="personalizedMvs" />
         <!-- <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
@@ -38,10 +37,12 @@ import api from '../../../api/index'
 import dailybg from '../../../assets/dailybg.jpg'
 import SongGridItem from '../../../components/Common/SongGridItem.vue'
 import VideoGridItem from '../../../components/Common/VideoGridItem.vue'
+import VideoGridItemTwo from '../../../components/Common/VideoGridItemTwo.vue'
 
 let banners = ref([] as Common.bannerData[]);
 let playlists: Ref<Array<Playlist.playList & { itemType: number }>> = ref([]);
 let personalizedMvs: Ref<Array<MV.mvItem>> = ref([]) // 推荐的mv
+let privatecontentList: Ref<Array<MV.privatecontentItem>> = ref([]) // 独家放送(入口列表)
 
 onMounted(async () => {
   // 获取轮播图
@@ -79,10 +80,13 @@ onMounted(async () => {
   // 热门播客
   // 听见好书-新用户免费听
   // 独家放送
+  api.personalizedPrivatecontent().then(res => {
+    privatecontentList.value = (res.result ?? []).map(v => { v.picUrl = v.sPicUrl; v.copywriter = ''; return v })
+  })
   // 最新音乐
   // 主题播客
   // 推荐MV
-  api.PersonalizedMv().then((res) => {
+  api.personalizedMv().then((res) => {
     personalizedMvs.value = res.result ?? []
   })
 

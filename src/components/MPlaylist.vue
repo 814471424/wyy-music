@@ -1,6 +1,6 @@
 <!-- 播放列表 -->
 <template>
-  <div id="showButton" class="right-item-data iconfont wyy-bofangliebiao" title="打开播放列表"></div>
+  <div id="showButton" class="right-item-data iconfont wyy-bofangliebiao" :title="title"></div>
   <!-- 要隐藏的div -->
   <div id="showDiv" :class="[{ 'dialog-enter-active': show }, { 'dialog-leave-active': !show }]">
     <div class="palylist-header">
@@ -57,11 +57,9 @@ onMounted(() => {
 
   bt?.addEventListener('click', function (event) {
     if (show.value) {
-      div!.style.display = 'none';
       title.value = '打开播放列表';
       show.value = false;
     } else {
-      div!.style.display = 'block';
       title.value = '关闭播放列表';
       show.value = true;
     }
@@ -71,7 +69,6 @@ onMounted(() => {
   document.addEventListener('click', function (event) {
     if (!document.getElementById('showButton')?.contains(event.target as HTMLElement)) {
       title.value = '打开播放列表';
-      div!.style.display = 'none';//隐藏
       show.value = false;
     }
   });
@@ -84,7 +81,6 @@ onMounted(() => {
 </script>
 <style lang="less" scoped>
 #showDiv {
-  display: none;
   top: 60px;
   height: calc(100vh - 133px);
   width: 420px;
@@ -140,26 +136,12 @@ onMounted(() => {
 }
 
 .dialog-enter-active {
-  animation: dialog-active 0.5s;
+  transition: all 0.5s;
+  transform: translateX(0px);
 }
 
 .dialog-leave-active {
-  animation: dialog-active 0.5s reverse;
-}
-
-@keyframes dialog-active {
-  0% {
-    transform: translateX(420px);
-  }
-
-  100% {
-    transform: translateX(0px);
-  }
-}
-
-@media screen and (max-width: 600px) {
-  #showDiv {
-    width: 100%;
-  }
+  transition: all 0.5s;
+  transform: translateX(100%);
 }
 </style>

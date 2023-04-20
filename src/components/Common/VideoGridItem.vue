@@ -1,17 +1,19 @@
+<!-- mv播放列表的第二个效果 -->
+<!-- 手机端显示全部多个换行 -->
 <template>
   <div style="width: 100%; padding-right: 1px; padding-left: 1px;">
     <div class="wrapper">
       <div v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
         <div class="item">
           <img class="background" v-lazy="item.picUrl" alt="">
-          <div class="playCount"><span class="iconfont wyy-bofangliang"></span>
+          <div v-if="item.playCount" class="playCount"><span class="iconfont wyy-bofangliang"></span>
             {{ handlePlayCount(item.playCount ?? 0) }}
           </div>
-          <div class="copywriter">{{ item.copywriter }}</div>
+          <div v-if="item.copywriter" class="copywriter">{{ item.copywriter }}</div>
         </div>
         <div class="title">
           <div class="name">{{ item.name }}</div>
-          <div class="artists-name">{{ item.artists.map(v => v.name).join(' / ') }}</div>
+          <div v-if="item.artists" class="artists-name">{{ item.artists.map(v => v.name).join(' / ') }}</div>
         </div>
       </div>
     </div>
@@ -20,18 +22,24 @@
 
 <script lang="ts" setup>
 import { onMounted } from 'vue';
-import paly_icon from '../../assets/paly_icon.png'
 import { handlePlayCount } from '../../utils/handle'
-import router from '../../router';
+
+type item = {
+  name: string
+  copywriter: string
+  picUrl: string
+  playCount?: number
+  artists?: Array<{ name: string }>
+}
 
 let props = defineProps<{
-  list: MV.mvItem[]
+  list: item[]
 }>()
 
 onMounted(async () => {
 })
 
-function itemClick(item: MV.mvItem) {
+function itemClick(item: item) {
   console.log(item)
 }
 </script>
@@ -116,8 +124,10 @@ function itemClick(item: MV.mvItem) {
     border-top-right-radius: 5px;
     box-sizing: border-box;
 
-    display: none;
-    animation: dialog-active 0.5s;
+
+    transition: all 0.5s;
+    // animation-direction: reverse;
+    transform: translateY(-100%);
   }
 
   .item:hover {
@@ -126,7 +136,9 @@ function itemClick(item: MV.mvItem) {
     }
 
     .copywriter {
-      display: block;
+      // animation: dialog-active 0.5s;
+      // animation-direction: unset;
+      transform: translateY(0px);
     }
   }
 }
@@ -139,6 +151,16 @@ function itemClick(item: MV.mvItem) {
 
   100% {
     transform: translateY(0px);
+  }
+}
+
+@keyframes dialog-leave {
+  0% {
+    transform: translateY(0px);
+  }
+
+  100% {
+    transform: translateY(-100%);
   }
 }
 

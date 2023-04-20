@@ -30,7 +30,7 @@
         排行榜
       </div>
       <div v-show="activeName == 'singer'">
-        歌手
+        <Singer />
       </div>
       <div v-show="activeName == 'latest'">
         最新音乐
@@ -42,6 +42,7 @@
 import { ref } from 'vue'
 import Recommend from './components/Recommend.vue'
 import SongSheet from './components/SongSheet.vue'
+import Singer from './components/Singer.vue'
 
 const activeName = ref('recommend')
 
@@ -63,7 +64,8 @@ const handleClick = (tab: string) => {
   overflow-y: hidden;
 
   .tab {
-    margin: 0px 10px;
+    // margin: 0px 10px;
+    margin-right: 20px;
     border-bottom-color: rgba(255, 255, 255, 0);
     border-bottom-width: 2px;
     border-bottom-style: solid;

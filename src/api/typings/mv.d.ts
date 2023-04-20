@@ -16,4 +16,16 @@ declare namespace MV {
         artistId: number
         alg: string
     }
+
+    // 独家放送(入口列表)详细字段
+    export interface privatecontentItem {
+        id: number
+        url: string
+        picUrl: string
+        sPicUrl: string
+        type: number
+        copywriter: string
+        name: string
+        alg: string
+    }
 }

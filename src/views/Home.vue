@@ -64,11 +64,6 @@ onMounted(async () => {
     document.addEventListener('click', (event) => {
         if (!document.getElementById('kaiqiDemo')?.contains(event.target as HTMLElement)) {
             leftStatus.value = false
-            setTimeout(() => {
-                if (leftRef.value) {
-                    leftRef.value.style.visibility = 'hidden'
-                }
-            }, 400);
         }
     })
 
@@ -78,18 +73,6 @@ onMounted(async () => {
 })
 
 function showLeftContainer() {
-    if (!leftStatus.value) {
-        if (leftRef.value) {
-            leftRef.value.style.visibility = 'visible'
-        }
-    } else {
-        setTimeout(() => {
-            if (leftRef.value) {
-                leftRef.value.style.visibility = 'hidden'
-            }
-        }, 400);
-    }
-
     leftStatus.value = !leftStatus.value
 }
 
@@ -184,7 +167,7 @@ async function refurbishCookie() {
                 width: 60%;
                 position: absolute;
                 top: 0px;
-                visibility: hidden;
+                // visibility: hidden;
                 z-index: 9999;
 
                 overflow-y: overlay;
@@ -207,10 +190,12 @@ async function refurbishCookie() {
     }
 
     .left-enter-active {
+        transform: translateX(0px);
         animation: dialog-active 0.5s;
     }
 
     .left-leave-active {
+        transform: translateX(-100%);
         animation: leave-active 0.5s;
     }
 
@@ -238,7 +223,7 @@ async function refurbishCookie() {
 @media screen and (min-width: 600px) {
     .container-left {
         width: 200px;
-        visibility: visible !important;
+        transform: translateX(0px) !important;
     }
 
     .container-right {
