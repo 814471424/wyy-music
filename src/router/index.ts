@@ -12,7 +12,6 @@ import Artist from '../views/Artist/Index.vue'
 import Setting from '../views/Setting/Index.vue'
 import Album from '../views/Album.vue'
 import Home from '../views/Home.vue'
-import HomeOld from '../views/HomeOld.vue'
 
 const routes: RouteRecordRaw[] = [
     {
