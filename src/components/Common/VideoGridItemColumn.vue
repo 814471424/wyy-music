@@ -5,7 +5,7 @@
     <div class="wrapper">
       <div v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
         <div class="item">
-          <img class="background" v-lazy="item.picUrl" alt="">
+          <img class="background" v-lazy="item.picUrl" alt="" :key="item.picUrl">
           <div v-if="item.playCount" class="playCount"><span class="iconfont wyy-bofangliang"></span>
             {{ handlePlayCount(item.playCount ?? 0) }}
           </div>

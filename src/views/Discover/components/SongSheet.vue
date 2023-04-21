@@ -6,7 +6,7 @@
         v-if="highquality">
         <div class="highquality-content">
           <div class="highquality-image">
-            <img v-lazy="highquality.coverImgUrl" alt="">
+            <img v-lazy="highquality.coverImgUrl" alt="" :key="highquality.coverImgUrl">
           </div>
           <div>
             <div class="highquality-icon">精品歌单</div>

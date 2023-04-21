@@ -13,7 +13,8 @@
       <!-- 歌曲图片 -->
       <div v-if="musicUrl" class="left-item">
         <div class="bg" @click="showDrawer">
-          <img v-lazy="songX?.al?.picUrl || ''" alt="" style="width: 100%; height: 100%; border-radius: 5px;">
+          <img v-lazy="songX?.al?.picUrl || ''" :key="songX?.al?.picUrl || ''" alt=""
+            style="width: 100%; height: 100%; border-radius: 5px;">
         </div>
         <div class="left-content">
           <div> {{ songX?.name ?? "未知歌名" }}</div>

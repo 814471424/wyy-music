@@ -5,7 +5,7 @@
     <div class="grid-item-two">
       <div v-for="(item, key) in props.list" class="item-detail" :key="key">
         <div class="item">
-          <img class="background" v-lazy="item.picUrl" alt="">
+          <img class="background" v-lazy="item.picUrl" alt="" :key="item.picUrl">
         </div>
         <div class="title">
           <div class="name">{{ item.name }}</div>

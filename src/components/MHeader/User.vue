@@ -1,7 +1,7 @@
 <template>
   <div v-if="profile" class="user">
     <div ref="showUserButtonRef" class="header-system-login" @click="showPanel">
-      <img class="header-user-image" v-lazy="profile?.avatarUrl" alt="">
+      <img class="header-user-image" v-lazy="profile?.avatarUrl" alt="" :key="profile?.avatarUrl">
       <div class="header-user-text">{{ profile?.nickname }}</div>
       <span class="header-user-image iconfont wyy-xiangxia"></span>
     </div>

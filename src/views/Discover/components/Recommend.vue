@@ -4,7 +4,7 @@
       <div>
         <el-carousel :interval="4000" class="banner">
           <el-carousel-item v-for="(item, key) in banners" :key="key">
-            <img class="banner-image" v-lazy="item.imageUrl" alt="">
+            <img class="banner-image" v-lazy="item.imageUrl" alt="" :key="item.imageUrl">
             <div class="banner-title" :style="[{ 'background-color': item.titleColor }]">{{ item.typeTitle }}</div>
           </el-carousel-item>
         </el-carousel>

@@ -3,7 +3,7 @@
     <div class="wrapper">
       <div class="item-detail" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
         <div class="item">
-          <img class="background" v-lazy="item.picUrl" alt="">
+          <img class="background" v-lazy="item.picUrl" alt="" :key="item.picUrl">
           <img class="playIcon" :src="paly_icon" alt="">
           <div v-if="item.itemType != itemEnumType.dailySong" class="playCount"><span
               class="iconfont wyy-bofangliang"></span> {{ handlePlayCount((item.playCount ||

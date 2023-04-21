@@ -3,7 +3,7 @@
   <div class="item-list">
     <div v-for="(item, key) in props.list" :key="key">
       <div class="item">
-        <img class="background" v-lazy="item.picUrl" alt="">
+        <img class="background" v-lazy="item.picUrl" alt="" :key="item.picUrl">
       </div>
       <div class="title">{{ item.name }}</div>
     </div>

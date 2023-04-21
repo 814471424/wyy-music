@@ -2,7 +2,7 @@
   <div class="common-padding" style="width: 100%; height: 100%; box-sizing: border-box;">
     <div class="playlist">
       <div class="playlist-cover">
-        <img v-lazy="albumDetail?.picUrl" alt="">
+        <img v-lazy="albumDetail?.picUrl" alt="" :key="albumDetail?.picUrl">
       </div>
       <div class="playlist-info">
         <div>
