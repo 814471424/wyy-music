@@ -1,15 +1,17 @@
 <template>
-  <div id="settingButton" class="setting" @click="show">
-    <span class="setting-icon iconfont wyy-zhuti-04"></span>
-  </div>
-  <div id="showSettingPanel" :style="[{ display: showState ? 'block' : 'none' }]">
-    <input type="color" v-model="color">
+  <div class="theme">
+    <div id="settingButton" class="setting" @click="show">
+      <span class="setting-icon iconfont wyy-zhuti-04"></span>
+    </div>
+    <div id="showSettingPanel" :style="[{ display: showState ? 'block' : 'none' }]">
+      <input type="color" v-model="color">
+    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue';
-import Theme, { LightDarkenColor } from '../../utils/theme';
+import Theme from '../../utils/theme';
 
 let showPane: HTMLElement | null = null;
 let showState = ref(false)
@@ -40,15 +42,26 @@ function show() {
 </script>
 
 <style lang="less" scoped>
+.theme {
+  position: relative;
+
+}
+
+
+.setting {
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  min-height: 60px;
+}
+
 #showSettingPanel {
-  // display: none;
-  width: 330px;
-  height: 270px;
+  width: 160px;
+  height: 150px;
   background: cadetblue;
-  position: fixed;
+  position: absolute;
+  right: -80px;
   z-index: 2004;
-  top: 60px;
-  right: 90px;
   border-radius: 5px;
 }
 

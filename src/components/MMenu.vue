@@ -161,11 +161,11 @@ function getPlayList() {
       justify-content: space-evenly;
     }
 
-    :deep(#showUserButton) {
+    :deep(.showUserButton) {
       justify-content: space-evenly;
     }
 
-    :deep(#showUserPanel) {
+    :deep(.showUserPanel) {
       display: block !important;
       position: unset;
       width: 100%;

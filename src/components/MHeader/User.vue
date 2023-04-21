@@ -1,11 +1,11 @@
 <template>
-  <div v-if="profile">
-    <div id="showUserButton" class="header-system-login" @click="showPanel">
+  <div v-if="profile" class="user">
+    <div ref="showUserButtonRef" class="header-system-login" @click="showPanel">
       <img class="header-user-image" v-lazy="profile?.avatarUrl" alt="">
       <div class="header-user-text">{{ profile?.nickname }}</div>
       <span class="header-user-image iconfont wyy-xiangxia"></span>
     </div>
-    <div id="showUserPanel" :style="[{ display: showState ? 'block' : 'none' }]">
+    <div ref="showPaneRef" class="showUserPanel" :style="[{ display: showState ? 'block' : 'none' }]">
       <div class="panel-content">
         <div class="common-info" style="display: flex; justify-content: space-around;">
           <div class="common-info-item">
@@ -22,8 +22,8 @@
           </div>
         </div>
         <!-- 签到按钮 -->
-        <div class="signin" @click="signin">
-          <div v-if="!todaySignedIn" class="signin-button signin-button-black">签到</div>
+        <div class="signin">
+          <div v-if="!todaySignedIn" @click="signin" class="signin-button signin-button-black">签到</div>
           <div v-else class="signin-button">已签到</div>
         </div>
 
@@ -50,7 +50,7 @@
 import { storeToRefs } from 'pinia'
 import { useUserStore } from '../../store/user'
 import Windows from '../../windows/Windows';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted, ref, Ref } from 'vue';
 import api from '../../api/index'
 import router from '../../router/index'
 import { WebviewWindow, } from '@tauri-apps/api/window'
@@ -58,13 +58,44 @@ import { UnlistenFn } from '@tauri-apps/api/event';
 
 let userStore = useUserStore();
 const { profile, cookie } = storeToRefs(userStore);
-let showPane: HTMLElement | null = null
+let showPaneRef: Ref<HTMLElement | null> = ref(null);
+let showUserButtonRef: Ref<HTMLElement | null> = ref(null);
 let showState = ref(false)
 let unlistenClose: UnlistenFn | undefined;
 let todaySignedIn = ref(false); //  签到状态
 let followCount = ref(0);
 let fans = ref(0);
 let trends = ref(0);
+
+onMounted(async () => {
+  // 如果存在cookie，更新用户信息
+  if (cookie) {
+    api.userAccount().then(res => {
+      userStore.setUserInfo(res.profile)
+    })
+  }
+
+  // 用户面板相关操作
+  document.addEventListener('click', (event) => {
+    console.log(event.target);
+    console.log(showUserButtonRef.value);
+    if (!showUserButtonRef.value?.contains(event.target as HTMLElement)) {
+      showState.value = false
+    }
+  })
+  showPaneRef.value?.addEventListener('click', (event) => {
+    event.stopPropagation()
+  })
+
+  // 适配手机端(手机端面板不是主动触发的，这个事件无法完成)
+  update()
+})
+
+onUnmounted(() => {
+  document.removeEventListener('click', () => { });
+  showPaneRef.value = null;
+  unlistenClose ? unlistenClose() : null;
+})
 
 // 显示登录页面
 async function showLogin() {
@@ -145,34 +176,7 @@ function update() {
   })
 }
 
-onMounted(async () => {
-  // 如果存在cookie，更新用户信息
-  if (cookie) {
-    api.userAccount().then(res => {
-      userStore.setUserInfo(res.profile)
-    })
-  }
 
-  // 用户面板相关操作
-  showPane = document.getElementById('showUserPanel')
-  document.addEventListener('click', (event) => {
-    if (!document.getElementById('showUserButton')?.contains(event.target as HTMLElement)) {
-      showState.value = false
-    }
-  })
-  showPane?.addEventListener('click', (event) => {
-    event.stopPropagation()
-  })
-
-  // 适配手机端(手机端面板不是主动触发的，这个事件无法完成)
-  update()
-})
-
-onUnmounted(() => {
-  document.removeEventListener('click', () => { });
-  showPane = null;
-  unlistenClose ? unlistenClose() : null;
-}) 
 </script>
 
 <style lang="less" scoped>
@@ -180,6 +184,7 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   font-size: 10px;
+  min-height: 60px;
 
   .header-user-image {
     font-size: 28px;
@@ -195,12 +200,15 @@ onUnmounted(() => {
   }
 }
 
-#showUserPanel {
+.user {
+  position: relative;
+}
+
+.showUserPanel {
   width: 280px;
   display: none;
   position: absolute;
-  top: 60px;
-  right: 220px;
+  left: -50%;
   z-index: 2004;
   padding: 15px 0px 5px 0px;
   box-sizing: border-box;
