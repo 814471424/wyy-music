@@ -25,6 +25,6 @@ export function artistList(params: {
     type?: string,
     area?: string,
     initial?: string
-}): Promise<responseData & { artists: any[], more?: boolean }> {
+}): Promise<responseData & { artists: Search.artist[], more?: boolean }> {
     return request.get('artist/list', { params });
 }

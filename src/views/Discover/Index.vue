@@ -30,7 +30,7 @@
         排行榜
       </div>
       <div v-show="activeName == 'singer'">
-        <Singer />
+        <Artist />
       </div>
       <div v-show="activeName == 'latest'">
         最新音乐
@@ -42,7 +42,7 @@
 import { ref } from 'vue'
 import Recommend from './components/Recommend.vue'
 import SongSheet from './components/SongSheet.vue'
-import Singer from './components/Singer.vue'
+import Artist from './components/Artist.vue'
 
 const activeName = ref('recommend')
 

@@ -83,7 +83,8 @@ onMounted(() => {
 #showDiv {
   top: 60px;
   height: calc(100vh - 133px);
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
   background-color: #fff;
   right: 0px;
   position: fixed;

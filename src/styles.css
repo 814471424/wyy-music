@@ -40,17 +40,6 @@ body {
   background-color: rgba(181, 164, 164, 0);
 }
 
-.div-no-select {
-  -webkit-user-select: none;
-  /* 禁止 DIV 中的文本被鼠标选中 */
-  -moz-user-select: none;
-  /* 禁止 DIV 中的文本被鼠标选中 */
-  -ms-user-select: none;
-  /* 禁止 DIV 中的文本被鼠标选中 */
-  user-select: none;
-  /* 禁止 DIV 中的文本被鼠标选中 */
-}
-
 /* 单个禁用太多了，考虑到基本都是不需要选中 */
 body {
   -webkit-user-select: none;
@@ -63,9 +52,27 @@ body {
   /* 禁止 DIV 中的文本被鼠标选中 */
 }
 
+.div-no-select {
+  -webkit-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  -moz-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  -ms-user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+  user-select: none;
+  /* 禁止 DIV 中的文本被鼠标选中 */
+}
+
+
 .common-padding {
   padding: 10px 30px 0px 30px;
   box-sizing: border-box;
+}
+
+@media screen and (max-width: 600px) {
+  .common-padding {
+    padding: 10px 10px 0px 10px;
+  }
 }
 
 .common-line-style {
@@ -79,22 +86,9 @@ body {
   border-radius: 15px;
 }
 
-@media screen and (max-width: 600px) {
-  .common-padding {
-    padding: 10px 10px 0px 10px;
-  }
-}
-
 /**
  * ====================全局样式相关设置===================
  */
-body {
-  background-color: #fff;
-  background-size: cover;
-  object-fit: cover;
-  /* min-width: 1000px; */
-}
-
 .el-menu {
   background-color: transparent;
 }
@@ -115,19 +109,6 @@ body {
   background-color: transparent;
 }
 
-
-/* 
-.common-layout {
-  background-color: #ffffff87;
-}
-.common-header {
-  background-color: transparent;
-}
-body {
-  background-image: url('https://img.zcool.cn/community/0121bd578059b60000018c1b20c4c0.jpg@2o.jpg');
-} */
-
-
 /* 全局主题 */
 :root {
   /* 主题主要颜色 */
@@ -136,6 +117,10 @@ body {
   --primary-text-color: #ec4141;
   /* 主题背景色深 */
   --primary-background-color: #e33e3e;
+  /* 主要背景颜色 */
+  --left-background-color: #fff;
+  --right-background-color: #fff;
+  --footer-background-color: #fff;
   /* --primary-hover-color: hsl(0, 75%, 57%);
   --primary-active-color: #e33e3e;
   --primary-shadow-color: #e33e3e; */
@@ -160,10 +145,44 @@ body {
   background-color: var(--primary-color);
 }
 
+body {
+  background-color: #ffffff;
+  background-size: cover;
+  object-fit: cover;
+  background-image: url('https://img.zcool.cn/community/0121bd578059b60000018c1b20c4c0.jpg@2o.jpg');
+
+
+}
+
 .container-header {
   background-color: var(--primary-color);
 }
 
 .container-left {
-  background-color: #fff;
+  background-color: var(--left-background-color);
 }
+
+.container-right {
+  background-color: var(--right-background-color);
+}
+
+.container-footer {
+  background-color: var(--footer-background-color);
+}
+
+/* 
+.container-left::before {
+  content: "";
+  width: calc(100% + 40px);
+  height: calc(100% + 100px);
+  display: block;
+  position: absolute;
+  left: -20px;
+  top: -10px;
+  background: inherit;
+  box-shadow: inset 0 0 200px rgba(255, 255, 255, 0.25);
+  filter: blur(6px);
+  overflow: hidden;
+  border-radius: 14px;
+  z-index: -1;
+} */

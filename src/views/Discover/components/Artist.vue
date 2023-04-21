@@ -4,8 +4,8 @@
       <div class="field">
         <div class="field-name">语种:</div>
         <div class="field-item">
-          <div :class="{ 'common-item-active': item.value == checkArtistType }" v-for="(item, key) in artistArea"
-            :key="key">
+          <div @click="checkArtistArea = item.value" :class="{ 'common-item-active': item.value == checkArtistArea }"
+            v-for="(item, key) in artistArea" :key="key">
             {{ item.name }}
           </div>
         </div>
@@ -13,30 +13,32 @@
       <div class="field">
         <div class="field-name">分类:</div>
         <div class="field-item">
-          <div :class="{ 'common-item-active': item.value == checkArtistArea }" v-for="(item, key) in artistType"
-            :key="key">
+          <div @click="checkArtistType = item.value" :class="{ 'common-item-active': item.value == checkArtistType }"
+            v-for="(item, key) in artistType" :key="key">
             {{ item.name }}</div>
         </div>
       </div>
       <div class="field">
         <div class="field-name">筛选:</div>
         <div class="field-item">
-          <div :class="{ 'common-item-active': item.value == checkArtistInitial }" v-for="(item, key) in artistInitial"
+          <div @click="checkArtistInitial = item.value"
+            :class="{ 'common-item-active': item.value == checkArtistInitial }" v-for="(item, key) in artistInitial"
             :key="key">
             {{ item.name }}</div>
         </div>
       </div>
 
       <div class="artist-body">
-        <div v-for="(item, key) in artistList" :key="key">{{ key }}</div>
+        <squareGridItemRow :list="artistList" />
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Ref, onMounted, ref } from "vue"
+import { Ref, onMounted, ref, watch } from "vue"
 import api from '../../../api/index'
+import squareGridItemRow from '../../../components/Common/squareGridItemRow.vue'
 
 // 语种
 const artistType = [
@@ -48,8 +50,8 @@ const artistType = [
 // 分类
 const artistArea = [
   { value: '-1', name: '全部' },
-  { value: '7', name: '欧美' },
-  { value: '96', name: '女歌手' },
+  { value: '7', name: '华语' },
+  { value: '96', name: '欧美' },
   { value: '8', name: '日本' },
   { value: '16', name: '韩国' },
   { value: '0', name: '其他' }
@@ -83,7 +85,7 @@ const artistInitial = [
   { value: 's', name: 'S' },
   { value: 'y', name: 'Y' },
   { value: 'z', name: 'Z' },
-  { value: 0, name: '#' }
+  { value: '0', name: '#' }
 ]
 let checkArtistType = ref('-1');
 let checkArtistArea = ref('-1');
@@ -95,6 +97,15 @@ let page = 0;
 const limit = 30;
 let singerRef: HTMLElement | null = null
 
+watch([checkArtistType, checkArtistArea, checkArtistInitial], ([_type, _area, _initial]) => {
+  page = 0;
+  more = true
+  requestStatus = true
+  artistList.value = []
+
+  update()
+})
+
 onMounted(() => {
   update()
 
@@ -103,7 +114,7 @@ onMounted(() => {
     let clientHeight = singerRef!.clientHeight;
     let scrollHeight = singerRef!.scrollHeight;
     let scrollTop = singerRef!.scrollTop;
-    let distance = 50;
+    let distance = 30;
 
     if ((scrollTop + clientHeight) >= (scrollHeight - distance)) {
       update()
