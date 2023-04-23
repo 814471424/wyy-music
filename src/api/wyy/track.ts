@@ -45,3 +45,18 @@ export function getLyric(
 ): Promise<responseData & Common.lrc> {
     return request.get('/lyric', { params: { id } })
 }
+
+/**
+ * 新歌速递
+ * 说明 : 调用此接口 , 可获取新歌速递
+ * @param {number} type - 地区类型 id, 对应以下: 全部:0 华语:7 欧美:96 日本:8 韩国:16
+ */
+export function topSong(
+    type: number | string = 0
+): Promise<responseData & { data: Search.song[] }> {
+    return request.get('/top/song', {
+        params: {
+            type,
+        }
+    });
+}

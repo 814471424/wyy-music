@@ -29,7 +29,7 @@
       </div>
 
       <div class="artist-body">
-        <squareGridItemRow :list="artistList" />
+        <SquareGridItemRow :list="artistList" />
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { Ref, onMounted, ref, watch } from "vue"
 import api from '../../../api/index'
-import squareGridItemRow from '../../../components/Common/squareGridItemRow.vue'
+import SquareGridItemRow from '../../../components/Common/SquareGridItemRow.vue'
 
 // 语种
 const artistType = [

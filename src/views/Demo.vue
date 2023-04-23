@@ -1,40 +1,31 @@
 <template>
-  <div
-    style="background: url(https://img2.baidu.com/it/u=1622322099,1148802506&fm=253&fmt=auto&app=138&f=JPEG?w=691&h=500) fixed no-repeat;">
-    <div class="boli">
-      <div>dddddddddddddddd</div>
-    </div>
+  <div class="demo" style="">
+    <TableOne :list="list" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import squareGridItemRow from '../components/Common/squareGridItemRow.vue'
+import { onMounted, ref, Ref } from 'vue';
+import TableOne from '../components/Common/TableOne.vue'
+import api from '../api/index'
+
+let list: Ref<any[]> = ref([])
+
+onMounted(() => {
+  api.topSong().then(res => {
+    list.value = res.data
+  })
+})
 
 </script>
 
 <style lang="less" scoped>
-.boli {
-  width: 300px;
-  height: 300px;
-  position: absolute;
-  background: inherit;
-  overflow: overlay;
-  z-index: 100;
-}
-
-.boli::before {
-  content: "";
-  width: calc(100% + 20px);
-  height: calc(100% + 20px);
-  display: block;
-  position: absolute;
-  left: -10px;
-  top: -10px;
-  background: inherit;
-  box-shadow: inset 0 0 200px rgba(255, 255, 255, 0.25);
-  filter: blur(6px);
+.demo {
   overflow: hidden;
-  border-radius: 14px;
-  z-index: -1;
+  overflow-y: overlay;
+  width: 100%;
+  height: 100%;
+  // background-image: url('https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fc-ssl.duitang.com%2Fuploads%2Fitem%2F201502%2F05%2F20150205121433_iGBik.jpeg&refer=http%3A%2F%2Fc-ssl.duitang.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1684805654&t=0376c5bdc24c761654bffbc72a10ba16');
+  background-repeat: round;
 }
 </style>

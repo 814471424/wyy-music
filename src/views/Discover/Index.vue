@@ -21,19 +21,19 @@
       </div>
     </div>
     <div class="discover-body">
-      <Recommend v-show="activeName == 'recommend'" />
-      <div v-show="activeName == 'customized'">
+      <Recommend v-if="activeName == 'recommend'" />
+      <div v-if="activeName == 'customized'">
         专属订制
       </div>
-      <SongSheet v-show="activeName == 'playlist'" />
-      <div v-show="activeName == 'ranking'">
+      <SongSheet v-if="activeName == 'playlist'" />
+      <div v-if="activeName == 'ranking'">
         排行榜
       </div>
-      <div v-show="activeName == 'singer'">
+      <div v-if="activeName == 'singer'">
         <Artist />
       </div>
-      <div v-show="activeName == 'latest'">
-        最新音乐
+      <div v-if="activeName == 'latest'">
+        <TopSong />
       </div>
     </div>
   </div>
@@ -43,6 +43,7 @@ import { ref } from 'vue'
 import Recommend from './components/Recommend.vue'
 import SongSheet from './components/SongSheet.vue'
 import Artist from './components/Artist.vue'
+import TopSong from './components/TopSong.vue'
 
 const activeName = ref('recommend')
 
