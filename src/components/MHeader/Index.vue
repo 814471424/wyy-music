@@ -3,9 +3,10 @@
     <!-- 网易云图标搜索部分 -->
 
     <div class="header-ico-search">
-      <div class="header-ico" @click="() => router.push('/discover')" data-tauri-drag-region="true">
-        <span class="iconfont wyy-wangyiyunyinle1" data-tauri-drag-region="true">
-        </span>网易云音乐
+      <div class="header-ico" data-tauri-drag-region="true">
+        <span class="iconfont wyy-wangyiyunyinle1" @click="() => router.push('/discover')">
+        </span>
+        <div @click="() => router.push('/discover')">网易云音乐</div>
       </div>
 
       <!-- 搜索 -->
@@ -46,7 +47,7 @@ import { onMounted, onUnmounted, ref } from 'vue';
 import Windows from '../../windows/Windows'
 import { Search } from '@element-plus/icons-vue'
 import { WebviewWindow, appWindow } from '@tauri-apps/api/window'
-import { UnlistenFn, listen } from '@tauri-apps/api/event'
+import { UnlistenFn, } from '@tauri-apps/api/event'
 import User from './User.vue'
 import router from '../../router/index'
 import Theme from './Theme.vue'

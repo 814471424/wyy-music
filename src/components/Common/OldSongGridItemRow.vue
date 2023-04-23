@@ -11,8 +11,9 @@
           </div>
           <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text iconfont wyy-a-ziyuan16-copy-copy">
           </div>
-          <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text" style="font-size: 30px; top: 5px;">{{
-            new Date().getDate() }}</div>
+          <div v-if="item.itemType == itemEnumType.dailySong" class="item-img-text" style="font-size: 30px; top: 5px;">
+            {{ new Date().getDate() }}
+          </div>
         </div>
         <div class="title">
           <div>{{ item.name }}</div>

@@ -57,14 +57,14 @@ let dailySongs = ref([] as Playlist.dailySong[]);
 let date = new Date().getDate()
 
 function tableDbClick(row: Playlist.dailySong) {
-  playOne({ ...row, songType: 'daily_song' })
+  playOne({ ...row, songType: 'dailySong' })
   // playListStore.removeOne(row.id);
 }
 
 // 全部添加到播放列表
 function playAll() {
   let list = dailySongs.value.map(v => {
-    return { ...v, songType: 'daily_song' }
+    return { ...v, songType: 'dailySong' }
   }) as Common.songX[];
 
   playListStore.replaceAll(list);

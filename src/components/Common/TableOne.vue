@@ -1,7 +1,7 @@
 <template>
   <div class="table-item" v-for="(item, key) in props.list" :key="key">
     <div class="table-index">{{ key < 9 ? '0' + (key + 1) : key + 1 }}</div>
-        <div class="table-image">
+        <div class="table-image" @click="play(item)">
           <img class="table-background" v-lazy="item.album.picUrl" alt="">
           <img class="paly_icon" :src="paly_icon" alt="">
         </div>
@@ -15,10 +15,15 @@
 <script lang="ts" setup>
 import paly_icon from '../../assets/paly_icon.png'
 import { millisecondToTime } from '../../utils/time'
+import { playOne } from '../../utils/player'
 
 const props = defineProps<{
   list: Search.song[]
 }>();
+
+function play(item: Search.song) {
+  playOne({ ...item, songType: 'topSong', alia: [], dt: 0, ar: [] })
+}
 
 </script>
 

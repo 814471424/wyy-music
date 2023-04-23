@@ -27,7 +27,8 @@ declare namespace Common {
         // daily_song: 每日推荐
         // other: 其他
         // playlist: 歌单
-        songType: 'local' | 'daily_song' | 'other' | 'playlist',
+        // topSong: 最新音乐
+        songType: 'local' | 'dailySong' | 'other' | 'playlist' | 'topSong',
         // local时才有
         filePath?: string
     }

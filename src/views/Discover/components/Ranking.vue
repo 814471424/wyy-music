@@ -3,7 +3,7 @@
     <div class="ranking-body">
       <div>官方榜</div>
       <div class="rank" v-for="(item, key) in officialList" :key="key">
-        <div class="rank-background">
+        <div class="rank-background" @click="goTO(item.id)">
           <img v-lazy="item.coverImgUrl" alt="">
           <div class="update-date">{{ millisecondToDateName(item.updateTime ?? 0) }}更新</div>
           <img :src="paly_icon" class="play-icon">
@@ -11,9 +11,9 @@
         <div class="rank-list">
           <div class="list-item" v-for="(i, index) in officialTracks[item.id]" :key="i.id">
             <div class="rank-name">{{ index + 1 }} {{ i.name }}</div>
-            <div class="rank-ar">{{ i.ar.map(v => v.name).join(' / ') }}</div>
+            <div class="rank-ar">{{ (i.ar ?? []).map(v => v.name).join(' / ') }}</div>
           </div>
-          <div class="list-item">查看全部 ></div>
+          <div class="list-item" @click="goTO(item.id)">查看全部 ></div>
         </div>
       </div>
       <div>全球榜</div>
@@ -28,6 +28,7 @@ import api from '../../../api/index'
 import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
 import paly_icon from '../../../assets/paly_icon.png'
 import { millisecondToDateName } from '../../../utils/time'
+import router from '../../../router';
 
 // 官方榜
 let officialList: Ref<Playlist.playListDetail[]> = ref([]);
@@ -48,6 +49,10 @@ onMounted(() => {
     }
   })
 })
+
+function goTO(id: number) {
+  router.push('/playlist/' + id)
+}
 </script>
 
 <style lang="less" scoped>

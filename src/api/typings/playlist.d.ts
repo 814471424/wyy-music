@@ -7,11 +7,11 @@ declare namespace Playlist {
         // 音乐标题
         name: string;
         // 标签
-        alia: string[];
+        alia?: string[];
         // 时间戳（毫秒）
-        dt: number
+        dt?: number
         // 歌手
-        ar: {
+        ar?: {
             // 歌手id
             id: number
             // 歌手名称

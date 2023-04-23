@@ -98,7 +98,7 @@
         </div>
       </div>
       <div>
-        <SongGridItemColumn :list="list" />
+        <SquareGridItem :list="list" />
       </div>
       <div class="search-page">
         <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
@@ -110,11 +110,11 @@
 
 <script lang="ts" setup>
 import { Ref, onMounted, ref, watch } from "vue"
-import SongGridItemColumn from '../../../components/Common/SongGridItemColumn.vue'
+import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
 import api from '../../../api/index'
 
 let highquality: Ref<null | Playlist.playListDetail> = ref(null);
-let list: Ref<Playlist.playList[]> = ref([]);
+let list: Ref<Array<Playlist.playList & { type: number }>> = ref([]);
 let hotTags: Ref<Playlist.Catlist[]> = ref([]);
 let cat = ref('全部歌单')
 let catAll: Ref<Playlist.Catlist | null> = ref(null);
@@ -177,7 +177,7 @@ function updateTopList() {
     limit: per_page.value,
     offset: (page.value - 1) * per_page.value
   }).then(res => {
-    list.value = res.playlists.map(v => { return { picUrl: v.coverImgUrl, ...v, itemType: 1 } });
+    list.value = res.playlists.map(v => { return { picUrl: v.coverImgUrl, ...v, type: 0 } });
     total.value = res.total ?? 0
   })
 }

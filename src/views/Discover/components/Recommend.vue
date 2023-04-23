@@ -13,7 +13,7 @@
         <!-- 推荐歌单 -->
         <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
         <div class="plays">
-          <SongGridItemRow :list="playlists" />
+          <SquareGridItem :list="playlists" :single-row="true" />
         </div>
         <!-- 热门播客 -->
         <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div> -->
@@ -35,12 +35,12 @@
 import { Ref, onMounted, ref } from "vue"
 import api from '../../../api/index'
 import dailybg from '../../../assets/dailybg.jpg'
-import SongGridItemRow from '../../../components/Common/SongGridItemRow.vue'
+import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
 import VideoGridItemColumn from '../../../components/Common/VideoGridItemColumn.vue'
 import VideoGridItemRow from '../../../components/Common/VideoGridItemRow.vue'
 
 let banners = ref([] as Common.bannerData[]);
-let playlists: Ref<Array<Playlist.playList & { itemType: number }>> = ref([]);
+let playlists: Ref<Array<Playlist.playList & { type: number }>> = ref([]);
 let personalizedMvs: Ref<Array<MV.mvItem>> = ref([]) // 推荐的mv
 let privatecontentList: Ref<Array<MV.privatecontentItem>> = ref([]) // 独家放送(入口列表)
 
@@ -59,12 +59,15 @@ onMounted(async () => {
     name: '每日歌曲推荐',
     id: 0,
     picUrl: dailybg,
-    itemType: 0,
+    type: 2,
   }]
 
   let res = await api.dailyRecommendPlaylist()
   if (res.code == 200) {
-    playlists.value = [...playlists.value, ...res.recommend.map(v => { return { ...v, itemType: 1 } })]
+    playlists.value = [...playlists.value, ...res.recommend.map(v => {
+      v.playCount = (v.playCount || v.playcount) ?? 0;
+      return { ...v, type: 1 }
+    })]
   }
   if (playlists.value.length >= limitValue) {
     playlists.value = playlists.value.slice(0, limitValue)
@@ -72,7 +75,10 @@ onMounted(async () => {
     let limit = limitValue - playlists.value.length;
     api.recommendPlaylist({ limit: limit }).then(res => {
       if (res.code == 200) {
-        playlists.value = [...playlists.value, ...res.result.map(v => { return { ...v, itemType: 1 } })]
+        playlists.value = [...playlists.value, ...res.result.map(v => {
+          v.playCount = (v.playCount || v.playcount) ?? 0;
+          return { ...v, type: 1 }
+        })]
       }
     })
   }

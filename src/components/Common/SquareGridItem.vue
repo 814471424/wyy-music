@@ -1,25 +1,39 @@
 <!-- 多列 -->
 <template>
   <div :class="{ 'item-list': !props.singleRow, 'item-box-list': props.singleRow }">
-    <div class="item" v-for="(item, key) in props.list" :key="key">
+    <div class="item" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
       <div class="item-cover">
         <img class="background" v-lazy="item.picUrl" alt="" :key="item.picUrl">
+        <!-- 每日推荐特有的 -->
+        <div v-if="item.type == itemType.dailySong" class="dailySong-text iconfont wyy-a-ziyuan16-copy-copy">
+        </div>
+        <div v-if="item.type == itemType.dailySong" class="dailySong-text" style="font-size: 25px; top: 5px;">
+          {{ new Date().getDate() }}
+        </div>
+        <!-- 歌单特有的 -->
+        <div v-if="item.type == itemType.playlist" class="playlist-playCount">
+          <span class="iconfont wyy-bofangliang"></span>
+          {{ handlePlayCount(item.playCount ?? 0) }}
+        </div>
       </div>
       <div class="title">
-        <div>
-          {{ item.name }}
-        </div>
+        <div>{{ item.name }}</div>
       </div>
     </div>
   </div>
 </template>
   
 <script lang="ts" setup>
+import router from '../../router'
+import { handlePlayCount } from '../../utils/handle'
+import paly_icon from '../../assets/paly_icon.png'
 
 // 封面
 enum itemType {
-  artist = 0,  // 歌手
-  playlist = 1 // 表单
+  artist = 0,     // 歌手
+  playlist = 1,   // 表单
+  dailySong = 2,  // 每日推荐
+  ranking = 3,    // 排行榜
 }
 
 type item = {
@@ -34,13 +48,33 @@ type item = {
 
 const props = defineProps({
   list: Array<item>,
-  // 600px以下显示时的方向
+  // 600px以下显示时的方向 true单行 false多行(默认)
   singleRow: {
     type: Boolean,
     default: false
   },
 });
 
+function itemClick(item: item) {
+  switch (item.type) {
+    case itemType.playlist:
+      router.push('/playlist/' + item.id)
+      break;
+    case itemType.dailySong:
+      router.push('/daily_song')
+      break;
+    case itemType.artist:
+      console.log('暂时没用歌手详细页面')
+      // router.push('/playlist/' + item.id)
+      break;
+    case itemType.ranking:
+      router.push('/playlist/' + item.id)
+      break;
+    default:
+      console.log("默认")
+      break;
+  }
+}
 </script>
   
 <style lang="less" scoped>
@@ -88,6 +122,31 @@ const props = defineProps({
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+}
+
+.dailySong-text {
+  position: absolute;
+  top: 0%;
+  color: #fff;
+  font-size: 60px;
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.playlist-playCount {
+  position: absolute;
+  top: 3px;
+  right: 5px;
+  font-size: 10px;
+  color: #fff;
+
+  span {
+    font-size: 13px;
+  }
 }
 
 @media screen and (max-width:600px) {
