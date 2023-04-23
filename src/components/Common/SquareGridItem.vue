@@ -1,4 +1,3 @@
-<!-- 多列 -->
 <template>
   <div :class="{ 'item-list': !props.singleRow, 'item-box-list': props.singleRow }">
     <div class="item" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
@@ -15,6 +14,8 @@
           <span class="iconfont wyy-bofangliang"></span>
           {{ handlePlayCount(item.playCount ?? 0) }}
         </div>
+        <!-- 追加字段用于显示或者隐藏播放按钮的 -->
+        <img v-if="props.playIcon" class="playIcon" :src="paly_icon" alt="">
       </div>
       <div class="title">
         <div>{{ item.name }}</div>
@@ -53,6 +54,11 @@ const props = defineProps({
     type: Boolean,
     default: false
   },
+  // 是否显示播放按钮
+  playIcon: {
+    type: Boolean,
+    default: false
+  }
 });
 
 function itemClick(item: item) {
@@ -64,8 +70,7 @@ function itemClick(item: item) {
       router.push('/daily_song')
       break;
     case itemType.artist:
-      console.log('暂时没用歌手详细页面')
-      // router.push('/playlist/' + item.id)
+      router.push('/artist/' + item.id)
       break;
     case itemType.ranking:
       router.push('/playlist/' + item.id)
@@ -146,6 +151,21 @@ function itemClick(item: item) {
 
   span {
     font-size: 13px;
+  }
+}
+
+// 播放按钮样式
+.item-cover .playIcon {
+  bottom: 7px;
+  right: 7px;
+  width: 42px;
+  position: absolute;
+  display: none;
+}
+
+.item-cover:hover {
+  .playIcon {
+    display: block;
   }
 }
 

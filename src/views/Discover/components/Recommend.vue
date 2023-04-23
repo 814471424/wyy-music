@@ -13,7 +13,7 @@
         <!-- 推荐歌单 -->
         <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
         <div class="plays">
-          <SquareGridItem :list="playlists" :single-row="true" />
+          <SquareGridItem :list="playlists" :single-row="true" :play-icon="true" />
         </div>
         <!-- 热门播客 -->
         <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div> -->

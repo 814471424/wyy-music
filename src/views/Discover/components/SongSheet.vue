@@ -98,7 +98,7 @@
         </div>
       </div>
       <div>
-        <SquareGridItem :list="list" />
+        <SquareGridItem :list="list" :play-icon="true" />
       </div>
       <div class="search-page">
         <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
@@ -177,7 +177,7 @@ function updateTopList() {
     limit: per_page.value,
     offset: (page.value - 1) * per_page.value
   }).then(res => {
-    list.value = res.playlists.map(v => { return { picUrl: v.coverImgUrl, ...v, type: 0 } });
+    list.value = res.playlists.map(v => { return { picUrl: v.coverImgUrl, ...v, type: 1 } });
     total.value = res.total ?? 0
   })
 }
