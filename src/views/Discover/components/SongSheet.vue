@@ -332,6 +332,7 @@ const handleCurrentChange = (val: number) => {
           display: flex;
           flex-wrap: wrap;
           padding-bottom: 20px;
+          min-width: 60px;
 
           div {
             width: 16%;
