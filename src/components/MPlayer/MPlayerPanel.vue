@@ -27,7 +27,7 @@
           <div class="record-black-title">
             <div class="panel-main-title">{{ songX?.name }}</div>
             <div class="panel-main-info">
-              <div>歌手: {{ songX?.ar.map(res => res.name).join(' / ') ?? '未知' }}</div>
+              <div>歌手: {{ (songX?.ar ?? []).map(res => res.name).join(' / ') ?? '未知' }}</div>
               <div>专辑: {{ songX?.al?.name ?? '未知' }}</div>
             </div>
           </div>
@@ -47,7 +47,7 @@
           <div>
             <div class="panel-main-title">{{ songX?.name }}</div>
             <div class="panel-main-info">
-              <div>歌手: {{ songX?.ar.map(res => res.name).join(' / ') ?? '未知' }}</div>
+              <div>歌手: {{ (songX?.ar ?? []).map(res => res.name).join(' / ') ?? '未知' }}</div>
               <div>专辑: {{ songX?.al?.name ?? '未知' }}</div>
               <div>来源: {{ songX?.songType ?? '未知' }}</div>
             </div>
