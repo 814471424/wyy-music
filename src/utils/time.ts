@@ -44,3 +44,15 @@ export function millisecondToDate(value: number) {
     let datetime = new Date(value);
     return datetime.getFullYear() + '-' + (datetime.getMonth() + 1) + '-' + datetime.getDate()
 }
+
+/**
+ * 时间格式 时间戳转换成 00月00日 格式
+ * @param value 时间戳(毫秒)
+ */
+export function millisecondToDateName(value: number) {
+    if (isNaN(value)) {
+        return "01月01日";
+    }
+    let datetime = new Date(value);
+    return (datetime.getMonth() + 1) + '月' + datetime.getDate() + '日'
+}

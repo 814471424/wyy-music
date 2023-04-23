@@ -4,9 +4,9 @@
       <div :class="['tab', { 'tab-active': activeName == 'recommend' }]" @click="handleClick('recommend')">
         个性推荐
       </div>
-      <div :class="['tab', { 'tab-active': activeName == 'customized' }]" @click="handleClick('customized')">
+      <!-- <div :class="['tab', { 'tab-active': activeName == 'customized' }]" @click="handleClick('customized')">
         专属订制
-      </div>
+      </div> -->
       <div :class="['tab', { 'tab-active': activeName == 'playlist' }]" @click="handleClick('playlist')">
         歌单
       </div>
@@ -27,7 +27,7 @@
       </div>
       <SongSheet v-if="activeName == 'playlist'" />
       <div v-if="activeName == 'ranking'">
-        排行榜
+        <Ranking />
       </div>
       <div v-if="activeName == 'singer'">
         <Artist />
@@ -44,6 +44,7 @@ import Recommend from './components/Recommend.vue'
 import SongSheet from './components/SongSheet.vue'
 import Artist from './components/Artist.vue'
 import TopSong from './components/TopSong.vue'
+import Ranking from './components/Ranking.vue'
 
 const activeName = ref('recommend')
 

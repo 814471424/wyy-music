@@ -109,6 +109,7 @@ async function getPlaylistDetail() {
     width: 30%;
     min-width: 100px;
     max-width: 180px;
+    // flex-shrink: 0;
 
     img {
       width: 100%;

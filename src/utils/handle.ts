@@ -3,6 +3,8 @@ export function handlePlayCount(data: number): String {
     let play = data as unknown as string;
     if (data >= 10000) {
         play = Math.floor(data / 10000) + '万'
+    } else if (data >= 100000000) {
+        play = Math.floor(data / 100000000) + '亿'
     }
     return play
 }

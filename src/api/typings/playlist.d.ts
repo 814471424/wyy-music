@@ -62,6 +62,7 @@ declare namespace Playlist {
         tags: string[],
         // 歌单里所有的歌曲
         trackIds: { id: number }[]
+        tracks: Playlist.dailySong[]
         // 简介
         description: string
         // 收藏者
@@ -78,8 +79,13 @@ declare namespace Playlist {
         shareCount: number
         // 收藏数量
         subscribedCount: number
-        // 创建事件
+        // 创建时间
         createTime: number
+        // 表单更新时间
+        trackUpdateTime?: number
+        updateTime?: number
+        // 存在为官方榜，不存在全球榜
+        ToplistType?: string
     }
 
     // 歌单分类

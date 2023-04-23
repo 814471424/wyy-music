@@ -1,0 +1,168 @@
+<template>
+  <div class="common-padding">
+    <div class="ranking-body">
+      <div>官方榜</div>
+      <div class="rank" v-for="(item, key) in officialList" :key="key">
+        <div class="rank-background">
+          <img v-lazy="item.coverImgUrl" alt="">
+          <div class="update-date">{{ millisecondToDateName(item.updateTime ?? 0) }}更新</div>
+          <img :src="paly_icon" class="play-icon">
+        </div>
+        <div class="rank-list">
+          <div class="list-item" v-for="(i, index) in officialTracks[item.id]" :key="i.id">
+            <div class="rank-name">{{ index + 1 }} {{ i.name }}</div>
+            <div class="rank-ar">{{ i.ar.map(v => v.name).join(' / ') }}</div>
+          </div>
+          <div class="list-item">查看全部 ></div>
+        </div>
+      </div>
+      <div>全球榜</div>
+      <SquareGridItem :list="globalList" />
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import { Ref, onMounted, ref } from 'vue';
+import api from '../../../api/index'
+import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
+import paly_icon from '../../../assets/paly_icon.png'
+import { millisecondToDateName } from '../../../utils/time'
+
+// 官方榜
+let officialList: Ref<Playlist.playListDetail[]> = ref([]);
+let officialTracks: Ref<{ [key: number]: Playlist.dailySong[] }> = ref({});
+// 全球榜
+let globalList: Ref<Array<Playlist.playListDetail & { type: number, picUrl: string }>> = ref([]);
+
+onMounted(() => {
+  api.toplist().then(res => {
+    officialList.value = res.list.filter(v => v.ToplistType);
+    globalList.value = res.list.filter(v => !v.ToplistType).map(v => { return { ...v, picUrl: v.coverImgUrl, type: 1 } })
+
+    // 查找榜单中的歌单前五首
+    for (let i of officialList.value) {
+      api.getPlaylistDetail({ id: i.id }).then(res => {
+        officialTracks.value[i.id] = (res.playlist.tracks ?? []).splice(0, 5)
+      })
+    }
+  })
+})
+</script>
+
+<style lang="less" scoped>
+.common-padding {
+  height: 100%;
+  overflow-y: overlay;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.ranking-body {
+  max-width: 1110px;
+  width: 100%;
+}
+
+.rank {
+  margin: 10px 0px;
+  display: flex;
+
+  .rank-background {
+    width: 170px;
+    height: 170px;
+    margin-right: 20px;
+    position: relative;
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 100%;
+      object-fit: cover;
+      border-radius: 5px;
+    }
+
+    .update-date {
+      position: absolute;
+      top: 63%;
+      color: #fff;
+      font-size: 10px;
+
+      width: 100%;
+      text-align: center;
+    }
+
+    .play-icon {
+      position: absolute;
+      width: 45px;
+      height: 45px;
+      display: none;
+    }
+
+    &:hover {
+      .play-icon {
+        display: block;
+      }
+    }
+  }
+
+  .rank-list {
+    flex: auto;
+    width: 0;
+
+    div {
+      line-height: 32px;
+      font-size: 13px;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0px 10px;
+
+      &:nth-child(2n+1) {
+        background-color: #dfdfdf33;
+      }
+
+      &:hover {
+        background-color: #dfdfdf64;
+      }
+    }
+
+    .rank-name {
+      width: 50%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+
+    .rank-ar {
+      // 标题最多两行
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
+  }
+}
+
+@media screen and (max-width:600px) {
+  .rank {
+    .rank-list {
+      .rank-name {
+        width: auto;
+      }
+
+      .rank-ar {
+        display: none;
+      }
+    }
+  }
+}
+</style>

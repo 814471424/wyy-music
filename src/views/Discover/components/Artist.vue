@@ -29,7 +29,7 @@
       </div>
 
       <div class="artist-body">
-        <SquareGridItemRow :list="artistList" />
+        <SquareGridItem :list="artistList" />
       </div>
     </div>
   </div>
@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { Ref, onMounted, ref, watch } from "vue"
 import api from '../../../api/index'
-import SquareGridItemRow from '../../../components/Common/squareGridItemRow.vue'
+import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
 
 // 语种
 const artistType = [
@@ -90,7 +90,7 @@ const artistInitial = [
 let checkArtistType = ref('-1');
 let checkArtistArea = ref('-1');
 let checkArtistInitial = ref('-1');
-let artistList: Ref<any[]> = ref([]);
+let artistList: Ref<Array<Search.artist & { type: number }>> = ref([]);
 let more = true;
 let requestStatus = true;
 let page = 0;
@@ -138,7 +138,8 @@ function update() {
       area: checkArtistArea.value,
       initial: checkArtistInitial.value
     }).then(res => {
-      artistList.value = [...artistList.value, ...(res.artists ?? [])]
+      let list = res.artists.map(v => { return { ...v, type: 0 } })
+      artistList.value = [...artistList.value, ...list]
       more = res.more ?? false
     })
 

@@ -1,19 +1,20 @@
 <template>
   <div class="demo" style="">
-    <TableOne :list="list" />
+    <SquareGridItem :list="globalList" :single-row="false" />
   </div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from 'vue';
-import TableOne from '../components/Common/TableOne.vue'
+import SquareGridItem from '../components/Common/SquareGridItem.vue'
 import api from '../api/index'
 
-let list: Ref<any[]> = ref([])
+// 全球榜
+let globalList: Ref<Array<Playlist.playListDetail & { picUrl: string, type: number }>> = ref([]);
 
 onMounted(() => {
-  api.topSong().then(res => {
-    list.value = res.data
+  api.toplist().then(res => {
+    globalList.value = res.list.map(v => { return { ...v, picUrl: v.coverImgUrl, type: 1 } })
   })
 })
 
