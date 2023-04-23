@@ -291,7 +291,6 @@ const handleCurrentChange = (val: number) => {
 
     color: #181818;
     font-size: 15px;
-
   }
 
   .catlist-panel {

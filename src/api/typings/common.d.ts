@@ -99,6 +99,28 @@ declare namespace Common {
         tns?: any[]
         alias?: any[]
     }
+
+    // 歌手详细结构
+    export interface artistDetail {
+        // 歌手id
+        id: number
+        // 背景
+        cover: string
+        // 头像
+        avatar: string
+        // 作者名称
+        name: string
+        // 别名
+        alias: string[]
+        // mv数
+        mvSize: number
+        // 专辑数
+        albumSize: number
+        // 单曲数
+        musicSize: number
+        // 简介
+        briefDesc: string
+    }
 }
 
 // 主要响应字段
