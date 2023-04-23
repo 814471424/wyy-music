@@ -38,7 +38,7 @@
 <script lang="ts" setup>
 import { Ref, onMounted, ref, watch } from "vue"
 import api from '../../../api/index'
-import SquareGridItemRow from '../../../components/Common/SquareGridItemRow.vue'
+import SquareGridItemRow from '../../../components/Common/squareGridItemRow.vue'
 
 // 语种
 const artistType = [
