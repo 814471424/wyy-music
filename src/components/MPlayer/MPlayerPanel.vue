@@ -138,7 +138,7 @@ let lycindex = ref(0);
 // better-scroll
 let wrapper: HTMLElement | null = null;
 let lycsType = ref(lycsTypeEnum.sound)
-let cd: HTMLElement | null = null;
+let cd: Ref<HTMLElement | null> = ref(null);
 let showStatus = ref(true); // 歌词或者唱片切换状态
 // 判断是否在tauri环境中
 const tauriResult = (window as any).__TAURI__ != undefined;
@@ -164,11 +164,11 @@ watch(() => lyc.value, (value, _oldValue) => {
   lycs.value = handleLrc(value, tlyric.value, romalrc.value);
 })
 watch(() => playStatus.value, (value, _oldValue) => {
-  if (cd) {
+  if (cd.value) {
     if (!playStatus.value) {
-      cd.style.animationPlayState = 'paused'
+      cd.value.style.animationPlayState = 'paused'
     } else {
-      cd.style.animationPlayState = 'running '
+      cd.value.style.animationPlayState = 'running '
     }
   }
 })
@@ -189,11 +189,11 @@ onMounted(async () => {
   }
 
   // 唱片旋转状态
-  if (cd) {
+  if (cd.value) {
     if (!playStatus.value) {
-      cd.style.animationPlayState = 'paused'
+      cd.value.style.animationPlayState = 'paused'
     } else {
-      cd.style.animationPlayState = 'running '
+      cd.value.style.animationPlayState = 'running '
     }
   }
 })

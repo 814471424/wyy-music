@@ -77,8 +77,6 @@ onMounted(async () => {
 
   // 用户面板相关操作
   document.addEventListener('click', (event) => {
-    console.log(event.target);
-    console.log(showUserButtonRef.value);
     if (!showUserButtonRef.value?.contains(event.target as HTMLElement)) {
       showState.value = false
     }
