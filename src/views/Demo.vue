@@ -1,25 +1,16 @@
 <template>
-  <VideoGridItem :list="list" :show-copywriter="true" />
-  <VideoGridItem :list="privatecontentList" :single-row="true" />
+  <div @click="demo">点击</div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from 'vue';
-import VideoGridItem from '../components/Common/VideoGridItem.vue'
-import api from '../api/index'
-
-let list: Ref<Array<MV.mvItem>> = ref([])
-let privatecontentList: Ref<Array<MV.privatecontentItem>> = ref([]) // 独家放送(入口列表)
 
 onMounted(() => {
-  api.personalizedMv().then((res) => {
-    list.value = res.result ?? []
-  })
 
-  api.personalizedPrivatecontent().then(res => {
-    privatecontentList.value = (res.result ?? []).map(v => { v.picUrl = v.sPicUrl; return v })
-  })
 })
+function demo() {
+  // localStorage.
+}
 
 </script>
 
