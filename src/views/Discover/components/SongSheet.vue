@@ -364,7 +364,7 @@ const handleCurrentChange = (val: number) => {
   display: flex;
   justify-content: center;
 
-  padding: 10px 0px 30px 0px;
+  padding: 10px 0px 0px 0px;
 }
 
 .highquality-active {

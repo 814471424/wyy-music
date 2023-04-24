@@ -87,6 +87,8 @@ const handleClick = (tab: string) => {
 
 .discover-body {
   height: calc(100% - 50px);
+  box-sizing: border-box;
+  padding-bottom: 20px;
 
   div {
     height: 100%;

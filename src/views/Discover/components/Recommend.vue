@@ -19,11 +19,11 @@
         <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div> -->
         <!-- <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">独家放送<span class="iconfont wyy-xiangyou"></span></div>
-        <VideoGridItemRow :list="privatecontentList" />
+        <VideoGridItem :list="privatecontentList" :single-row="true" />
         <!-- <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div> -->
         <!-- <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">推荐MV<span class="iconfont wyy-xiangyou"></span></div>
-        <VideoGridItemColumn :list="personalizedMvs" />
+        <VideoGridItem :list="personalizedMvs" :show-copywriter="true" />
         <!-- <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
         <div class="common-title">看看<span class="iconfont wyy-xiangyou"></span></div> -->
       </div>
@@ -36,8 +36,8 @@ import { Ref, onMounted, ref } from "vue"
 import api from '../../../api/index'
 import dailybg from '../../../assets/dailybg.jpg'
 import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
-import VideoGridItemColumn from '../../../components/Common/VideoGridItemColumn.vue'
-import VideoGridItemRow from '../../../components/Common/VideoGridItemRow.vue'
+
+import VideoGridItem from '../../../components/Common/VideoGridItem.vue'
 
 let banners = ref([] as Common.bannerData[]);
 let playlists: Ref<Array<Playlist.playList & { type: number }>> = ref([]);

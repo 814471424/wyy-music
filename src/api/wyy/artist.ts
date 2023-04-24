@@ -39,11 +39,49 @@ export function artistList(params: {
 export function artistDetail(
     id: number
 ): Promise<
-    responseData & {
-        data: {
-            artist: Common.artistDetail
-        }
-    }
+    responseData & { data: { artist: Common.artistDetail } }
 > {
     return request.get('/artist/detail', { params: { id } });
+}
+
+/**
+ * 获取歌手详情
+ * 说明 : 调用此接口 , 传入歌手 id, 可获得获取歌手详情
+ * id : 歌手 id
+ * @param {number} id
+ */
+export function artistDesc(
+    id: number
+): Promise<responseData & Common.artistDesc> {
+    return request.get('/artist/desc', { params: { id } });
+}
+
+/**
+ * 获取相似歌手
+ * 说明 : 调用此接口 , 传入歌手 id, 可获得相似歌手
+ * id : 歌手 id
+ * @param {number} id
+ */
+export function simiArtist(
+    id: number
+): Promise<responseData & { artists: Search.artist[] }> {
+    return request.get('/simi/artist', { params: { id } });
+}
+
+/**
+ * 获取歌手专辑
+ * 说明 : 调用此接口 , 传入歌手 id, 可获得歌手专辑内容
+ * id : 歌手 id
+ * limit: 取出数量 , 默认为 30
+ * offset: 偏移数量 , 用于分页 , 如 :( 页数 -1)*30, 其中 30 为 limit 的值 , 默认 为 0
+ * @param {number} id
+ */
+export function artistAlbum(
+    id: number,
+    params: {
+        limit?: number,
+        offset?: number
+    }
+): Promise<responseData & { hotAlbums: Search.album[], artist: Search.artist }> {
+    return request.get('/artist/album', { params: { ...params, id } });
 }

@@ -121,6 +121,20 @@ declare namespace Common {
         // 简介
         briefDesc: string
     }
+
+    // 歌手简介
+    export interface artistDesc {
+        // 主要介绍
+        introduction: Array<{
+            // 描述
+            ti: string,
+            // 
+            txt: string
+        }>
+        // 简介
+        briefDesc: string
+        // 其他先忽略
+    }
 }
 
 // 主要响应字段

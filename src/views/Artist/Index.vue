@@ -27,13 +27,19 @@
       </div>
     </div>
     <div class="artist-body">
+      <div class="artist-albums" v-show="activeName == 'album'">
+        <SquareGridItem :list="hotAlbums" :play-icon="true" />
+      </div>
       <div class="artist-detail" v-show="activeName == 'detail'">
         <div class="title">{{ artist?.name }}简介</div>
-        <div class="desc"> {{ artist?.briefDesc }}</div>
-        <div class="title">{{ artist?.name }}简介</div>
-        <div class="desc"> {{ artist?.briefDesc }}</div>
-        <div class="title">{{ artist?.name }}简介</div>
-        <div class="desc"> {{ artist?.briefDesc }}</div>
+        <div class="desc"> {{ artistDesc?.briefDesc || artist?.briefDesc }}</div>
+        <div v-for="(item, key) in artistDesc?.introduction" :key="key">
+          <div class="title">{{ item.ti }}简介</div>
+          <div class="desc" v-for="i in item.txt.split('\n')"> {{ i }}</div>
+        </div>
+      </div>
+      <div class="artist-simi" v-show="activeName == 'simiArtist'">
+        <SquareGridItem :list="artistList" />
       </div>
     </div>
   </div>
@@ -43,20 +49,65 @@
 import { onMounted, watch, ref, Ref } from 'vue';
 import router from '../../router/index'
 import api from '../../api/index'
+import SquareGridItem from '../../components/Common/SquareGridItem.vue'
 
 let id = ref(router.currentRoute.value.params['id'] as unknown as number)
 let artist: Ref<Common.artistDetail | null> = ref(null);
 let activeName = ref('album');
+// 歌手详情
+let artistDesc: Ref<Common.artistDesc | null> = ref(null);
+// 相似歌手
+let artistList: Ref<Array<Search.artist & { type: number }>> = ref([]);
+// 热门专辑
+let hotAlbums: Ref<Array<Search.album & { type: number }>> = ref([])
+
 
 watch(() => id.value, (value, _oldValue) => {
   console.log(value)
 })
 
+watch(() => activeName.value, () => {
+  console.log(activeName.value)
+  updateDetail()
+})
+
 onMounted(() => {
   api.artistDetail(id.value).then(res => {
     artist.value = res.data.artist
+
+    updateDetail()
   })
 })
+
+function updateDetail() {
+  switch (activeName.value) {
+    case 'album':
+      if (hotAlbums.value.length == 0) {
+        api.artistAlbum(id.value, { limit: 100 }).then(res => {
+          hotAlbums.value = res.hotAlbums.map(v => { return { ...v, type: 4 } })
+        })
+      }
+      break;
+    case 'mv':
+      break;
+    case 'detail':
+      if (!artistDesc.value) {
+        api.artistDesc(id.value).then(res => {
+          artistDesc.value = res
+        })
+      }
+      break;
+    case 'simiArtist':
+      if (artistList.value.length == 0) {
+        api.simiArtist(id.value).then(res => {
+          artistList.value = res.artists.map(v => { return { ...v, type: 0 } })
+        })
+      }
+      break;
+    default:
+      break;
+  }
+}
 
 </script>
   
@@ -109,7 +160,7 @@ onMounted(() => {
   overflow-x: scroll;
   overflow-y: hidden;
   padding-top: 30px;
-  padding-bottom: 5px;
+  padding-bottom: 20px;
 
   div {
     margin-right: 20px;
@@ -133,7 +184,6 @@ onMounted(() => {
 .artist-detail {
   .title {
     font-weight: 800;
-    padding-top: 20px;
   }
 
   .desc {

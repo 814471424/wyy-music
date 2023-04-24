@@ -19,6 +19,9 @@
       </div>
       <div class="title">
         <div>{{ item.name }}</div>
+        <div v-if="item.type == itemType.album" style="color: #999999; font-size: 0.7rem;">{{
+          millisecondToDate(item.publishTime ?? 0) }}
+        </div>
       </div>
     </div>
   </div>
@@ -28,6 +31,7 @@
 import router from '../../router'
 import { handlePlayCount } from '../../utils/handle'
 import paly_icon from '../../assets/paly_icon.png'
+import { millisecondToDate } from '../../utils/time'
 
 // 封面
 enum itemType {
@@ -35,6 +39,7 @@ enum itemType {
   playlist = 1,   // 表单
   dailySong = 2,  // 每日推荐
   ranking = 3,    // 排行榜
+  album = 4,      // 专辑
 }
 
 type item = {
@@ -45,6 +50,7 @@ type item = {
   name: string
   playCount?: number,
   copywriter?: string
+  publishTime?: number // 专辑特有的
 }
 
 const props = defineProps({
@@ -75,6 +81,9 @@ function itemClick(item: item) {
     case itemType.ranking:
       router.push('/playlist/' + item.id)
       break;
+    case itemType.album:
+      router.push('/album/' + item.id)
+      break;
     default:
       console.log("默认")
       break;
@@ -83,15 +92,7 @@ function itemClick(item: item) {
 </script>
   
 <style lang="less" scoped>
-.item-list {
-  box-sizing: border-box;
-  display: grid;
-  grid-template-columns: repeat(5, 18.7%);
-  grid-gap: 7px;
-  justify-content: space-between;
-  width: 100%;
-}
-
+.item-list,
 .item-box-list {
   box-sizing: border-box;
   display: grid;
@@ -192,7 +193,12 @@ function itemClick(item: item) {
 
 @media screen and (min-width:601px) and (max-width:1000px) {
   .item-list {
-    grid-template-columns: repeat(4, 24%);
+    // grid-template-columns: repeat(4, 24%);
+    grid-template-columns: repeat(3, 32%);
+  }
+
+  .item-box-list {
+    grid-template-columns: repeat(3, 32%);
   }
 }
 </style>

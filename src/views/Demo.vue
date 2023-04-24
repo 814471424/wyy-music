@@ -1,20 +1,23 @@
 <template>
-  <div class="demo" style="">
-    <SquareGridItem :list="globalList" :single-row="false" />
-  </div>
+  <VideoGridItem :list="list" :show-copywriter="true" />
+  <VideoGridItem :list="privatecontentList" :single-row="true" />
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref, Ref } from 'vue';
-import SquareGridItem from '../components/Common/SquareGridItem.vue'
+import VideoGridItem from '../components/Common/VideoGridItem.vue'
 import api from '../api/index'
 
-// 全球榜
-let globalList: Ref<Array<Playlist.playListDetail & { picUrl: string, type: number }>> = ref([]);
+let list: Ref<Array<MV.mvItem>> = ref([])
+let privatecontentList: Ref<Array<MV.privatecontentItem>> = ref([]) // 独家放送(入口列表)
 
 onMounted(() => {
-  api.toplist().then(res => {
-    globalList.value = res.list.map(v => { return { ...v, picUrl: v.coverImgUrl, type: 1 } })
+  api.personalizedMv().then((res) => {
+    list.value = res.result ?? []
+  })
+
+  api.personalizedPrivatecontent().then(res => {
+    privatecontentList.value = (res.result ?? []).map(v => { v.picUrl = v.sPicUrl; return v })
   })
 })
 

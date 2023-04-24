@@ -93,7 +93,8 @@ function getPlayList() {
 <style lang="less" scoped>
 .m-left {
   width: 100%;
-  padding-right: 8px;
+  // padding-right: 8px;
+  padding: 8px;
   box-sizing: border-box;
 
   .el-menu {
