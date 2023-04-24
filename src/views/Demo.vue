@@ -9,7 +9,18 @@ onMounted(() => {
 
 })
 function demo() {
-  // localStorage.
+  console.log(getNextDate())
+}
+
+function getNextDate(): number {
+  let day = 1;
+  let currentDate = new Date();
+
+  let lastDaysTimes = day * 24 * 60 * 60 * 1000;
+  let lastDate = new Date(currentDate.getTime() + lastDaysTimes); //最后得到得时间
+  lastDate.setHours(0, 0, 0);//将时间设置到0点0刻。
+
+  return lastDate.getTime()
 }
 
 </script>

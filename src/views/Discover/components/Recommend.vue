@@ -32,72 +32,98 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, onMounted, ref } from "vue"
+import { Ref, onMounted, ref, watch } from "vue"
 import api from '../../../api/index'
 import dailybg from '../../../assets/dailybg.jpg'
 import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
-
 import VideoGridItem from '../../../components/Common/VideoGridItem.vue'
+import { userCacheStore } from '../../../store/cache'
+import { storeToRefs } from 'pinia'
 
-let banners = ref([] as Common.bannerData[]);
-let playlists: Ref<Array<Playlist.playList & { type: number }>> = ref([]);
-let personalizedMvs: Ref<Array<MV.mvItem>> = ref([]) // 推荐的mv
-let privatecontentList: Ref<Array<MV.privatecontentItem>> = ref([]) // 独家放送(入口列表)
+// 追加缓存
+let userCache = userCacheStore();
+const { cache } = storeToRefs(userCache);
+
+let banners: Ref<Array<Common.bannerData>> = ref(cache.value.banners ?? []);
+let playlists: Ref<Array<Playlist.playList & { type: number }>> = ref(cache.value.playlists ?? []);
+let personalizedMvs: Ref<Array<MV.mvItem>> = ref(cache.value.personalizedMvs ?? []) // 推荐的mv
+let privatecontentList: Ref<Array<MV.privatecontentItem>> = ref(cache.value.privatecontents ?? []) // 独家放送(入口列表)
+
+watch(() => banners.value, (value) => {
+  userCache.setBanners(value)
+})
+watch(() => playlists.value, (value) => {
+  userCache.setPlaylists(value)
+})
+watch(() => personalizedMvs.value, (value) => {
+  userCache.setPersonalizedMvs(value)
+})
+watch(() => privatecontentList.value, (value) => {
+  userCache.setPrivatecontents(value)
+})
 
 onMounted(async () => {
   // 获取轮播图
-  api.banner().then((res) => {
-    if (res.code == 200) {
-      banners.value = res.banners
-    }
-  })
+  if (banners.value.length == 0) {
+    api.banner().then((res) => {
+      if (res.code == 200) {
+        banners.value = res.banners
+      }
+    })
+  }
+
   // 获取推荐歌单
   let limitValue = 10;
 
   // 加入每日推荐页面
-  playlists.value = [{
-    name: '每日歌曲推荐',
-    id: 0,
-    picUrl: dailybg,
-    type: 2,
-  }]
+  if (playlists.value.length < 10) {
+    playlists.value = [{
+      name: '每日歌曲推荐',
+      id: 0,
+      picUrl: dailybg,
+      type: 2,
+    }]
 
-  api.dailyRecommendPlaylist().then(res => {
-    if (res.code == 200) {
-      playlists.value = [...playlists.value, ...res.recommend.map(v => {
-        v.playCount = (v.playCount || v.playcount) ?? 0;
-        return { ...v, type: 1 }
-      })]
-    }
-    if (playlists.value.length >= limitValue) {
-      playlists.value = playlists.value.slice(0, limitValue)
-    } else {
-      let limit = limitValue - playlists.value.length;
-      api.recommendPlaylist({ limit: limit }).then(res => {
-        if (res.code == 200) {
-          playlists.value = [...playlists.value, ...res.result.map(v => {
-            v.playCount = (v.playCount || v.playcount) ?? 0;
-            return { ...v, type: 1 }
-          })]
-        }
-      })
-    }
-  })
-
+    api.dailyRecommendPlaylist().then(res => {
+      if (res.code == 200) {
+        playlists.value = [...playlists.value, ...res.recommend.map(v => {
+          v.playCount = (v.playCount || v.playcount) ?? 0;
+          return { ...v, type: 1 }
+        })]
+      }
+      if (playlists.value.length >= limitValue) {
+        playlists.value = playlists.value.slice(0, limitValue)
+      } else {
+        let limit = limitValue - playlists.value.length;
+        api.recommendPlaylist({ limit: limit }).then(res => {
+          if (res.code == 200) {
+            playlists.value = [...playlists.value, ...res.result.map(v => {
+              v.playCount = (v.playCount || v.playcount) ?? 0;
+              return { ...v, type: 1 }
+            })]
+          }
+        })
+      }
+    })
+  }
 
   // 热门播客
   // 听见好书-新用户免费听
   // 独家放送
-  api.personalizedPrivatecontent().then(res => {
-    privatecontentList.value = (res.result ?? []).map(v => { v.picUrl = v.sPicUrl; v.copywriter = ''; return v })
-  })
+  if (privatecontentList.value.length == 0) {
+    api.personalizedPrivatecontent().then(res => {
+      privatecontentList.value = (res.result ?? []).map(v => { v.picUrl = v.sPicUrl; v.copywriter = ''; return v })
+    })
+  }
+
   // 最新音乐
   // 主题播客
   // 推荐MV
-  api.personalizedMv().then((res) => {
-    personalizedMvs.value = res.result ?? []
-  })
-
+  if (personalizedMvs.value.length == 0) {
+    api.personalizedMv().then((res) => {
+      personalizedMvs.value = res.result ?? []
+    })
+  }
 
   // 听听
 })
