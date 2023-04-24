@@ -12,6 +12,7 @@ import Artist from '../views/Artist/Index.vue'
 import Setting from '../views/Setting/Index.vue'
 import Album from '../views/Album.vue'
 import Home from '../views/Home.vue'
+import Video from '../views/Video/Index.vue'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -107,6 +108,10 @@ const routes: RouteRecordRaw[] = [
                 path: '/album/:id',
                 component: Album
             },
+            {
+                path: '/video/:id',
+                component: Video
+            }
         ]
     },
     {
