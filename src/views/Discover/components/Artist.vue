@@ -94,7 +94,7 @@ let artistList: Ref<Array<Search.artist & { type: number }>> = ref([]);
 let more = true;
 let requestStatus = true;
 let page = 0;
-const limit = 20;
+const limit = 30;
 let singerRef: HTMLElement | null = null
 
 watch([checkArtistType, checkArtistArea, checkArtistInitial], ([_type, _area, _initial]) => {
@@ -114,7 +114,7 @@ onMounted(() => {
     let clientHeight = singerRef!.clientHeight;
     let scrollHeight = singerRef!.scrollHeight;
     let scrollTop = singerRef!.scrollTop;
-    let distance = 30;
+    let distance = 40;
 
     if ((scrollTop + clientHeight) >= (scrollHeight - distance)) {
       update()

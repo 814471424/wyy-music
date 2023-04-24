@@ -100,7 +100,7 @@
       <div>
         <SquareGridItem :list="list" :play-icon="true" />
       </div>
-      <div class="search-page">
+      <div class="search-page" v-if="list.length > 0">
         <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
           v-model:current-page="page" @current-change="handleCurrentChange" class="mt-4" />
       </div>
@@ -158,7 +158,9 @@ function checkCat(newCat: string | undefined) {
   if (newCat) {
     cat.value = newCat
 
-    document.getElementById('songSheet-main')?.scrollTo(0, 0)
+    setTimeout(() => {
+      document.getElementById('songSheet-main')?.scrollTo(0, 0)
+    }, 500);
   }
 }
 
@@ -191,7 +193,9 @@ function show() {
 const handleCurrentChange = (val: number) => {
   updateTopList()
 
-  document.getElementById('songSheet-main')?.scrollTo(0, 0)
+  setTimeout(() => {
+    document.getElementById('songSheet-main')?.scrollTo(0, 0)
+  }, 500);
 }
 
 </script>

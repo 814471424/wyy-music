@@ -21,14 +21,14 @@
       </div>
     </div>
     <div class="discover-body">
-      <Recommend v-if="activeName == 'recommend'" />
-      <div v-if="activeName == 'customized'">
+      <Recommend v-show="activeName == 'recommend'" />
+      <div v-show="activeName == 'customized'">
         专属订制
       </div>
-      <SongSheet v-if="activeName == 'playlist'" />
-      <Ranking v-if="activeName == 'ranking'" />
-      <Artist v-if="activeName == 'singer'" />
-      <TopSong v-if="activeName == 'latest'" />
+      <SongSheet v-show="activeName == 'playlist'" />
+      <Ranking v-show="activeName == 'ranking'" />
+      <Artist v-show="activeName == 'singer'" />
+      <TopSong v-show="activeName == 'latest'" />
     </div>
   </div>
 </template>

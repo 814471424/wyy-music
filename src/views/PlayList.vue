@@ -157,5 +157,10 @@ async function getPlaylistDetail() {
       }
     }
   }
+
+  .playlist-info {
+    flex: auto;
+    width: 50%;
+  }
 }
 </style>
