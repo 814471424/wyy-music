@@ -26,15 +26,9 @@
         专属订制
       </div>
       <SongSheet v-if="activeName == 'playlist'" />
-      <div v-if="activeName == 'ranking'">
-        <Ranking />
-      </div>
-      <div v-if="activeName == 'singer'">
-        <Artist />
-      </div>
-      <div v-if="activeName == 'latest'">
-        <TopSong />
-      </div>
+      <Ranking v-if="activeName == 'ranking'" />
+      <Artist v-if="activeName == 'singer'" />
+      <TopSong v-if="activeName == 'latest'" />
     </div>
   </div>
 </template>

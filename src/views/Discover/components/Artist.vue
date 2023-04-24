@@ -94,7 +94,7 @@ let artistList: Ref<Array<Search.artist & { type: number }>> = ref([]);
 let more = true;
 let requestStatus = true;
 let page = 0;
-const limit = 30;
+const limit = 20;
 let singerRef: HTMLElement | null = null
 
 watch([checkArtistType, checkArtistArea, checkArtistInitial], ([_type, _area, _initial]) => {

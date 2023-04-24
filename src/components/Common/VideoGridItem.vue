@@ -92,20 +92,6 @@ function itemClick(item: item) {
     border-radius: 5px;
   }
 
-  .title {
-    width: 100%;
-    height: 40px;
-    position: absolute;
-    color: #000;
-    font-size: 14px;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-  }
-
   .playCount {
     position: absolute;
     top: 3px;
@@ -119,7 +105,19 @@ function itemClick(item: item) {
   }
 }
 
+// 标题相关
 .title {
+  width: 100%;
+  height: 40px;
+  color: #000;
+  font-size: 14px;
+
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+
   .name {
     font-size: 14px;
   }
