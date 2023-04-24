@@ -49,16 +49,16 @@ onMounted(async () => {
       if (!res.data.profile) {
         // 刷新游客cookie
         console.log('刷新游客cookie111')
-        await refurbishCookie()
+        refurbishCookie()
       }
     }).catch(async _err => {
       // 游客登录
       console.log('刷新游客cookie222')
-      await refurbishCookie()
+      refurbishCookie()
     })
   } else {
     console.log('刷新游客cookie333')
-    await refurbishCookie()
+    refurbishCookie()
   }
 
   document.addEventListener('click', (event) => {
@@ -79,8 +79,9 @@ function showLeftContainer() {
 // 刷新cookie
 async function refurbishCookie() {
   let res = await api.registerAnonimous()
+  userStore.cleanUser()
   userStore.setCookie(res.cookie)
-  userStore.setUserInfo(null)
+  // userStore.setUserInfo(null)
 }
 </script>
 
