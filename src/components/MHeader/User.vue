@@ -67,13 +67,21 @@ let followCount = ref(0);
 let fans = ref(0);
 let trends = ref(0);
 
+// const props = defineProps({
+//   // 是否需要重新获取用户信息
+//   getAccount: {
+//     type: Boolean,
+//     default: true
+//   }
+// });
+
 onMounted(async () => {
   // 如果存在cookie，更新用户信息
-  if (cookie) {
-    api.userAccount().then(res => {
-      userStore.setUserInfo(res.profile)
-    })
-  }
+  // if (cookie && props.getAccount) {
+  //   api.userAccount().then(res => {
+  //     userStore.setUserInfo(res.profile)
+  //   })
+  // }
 
   // 用户面板相关操作
   document.addEventListener('click', (event) => {
@@ -148,6 +156,10 @@ function signin() {
 }
 
 function update() {
+  if (!profile.value?.userId) {
+    return
+  }
+
   // 获取签到状态
   api.signinProgress(true).then(res => {
     if (res.code == 200) {

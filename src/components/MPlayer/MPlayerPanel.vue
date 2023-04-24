@@ -33,7 +33,7 @@
           </div>
           <div style="width: 100%;height: 130px;text-align: center;z-index: 1; position: relative"
             :class="[{ 'pause-needle': playStatus == false, 'resume-needle': playStatus == true }]">
-            <img :class="['play-needle-img']" src="../../assets/play_needle.png" />
+            <img :class="['play-needle-img']" :src="play_needle" />
           </div>
           <div :class="['record-in', 'xuanzhuan']" ref="cd">
             <div class="lines">
@@ -118,6 +118,8 @@ import Windows from "../../windows/Windows";
 import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
 import { handleLrc } from '../../utils/player'
+import play_needle from '../../assets/play_needle.png'
+import play_cd from '../../assets/play_cd.png'
 
 // 歌词类型
 enum lycsTypeEnum {

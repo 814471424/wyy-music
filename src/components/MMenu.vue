@@ -1,7 +1,7 @@
 <template>
   <div class="m-left">
     <div class="left-user">
-      <User />
+      <User :get-account="false" />
     </div>
     <div class="common-line-style"></div>
     <el-menu :default-active="path" :router=true class="m-menu">

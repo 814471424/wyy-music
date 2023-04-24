@@ -62,26 +62,28 @@ onMounted(async () => {
     type: 2,
   }]
 
-  let res = await api.dailyRecommendPlaylist()
-  if (res.code == 200) {
-    playlists.value = [...playlists.value, ...res.recommend.map(v => {
-      v.playCount = (v.playCount || v.playcount) ?? 0;
-      return { ...v, type: 1 }
-    })]
-  }
-  if (playlists.value.length >= limitValue) {
-    playlists.value = playlists.value.slice(0, limitValue)
-  } else {
-    let limit = limitValue - playlists.value.length;
-    api.recommendPlaylist({ limit: limit }).then(res => {
-      if (res.code == 200) {
-        playlists.value = [...playlists.value, ...res.result.map(v => {
-          v.playCount = (v.playCount || v.playcount) ?? 0;
-          return { ...v, type: 1 }
-        })]
-      }
-    })
-  }
+  api.dailyRecommendPlaylist().then(res => {
+    if (res.code == 200) {
+      playlists.value = [...playlists.value, ...res.recommend.map(v => {
+        v.playCount = (v.playCount || v.playcount) ?? 0;
+        return { ...v, type: 1 }
+      })]
+    }
+    if (playlists.value.length >= limitValue) {
+      playlists.value = playlists.value.slice(0, limitValue)
+    } else {
+      let limit = limitValue - playlists.value.length;
+      api.recommendPlaylist({ limit: limit }).then(res => {
+        if (res.code == 200) {
+          playlists.value = [...playlists.value, ...res.result.map(v => {
+            v.playCount = (v.playCount || v.playcount) ?? 0;
+            return { ...v, type: 1 }
+          })]
+        }
+      })
+    }
+  })
+
 
   // 热门播客
   // 听见好书-新用户免费听
@@ -190,7 +192,7 @@ onMounted(async () => {
 }
 
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 1000px) {
   .banner {
     :deep(.el-carousel__container) {
       height: 150px !important;
