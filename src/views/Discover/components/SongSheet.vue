@@ -112,16 +112,22 @@
 import { Ref, onMounted, ref, watch } from "vue"
 import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
 import api from '../../../api/index'
+import { userCacheStore } from '../../../store/cache'
+import { storeToRefs } from 'pinia'
 
-let highquality: Ref<null | Playlist.playListDetail> = ref(null);
-let list: Ref<Array<Playlist.playList & { type: number }>> = ref([]);
-let hotTags: Ref<Playlist.Catlist[]> = ref([]);
+// 追加缓存
+let userCache = userCacheStore();
+const { cache } = storeToRefs(userCache);
+// 正常参数
+let highquality: Ref<null | Playlist.playListDetail> = ref(cache.value.songListHighquality ?? null);
+let list: Ref<Array<Playlist.playList & { type: number }>> = ref(cache.value.songList ?? []);
+let hotTags: Ref<Playlist.Catlist[]> = ref(cache.value.songListHotTags ?? []);
 let cat = ref('全部歌单')
-let catAll: Ref<Playlist.Catlist | null> = ref(null);
-let catSub: Ref<Playlist.Catlist[]> = ref([]);
-// 分页相关参数
+let catAll: Ref<Playlist.Catlist | null> = ref(cache.value.songListAll ?? null);
+let catSub: Ref<Playlist.Catlist[]> = ref(cache.value.songListSub ?? []);
 let panelStatus = ref(false);
-let total = ref(0)
+// 分页相关参数
+let total = ref(cache.value.songListTotal ?? 0)
 let per_page = ref(30)
 let page = ref(1)
 
@@ -129,6 +135,30 @@ let page = ref(1)
 watch(() => cat.value, (value, _oldValue) => {
   page.value = 1
   updateList()
+})
+watch(() => hotTags.value, (value, _oldValue) => {
+  userCache.setSongListHotTags(value)
+})
+watch(() => catAll.value, (value, _oldValue) => {
+  userCache.setSongListAll(value)
+})
+watch(() => catSub.value, (value, _oldValue) => {
+  userCache.setSongListSub(value)
+})
+watch(() => highquality.value, (value, _oldValue) => {
+  if (cat.value == '全部歌单') {
+    userCache.setSongListHighquality(value)
+  }
+})
+watch(() => list.value, (value, _oldValue) => {
+  if (cat.value == '全部歌单' && page.value == 1) {
+    userCache.setSongLists(value)
+  }
+})
+watch(() => total.value, (value, _oldValue) => {
+  if (cat.value == '全部歌单') {
+    userCache.setSongListTotal(value)
+  }
 })
 
 onMounted(() => {
@@ -142,15 +172,22 @@ onMounted(() => {
 })
 
 function search() {
-  api.playlistHot().then(res => {
-    hotTags.value = res.tags ?? [];
-  })
-  api.playlistCatlist().then(res => {
-    catAll.value = res.all
-    catSub.value = res.sub
-  })
+  if (hotTags.value.length == 0) {
+    api.playlistHot().then(res => {
+      hotTags.value = res.tags ?? [];
+    })
+  }
 
-  updateList()
+  if (catSub.value.length == 0) {
+    api.playlistCatlist().then(res => {
+      catAll.value = res.all
+      catSub.value = res.sub
+    })
+  }
+
+  if (!(cat.value == '全部歌单' && list.value.length > 0)) {
+    updateList()
+  }
 }
 
 // 重新选择歌单分类

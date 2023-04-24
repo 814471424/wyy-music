@@ -10,7 +10,20 @@ interface Cache {
     privatecontents?: Array<MV.privatecontentItem>
     // 发现音乐-个性推荐-推荐MV
     personalizedMvs?: Array<MV.mvItem>
-    // 发现音乐-歌单
+
+    // 目前只缓存全部歌单的分类的数据
+    // 发现音乐-歌单-歌单推荐封面
+    songListHighquality?: Playlist.playListDetail | null
+    // 发现音乐-歌单-歌单列表
+    songList?: Array<Playlist.playList & { type: number }>
+    // 发现音乐-歌单-歌单的分类
+    songListAll?: Playlist.Catlist | null
+    songListSub?: Array<Playlist.Catlist>
+    // 发现音乐-歌单-热门歌单分类
+    songListHotTags?: Array<Playlist.Catlist>
+    // 发现音乐-歌单-总数
+    songListTotal?: number
+
     // 过期时间
     expireTime?: number
 }
@@ -37,20 +50,44 @@ export const userCacheStore = defineStore('cache', {
             this.cache = { expireTime: getNextDate() }
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },
-        setPlaylists(list: Array<Playlist.playList & { type: number }>) {
-            this.cache.playlists = list;
+        setPlaylists(data: Array<Playlist.playList & { type: number }>) {
+            this.cache.playlists = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },
-        setPrivatecontents(list: Array<MV.privatecontentItem>) {
-            this.cache.privatecontents = list;
+        setPrivatecontents(data: Array<MV.privatecontentItem>) {
+            this.cache.privatecontents = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },
-        setPersonalizedMvs(list: Array<MV.mvItem>) {
-            this.cache.personalizedMvs = list;
+        setPersonalizedMvs(data: Array<MV.mvItem>) {
+            this.cache.personalizedMvs = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },
-        setBanners(list: Common.bannerData[]) {
-            this.cache.banners = list;
+        setBanners(data: Common.bannerData[]) {
+            this.cache.banners = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setSongLists(data: Array<Playlist.playList & { type: number }>) {
+            this.cache.songList = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setSongListAll(data: Playlist.Catlist | null) {
+            this.cache.songListAll = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setSongListSub(data: Array<Playlist.Catlist>) {
+            this.cache.songListSub = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setSongListHotTags(data: Array<Playlist.Catlist>) {
+            this.cache.songListHotTags = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setSongListHighquality(data: Playlist.playListDetail | null) {
+            this.cache.songListHighquality = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setSongListTotal(data: number) {
+            this.cache.songListTotal = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },
     }

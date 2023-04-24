@@ -29,6 +29,7 @@
       <Ranking v-if="activeName == 'ranking'" />
       <Artist v-if="activeName == 'singer'" />
       <TopSong v-if="activeName == 'latest'" />
+      <div style="height: 20px;"></div>
     </div>
   </div>
 </template>
@@ -82,7 +83,6 @@ const handleClick = (tab: string) => {
 .discover-body {
   height: calc(100% - 50px);
   box-sizing: border-box;
-  padding-bottom: 20px;
 
   div {
     height: 100%;
