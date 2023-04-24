@@ -13,6 +13,7 @@ import Setting from '../views/Setting/Index.vue'
 import Album from '../views/Album.vue'
 import Home from '../views/Home.vue'
 import Video from '../views/Video/Index.vue'
+import MV from '../views/MV/Index.vue'
 
 const routes: RouteRecordRaw[] = [
     {
@@ -109,8 +110,13 @@ const routes: RouteRecordRaw[] = [
                 component: Album
             },
             {
+                // 视频详情
                 path: '/video/:id',
                 component: Video
+            },
+            {
+                path: '/mv/:id',
+                component: MV
             }
         ]
     },

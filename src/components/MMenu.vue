@@ -1,7 +1,7 @@
 <template>
   <div class="m-left">
     <div class="left-user">
-      <User :get-account="false" />
+      <User :get-account="false" :init-get-info="true" />
     </div>
     <div class="common-line-style"></div>
     <el-menu :default-active="path" :router=true class="m-menu">
@@ -60,7 +60,7 @@ import User from './MHeader/User.vue'
 
 const route = useRoute()
 const userStore = useUserStore()
-const { profile } = storeToRefs(userStore)
+const { profile, userPlayList } = storeToRefs(userStore)
 let path = computed(() => route.path);
 let lovePlayList: Playlist.playListDetail | null = null;
 let createPlaylist: Ref<Playlist.playListDetail[]> = ref([]);
@@ -71,18 +71,32 @@ const tauriResult = (window as any).__TAURI__ != undefined;
 watch(() => profile.value, (value, _oldValue) => {
   getPlayList()
 })
+watch(() => userPlayList.value, (value, _oldValue) => {
+  lovePlayList = value.filter(v => v.name == '我喜欢的音乐')[0] ?? null;
+  createPlaylist.value = value.filter(v => (v.creator.userId == profile.value?.userId) && v.name != '我喜欢的音乐');
+  collectPlaylist.value = value.filter(v => v.creator.userId != profile.value?.userId);
+})
 onMounted(() => {
   getPlayList()
 })
 
 
 function getPlayList() {
+  if (userPlayList.value.length > 0) {
+    lovePlayList = userPlayList.value.filter(v => v.name == '我喜欢的音乐')[0] ?? null;
+    createPlaylist.value = userPlayList.value.filter(v => (v.creator.userId == profile.value?.userId) && v.name != '我喜欢的音乐');
+    collectPlaylist.value = userPlayList.value.filter(v => v.creator.userId != profile.value?.userId);
+    return
+  }
+
   if (profile.value?.userId) {
     api.userPlaylist({ uid: profile.value.userId }).then(res => {
       if (res.code == 200) {
         lovePlayList = res.playlist.filter(v => v.name == '我喜欢的音乐')[0] ?? null;
         createPlaylist.value = res.playlist.filter(v => (v.creator.userId == profile.value?.userId) && v.name != '我喜欢的音乐');
         collectPlaylist.value = res.playlist.filter(v => v.creator.userId != profile.value?.userId);
+
+        userStore.setUserPlayList(res.playlist)
       }
     })
   }

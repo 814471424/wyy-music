@@ -42,12 +42,12 @@ declare namespace Common {
         avatarUrl?: string,
         backgroundUrl?: string,
         signature?: string
-        accountType: number
+        accountType?: number
         birthday?: number
-        gender: number
+        gender?: number
         // 毫秒级
-        lastLoginTime: number
-        lastLoginIP: string
+        lastLoginTime?: number
+        lastLoginIP?: string
     }
 
     // 歌词详情
@@ -134,6 +134,33 @@ declare namespace Common {
         // 简介
         briefDesc: string
         // 其他先忽略
+    }
+
+    // 视频连接
+    export interface videoUrl {
+        id: string,
+        url: string,
+        size: number
+    }
+
+    // 视频详情
+    export interface videoDetail {
+        vid: string
+        creator: profileInfo
+        coverUrl: string
+        title: string
+        description?: string
+        publishTime?: number
+        avatarUrl?: string
+        videoGroup: Array<{
+            id: 4101
+            name: string
+            alg?: string
+        }>
+        // 0为mv, 1为其他
+        type: number
+        playTime?: number
+        durationms?: number
     }
 }
 

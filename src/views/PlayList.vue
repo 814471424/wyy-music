@@ -73,27 +73,13 @@ function tableDbClick(row: Playlist.dailySong) {
 }
 
 async function getPlaylistDetail() {
-  tracks.value = [];
-  let trackIds = [] as number[];
-  // 获取歌单详情
-  let res = await api.getPlaylistDetail({ id })
-  if (res.code == 200) {
-    // 获取所有的歌曲
-    playlistDetail.value = res.playlist
-    trackIds = res.playlist.trackIds.map(v => v.id)
-  }
-
-  // 获取所有的歌曲信息
-  let newArr = [] as number[][];
-  for (let i = 0; i < trackIds.length;) {
-    newArr.push(trackIds.slice(i, i += 300));
-  }
-  for (let i of newArr) {
-    let res = await api.getTrackDetail(i.join(','));
+  api.getPlaylistDetail({ id }).then(res => {
     if (res.code == 200) {
-      tracks.value = [...tracks.value, ...res.songs ?? []]
+      // 获取所有的歌曲
+      playlistDetail.value = res.playlist
+      tracks.value = res.playlist.tracks
     }
-  }
+  })
 }
 </script>
 

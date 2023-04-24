@@ -11,10 +11,8 @@ export async function playOne(song: Common.songX) {
     let playListStore = usePlayListStore();
 
     let url = '';
-    let lycs: Array<number | string> = [];
-    let lyc = '';
-    let tlyric = '';
-    let romalrc = '';
+
+
     let songx = song
 
     // 不是本地的需要查找资源url, 查找歌词
@@ -33,13 +31,32 @@ export async function playOne(song: Common.songX) {
             return
         }
         url = res.data[0].url ?? "";
-        // 之后获取歌词
-        let lysRes = await api.getLyric(song.id)
-        if (lysRes.code == 200) {
-            lyc = lysRes.lrc?.lyric ?? ''
-            tlyric = lysRes.tlyric?.lyric ?? ''
-            romalrc = lysRes.romalrc?.lyric ?? ''
-        }
+
+        // 之后获取歌词-不要阻塞
+        api.getLyric(song.id).then(lysRes => {
+            let lycs: Array<number | string> = [];
+            let lyc = '';
+            let tlyric = '';
+            let romalrc = '';
+
+            if (lysRes.code == 200) {
+                lyc = lysRes.lrc?.lyric ?? ''
+                tlyric = lysRes.tlyric?.lyric ?? ''
+                romalrc = lysRes.romalrc?.lyric ?? ''
+            }
+
+            mainStore.setUrl(url);
+            mainStore.setLycs(lycs);
+            mainStore.setLyc(lyc, tlyric, romalrc);
+        }).catch(_error => {
+            let lycs: Array<number | string> = [];
+            let lyc = '';
+            let tlyric = '';
+            let romalrc = '';
+            mainStore.setUrl(url);
+            mainStore.setLycs(lycs);
+            mainStore.setLyc(lyc, tlyric, romalrc);
+        })
     } else {
         if (!song.filePath) {
             return
@@ -48,9 +65,6 @@ export async function playOne(song: Common.songX) {
     }
 
     // 播放并各种缓存
-    mainStore.setUrl(url);
-    mainStore.setLycs(lycs);
-    mainStore.setLyc(lyc, tlyric, romalrc);
     mainStore.setSongxData(songx);
     playListStore.addOne(songx);
 }

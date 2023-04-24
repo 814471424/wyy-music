@@ -67,13 +67,18 @@ let followCount = ref(0);
 let fans = ref(0);
 let trends = ref(0);
 
-// const props = defineProps({
-//   // 是否需要重新获取用户信息
-//   getAccount: {
-//     type: Boolean,
-//     default: true
-//   }
-// });
+const props = defineProps({
+  // // 是否需要重新获取用户信息
+  // getAccount: {
+  //   type: Boolean,
+  //   default: true
+  // }
+  // 刷新时是否需要获取各项参数
+  initGetInfo: {
+    type: Boolean,
+    default: false
+  }
+});
 
 onMounted(async () => {
   // 如果存在cookie，更新用户信息
@@ -94,7 +99,9 @@ onMounted(async () => {
   })
 
   // 适配手机端(手机端面板不是主动触发的，这个事件无法完成)
-  update()
+  if (props.initGetInfo) {
+    update()
+  }
 })
 
 onUnmounted(() => {
@@ -167,19 +174,19 @@ function update() {
     }
   })
   // 获取收藏数量
-  api.userFollows({ uid: profile.value?.userId ?? '', offset: 0, limit: 10000 }).then(res => {
+  api.userFollows({ uid: profile.value?.userId, offset: 0, limit: 10000 }).then(res => {
     if (res.code == 200) {
       followCount.value = res.follow.length
     }
   })
   // 粉丝数量
-  api.userFolloweds({ uid: profile.value?.userId ?? '' }).then(res => {
+  api.userFolloweds({ uid: profile.value?.userId }).then(res => {
     if (res.code == 200) {
       fans.value = res.size
     }
   })
   // 动态数量
-  api.userEvent({ uid: profile.value?.userId ?? '' }).then(res => {
+  api.userEvent({ uid: profile.value?.userId }).then(res => {
     if (res.code == 200) {
       trends.value = res.size
     }

@@ -4,7 +4,7 @@
   <div style="width: 100%; padding-right: 1px; padding-left: 1px;">
     <div :class="{ 'video-item-list': !props.singleRow, 'video-item-box-list': props.singleRow }">
       <div class="item" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
-        <div class="item-cover">
+        <div class="item-cover" @click="router.push('/mv/' + item.id)">
           <img class="background" v-lazy="item.picUrl" alt="" :key="item.picUrl">
           <div v-if="item.playCount" class="playCount"><span class="iconfont wyy-bofangliang"></span>
             {{ handlePlayCount(item.playCount ?? 0) }}
@@ -23,6 +23,7 @@
 <script lang="ts" setup>
 import { onMounted } from 'vue';
 import { handlePlayCount } from '../../utils/handle'
+import router from '../../router/index'
 
 type item = {
   // mv id
