@@ -72,7 +72,7 @@ export function search(
         list?: Array<Search.song | Search.artist | Search.video | Search.playlist | any>
     }
 > {
-    return request.get<any, searchResponse, any>('/search', { params: { ...params, type: stype } }).then(res => {
+    return request.get<any, searchResponse, any>('/cloudsearch', { params: { ...params, type: stype } }).then(res => {
         return {
             code: res.code,
             message: res.message,

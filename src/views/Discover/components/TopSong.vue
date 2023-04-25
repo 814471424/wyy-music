@@ -6,7 +6,7 @@
           v-for="(item, key) in type" :key="key">
           {{ item.name }}</div>
       </div>
-      <TableOne :list="list" />
+      <TableOne :list="list" :v-loading="loading" />
     </div>
     <div style="height: 20px;"></div>
   </div>
@@ -32,6 +32,7 @@ const type = [
 ];
 let checkType = ref('0');
 let list: Ref<Search.song[]> = ref(cache.value.topSongList ?? []);
+let loading = ref(false);
 
 watch(() => checkType.value, () => {
   update()

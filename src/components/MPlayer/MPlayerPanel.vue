@@ -1,7 +1,11 @@
 <template>
-  <div class="m-player-panel" :style="[{
+  <!-- <div class="m-player-panel" :style="[{
     background: '-webkit-linear-gradient(272deg, rgb(184 184 184), rgb(255 255 255 / 95%), rgba(255,255,255,1)),url(' + songX?.al?.picUrl + ')'
-  }]">
+  }]"> -->
+  <div class="m-player-panel">
+    <p class="bgi">
+      <img :src="songX?.al?.picUrl" />
+    </p>
     <!-- 头部 -->
     <div class="m-player-panel-header" data-tauri-drag-region="true">
       <div @click="props.closeDrawer()"><span class="iconfont wyy-xiangxia-a" style="margin-left: 35px;"></span></div>
@@ -494,6 +498,24 @@ function changeLycsType(value: lycsTypeEnum) {
       }
     }
   }
+}
+
+.bgi {
+  width: 100%;
+  height: 100px;
+  position: fixed;
+  filter: blur(108px);
+  -moz-filter: blur(108px);
+  background-color: white;
+  // z-index: -1;
+  transition: all 1s;
+}
+
+.bgi img {
+  position: absolute;
+  left: -50%;
+  width: 200%;
+  height: 100%;
 }
 
 // 旋转图片特效

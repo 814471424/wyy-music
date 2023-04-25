@@ -96,6 +96,7 @@ function search() {
       switch (activeName.value) {
         case searchType.song:
           songList.value = res.list ?? []
+          console.log(songList.value)
           searchMessage.value = '找到' + total.value + '首单曲'
           break;
         case searchType.artist:

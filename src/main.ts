@@ -8,7 +8,8 @@ import { createPinia } from 'pinia'
 import VueLazyload from 'vue-lazyload'
 import "element-plus/dist/index.css"
 import "./styles.css";
-import loadimage from './assets/loading.png'
+import loadingSmall from './assets/loading_small.gif'
+import miku404 from './assets/miku404.png'
 import './assets/iconfont/iconfont.css'
 // import './assets/yunti.css'
 import Theme from './utils/theme'
@@ -23,9 +24,10 @@ createApp(App)
     .use(Router)
     .use(createPinia())
     .use(VueLazyload, {
-        preLoad: 1.3,
-        loading: loadimage,
-        attempt: 1,
+        preLoad: 1,
+        loading: loadingSmall,
+        error: miku404,
+        attempt: 2,
         lazyComponent: false
     })
     .mount("#app");

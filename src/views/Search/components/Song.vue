@@ -10,7 +10,7 @@
     </el-table-column>
     <el-table-column prop="address" label="专辑" :show-overflow-tooltip=true>
       <template #default="scope">
-        {{ scope.row.album.name ?? '' }}
+        {{ scope.row.album ? scope.row.album.name : '' }}
       </template>
     </el-table-column>
     <el-table-column label="时长" :show-overflow-tooltip=true>
