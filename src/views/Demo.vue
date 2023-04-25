@@ -9,7 +9,8 @@ onMounted(() => {
 
 })
 function demo() {
-  console.log(getNextDate())
+  console.log(JSON.stringify({}) == '{}')
+  // console.log(getNextDate())
 }
 
 function getNextDate(): number {

@@ -146,12 +146,12 @@ watch(() => catSub.value, (value, _oldValue) => {
   userCache.setSongListSub(value)
 })
 watch(() => highquality.value, (value, _oldValue) => {
-  if (cat.value == '全部歌单') {
+  if (cat.value == '全部歌单' && !cache.value.songListHighquality) {
     userCache.setSongListHighquality(value)
   }
 })
 watch(() => list.value, (value, _oldValue) => {
-  if (cat.value == '全部歌单' && page.value == 1) {
+  if (cat.value == '全部歌单' && page.value == 1 && (cache.value.songList ?? []).length == 0) {
     userCache.setSongLists(value)
   }
 })
@@ -185,7 +185,7 @@ function search() {
     })
   }
 
-  if (!(cat.value == '全部歌单' && list.value.length > 0)) {
+  if (!(cat.value == '全部歌单' && list.value.length != per_page.value)) {
     updateList()
   }
 }

@@ -23,31 +23,55 @@
 </template>
 
 <script lang="ts" setup>
-import { Ref, onMounted, ref } from 'vue';
+import { Ref, onMounted, ref, watch } from 'vue';
 import api from '../../../api/index'
 import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
 import paly_icon from '../../../assets/paly_icon.png'
 import { millisecondToDateName } from '../../../utils/time'
 import router from '../../../router';
 
+import { userCacheStore } from '../../../store/cache'
+import { storeToRefs } from 'pinia'
+
+// 追加缓存
+let userCache = userCacheStore();
+const { cache } = storeToRefs(userCache);
+
 // 官方榜
-let officialList: Ref<Playlist.playListDetail[]> = ref([]);
-let officialTracks: Ref<{ [key: number]: Playlist.dailySong[] }> = ref({});
+let officialList: Ref<Playlist.playListDetail[]> = ref(cache.value.rankingOfficialList ?? []);
+let officialTracks: Ref<{ [key: number]: Playlist.dailySong[] }> = ref(cache.value.rankingOfficialTracks ?? {});
 // 全球榜
-let globalList: Ref<Array<Playlist.playListDetail & { type: number, picUrl: string }>> = ref([]);
+let globalList: Ref<Array<Playlist.playListDetail & { type: number, picUrl: string }>> = ref(cache.value.rankingGlobalList ?? []);
+
+watch(() => officialList.value, (value) => {
+  userCache.setRankingOfficialList(value)
+})
+watch(() => officialTracks.value, (value) => {
+  console.log(value)
+  userCache.setRankingOfficialTracks(value)
+})
+watch(() => globalList.value, (value) => {
+  userCache.setRankingGlobalList(value)
+})
 
 onMounted(() => {
-  api.toplist().then(res => {
-    officialList.value = res.list.filter(v => v.ToplistType);
-    globalList.value = res.list.filter(v => !v.ToplistType).map(v => { return { ...v, picUrl: v.coverImgUrl, type: 1 } })
+  if (
+    officialList.value.length == 0
+    || JSON.stringify(officialTracks.value) == '{}'
+    || globalList.value.length == 0
+  ) {
+    api.toplist().then(res => {
+      officialList.value = res.list.filter(v => v.ToplistType);
+      globalList.value = res.list.filter(v => !v.ToplistType).map(v => { return { ...v, picUrl: v.coverImgUrl, type: 1 } })
 
-    // 查找榜单中的歌单前五首
-    for (let i of officialList.value) {
-      api.getPlaylistDetail({ id: i.id }).then(res => {
-        officialTracks.value[i.id] = (res.playlist.tracks ?? []).splice(0, 5)
-      })
-    }
-  })
+      // 查找榜单中的歌单前五首
+      for (let i of officialList.value) {
+        api.getPlaylistDetail({ id: i.id }).then(res => {
+          officialTracks.value = { ...officialTracks.value, [i.id]: (res.playlist.tracks ?? []).splice(0, 5) }
+        })
+      }
+    })
+  }
 })
 
 function goTO(id: number) {

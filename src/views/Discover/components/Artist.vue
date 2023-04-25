@@ -39,6 +39,12 @@
 import { Ref, onMounted, ref, watch } from "vue"
 import api from '../../../api/index'
 import SquareGridItem from '../../../components/Common/SquareGridItem.vue'
+import { userCacheStore } from '../../../store/cache'
+import { storeToRefs } from 'pinia'
+
+// 追加缓存
+let userCache = userCacheStore();
+const { cache } = storeToRefs(userCache);
 
 // 语种
 const artistType = [
@@ -90,7 +96,7 @@ const artistInitial = [
 let checkArtistType = ref('-1');
 let checkArtistArea = ref('-1');
 let checkArtistInitial = ref('-1');
-let artistList: Ref<Array<Search.artist & { type: number }>> = ref([]);
+let artistList: Ref<Array<Search.artist & { type: number }>> = ref(cache.value.singerArtistList ?? []);
 let more = true;
 let requestStatus = true;
 let page = 0;
@@ -105,9 +111,23 @@ watch([checkArtistType, checkArtistArea, checkArtistInitial], ([_type, _area, _i
 
   update()
 })
+watch(() => artistList.value, (value) => {
+  if (
+    page == 1
+    && checkArtistType.value == '-1'
+    && checkArtistArea.value == '-1'
+    && checkArtistInitial.value == '-1'
+    && value.length > 0
+    && (cache.value.singerArtistList ?? []).length == 0
+  ) {
+    userCache.setSingerArtistList(value)
+  }
+})
 
 onMounted(() => {
-  update()
+  if (artistList.value.length != limit) {
+    update()
+  }
 
   singerRef = document.getElementById('artist')
   singerRef?.addEventListener('scroll', (event) => {

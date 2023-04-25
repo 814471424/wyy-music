@@ -15,6 +15,12 @@
 import { onMounted, ref, Ref, watch } from "vue"
 import api from '../../../api/index'
 import TableOne from '../../../components/Common/TableOne.vue'
+import { userCacheStore } from '../../../store/cache'
+import { storeToRefs } from 'pinia'
+
+// 追加缓存
+let userCache = userCacheStore();
+const { cache } = storeToRefs(userCache);
 
 const type = [
   { value: '0', name: '全部' },
@@ -24,14 +30,21 @@ const type = [
   { value: '16', name: '韩国' },
 ];
 let checkType = ref('0');
-let list: Ref<Search.song[]> = ref([]);
+let list: Ref<Search.song[]> = ref(cache.value.topSongList ?? []);
 
 watch(() => checkType.value, () => {
   update()
 })
+watch(() => list.value, (value) => {
+  if (checkType.value == '0') {
+    userCache.setTopSongList(value)
+  }
+})
 
 onMounted(() => {
-  update()
+  if (list.value.length == 0) {
+    update()
+  }
 })
 
 function update() {

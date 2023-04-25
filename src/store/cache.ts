@@ -24,6 +24,17 @@ interface Cache {
     // 发现音乐-歌单-总数
     songListTotal?: number
 
+    // 发现音乐-排行榜
+    rankingOfficialList?: Playlist.playListDetail[]
+    rankingOfficialTracks?: { [key: number]: Playlist.dailySong[] }
+    rankingGlobalList?: Array<Playlist.playListDetail & { type: number, picUrl: string }>
+
+    // 发现音乐-歌手
+    singerArtistList?: Array<Search.artist & { type: number }>
+
+    // 发现音乐-最新音乐
+    topSongList?: Array<Search.song>
+
     // 过期时间
     expireTime?: number
 }
@@ -90,6 +101,26 @@ export const userCacheStore = defineStore('cache', {
             this.cache.songListTotal = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },
+        setRankingOfficialList(data: Playlist.playListDetail[]) {
+            this.cache.rankingOfficialList = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setRankingOfficialTracks(data: { [key: number]: Playlist.dailySong[] }) {
+            this.cache.rankingOfficialTracks = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setRankingGlobalList(data: Array<Playlist.playListDetail & { type: number, picUrl: string }>) {
+            this.cache.rankingGlobalList = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setSingerArtistList(data: Array<Search.artist & { type: number }>) {
+            this.cache.singerArtistList = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        },
+        setTopSongList(data: Array<Search.song>) {
+            this.cache.topSongList = data;
+            localStorage.setItem('cache', JSON.stringify(this.cache))
+        }
     }
 })
 
@@ -100,7 +131,7 @@ function getNextDate(): number {
 
     let lastDaysTimes = day * 24 * 60 * 60 * 1000;
     let lastDate = new Date(currentDate.getTime() + lastDaysTimes); //最后得到得时间
-    lastDate.setHours(0, 0, 0);//将时间设置到0点0刻。
+    lastDate.setHours(6, 0, 0);//将时间设置到6点0刻。
 
     return lastDate.getTime()
 }
