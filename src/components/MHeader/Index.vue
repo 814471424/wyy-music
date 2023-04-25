@@ -163,6 +163,10 @@ function inputSearch() {
         background-color: var(--primary-background-color);
         border-radius: 24px;
         text-align: center;
+
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
 
       .header-maikefeng {
@@ -272,6 +276,10 @@ function inputSearch() {
       }
 
       .header-search {
+        .header-back-url {
+          display: none;
+        }
+
         .header-maikefeng {
           display: none;
         }
@@ -279,6 +287,7 @@ function inputSearch() {
     }
 
     .header-system {
+
       display: none;
     }
   }
