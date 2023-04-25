@@ -32,7 +32,7 @@
       <div style="height: 20px;"></div>
     </div> -->
 
-    <van-tabs v-model:active="activeName" swipeable shrink>
+    <van-tabs v-model:active="activeName" swipeable shrink @change="changeName">
       <van-tab title="个性推荐" name="recommend">
         <Recommend />
       </van-tab>
@@ -46,7 +46,7 @@
         <Artist />
       </van-tab>
       <van-tab title="最新音乐" name="latest">
-        <TopSong />
+        <NewSong />
       </van-tab>
     </van-tabs>
   </div>
@@ -56,11 +56,15 @@ import { ref, } from 'vue'
 import Recommend from './components/Recommend.vue'
 import SongSheet from './components/SongSheet.vue'
 import Artist from './components/Artist.vue'
-import TopSong from './components/TopSong.vue'
+import NewSong from './components/NewSong.vue'
 import Ranking from './components/Ranking.vue'
+import router from '../../router/index'
 
-const activeName = ref('recommend')
+const activeName = ref(router.currentRoute.value.query['type'] ?? 'recommend')
 
+function changeName(name: string | number, _title: string) {
+  router.push({ path: '/discover', query: { ...router.currentRoute.value.query, type: name } })
+}
 </script>
 
 <style lang="less" scoped>

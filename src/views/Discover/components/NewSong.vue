@@ -2,11 +2,11 @@
   <div class="song-padding">
     <div class="latest-body">
       <div class="latest-type  common-padding">
-        <div @click="checkType = item.value" :class="['type-item', { 'type-item-active': item.value == checkType }]"
+        <div @click="changeType(key)" :class="['type-item', { 'type-item-active': key == checkType }]"
           v-for="(item, key) in type" :key="key">
-          {{ item.name }}</div>
+          {{ item }}</div>
       </div>
-      <TableOne :list="list" :v-loading="loading" />
+      <TableOne :list="list" />
     </div>
     <div style="height: 20px;"></div>
   </div>
@@ -18,21 +18,15 @@ import api from '../../../api/index'
 import TableOne from '../../../components/Common/TableOne.vue'
 import { userCacheStore } from '../../../store/cache'
 import { storeToRefs } from 'pinia'
+import router from '../../../router/index'
 
 // 追加缓存
 let userCache = userCacheStore();
 const { cache } = storeToRefs(userCache);
 
-const type = [
-  { value: '0', name: '全部' },
-  { value: '7', name: '华语' },
-  { value: '96', name: '欧美' },
-  { value: '8', name: '日本' },
-  { value: '16', name: '韩国' },
-];
-let checkType = ref('0');
+const type = { '0': '全部', '7': '华语', '96': '欧美', '8': '日本', '16': '韩国' };
+let checkType = ref(router.currentRoute.value.query['newSongType'] as string ?? '0');
 let list: Ref<Search.song[]> = ref(cache.value.topSongList ?? []);
-let loading = ref(false);
 
 watch(() => checkType.value, () => {
   update()
@@ -44,7 +38,12 @@ watch(() => list.value, (value) => {
 })
 
 onMounted(() => {
-  if (list.value.length == 0) {
+  if (!type.hasOwnProperty(checkType.value)) {
+    checkType.value = '0';
+    router.push({ path: '/discover', query: { ...router.currentRoute.value.query, newSongType: checkType.value } })
+  }
+
+  if (list.value.length == 0 || checkType.value != '0') {
     update()
   }
 })
@@ -53,6 +52,12 @@ function update() {
   api.topSong(checkType.value).then(res => {
     list.value = res.data;
   });
+}
+
+function changeType(typeKey: string) {
+  checkType.value = typeKey
+
+  router.push({ path: '/discover', query: { ...router.currentRoute.value.query, newSongType: checkType.value } })
 }
 </script>
 
