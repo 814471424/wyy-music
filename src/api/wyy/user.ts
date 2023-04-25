@@ -92,6 +92,7 @@ export function loginStatus(): Promise<{
     data: {
         code: number,
         profile?: Common.profileInfo | null
+        account: any | null
     }
 }> {
     return request.get('/login/status', {

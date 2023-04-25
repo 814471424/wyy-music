@@ -1,5 +1,9 @@
 <template>
-  <div :class="{ 'item-list': !props.singleRow, 'item-box-list': props.singleRow }">
+  <div :class="{
+    'item-list': !props.singleRow,
+    'item-box-list': props.singleRow,
+    'item-box-list-no-touch': props.singleRow,
+  }">
     <div class="item" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
       <div class="item-cover">
         <img class="background" v-lazy="item.picUrl" alt="" :key="item.picUrl">
@@ -32,6 +36,7 @@ import router from '../../router'
 import { handlePlayCount } from '../../utils/handle'
 import paly_icon from '../../assets/paly_icon.png'
 import { millisecondToDate } from '../../utils/time'
+import { onMounted } from 'vue'
 
 // 封面
 enum itemType {
@@ -89,6 +94,20 @@ function itemClick(item: item) {
       break;
   }
 }
+
+onMounted(() => {
+  document.querySelectorAll('.item-box-list-no-touch').forEach(el => {
+    el.addEventListener('touchstart', (event) => {
+      event.stopPropagation()
+    })
+    el.addEventListener('touchend', (event) => {
+      event.stopPropagation()
+    })
+    el.addEventListener('touchmove', (event) => {
+      event.stopPropagation()
+    })
+  })
+})
 </script>
   
 <style lang="less" scoped>

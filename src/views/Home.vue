@@ -30,11 +30,21 @@ import MAudio from '../components/MAudio.vue';
 import { useUserStore } from "../store/user";
 import { storeToRefs } from "pinia";
 import api from "../api";
+import { fa } from "element-plus/es/locale";
 
 const leftRef: Ref<HTMLElement | null> = ref(null);
 const leftStatus = ref(false);
 let userStore = useUserStore();
 const { cookie } = storeToRefs(userStore);
+
+// 手指是否被按下
+let touchStatus = ref(false);
+// 手指按下/移动/松开时的坐标
+let touchStartXY: Ref<Touch | null> = ref(null);
+let touchMoveXY: Ref<Touch | null> = ref(null);
+let touchEndXY: Ref<Touch | null> = ref(null);
+// 差值
+let diff = ref(0);
 
 watch(() => cookie.value, (value, _oldValue) => {
   if (!value || value == '') {
@@ -46,15 +56,16 @@ watch(() => cookie.value, (value, _oldValue) => {
 onMounted(async () => {
   if (cookie) {
     api.loginStatus().then(async res => {
-      if (!res.data.profile) {
+      // 不是游客且不是登录用户是触发
+      if (!res.data.profile && !res.data.account) {
         // 刷新游客cookie
         console.log('刷新游客cookie111')
         refurbishCookie()
       }
-    }).catch(async _err => {
+    }).catch(async err => {
       // 游客登录
-      console.log('刷新游客cookie222')
-      refurbishCookie()
+      console.log('loginStatus() 获取请求错误:' + err)
+      // refurbishCookie()
     })
   } else {
     console.log('刷新游客cookie333')
@@ -70,6 +81,47 @@ onMounted(async () => {
   leftRef.value?.addEventListener('click', (event) => {
     event.stopPropagation()
   })
+
+
+  // leftRef.value?.addEventListener('scroll', (event) => {
+  //   touchStatus.value = false
+  // })
+  // leftRef.value?.addEventListener('touchstart', (event) => {
+  //   touchStartXY.value = event.touches[0]
+  //   setTimeout(() => {
+  //     touchStatus.value = true
+  //   }, 200);
+
+  //   event.stopPropagation()
+  // })
+  // leftRef.value?.addEventListener('touchmove', (event) => {
+
+
+  //   if (touchStatus.value && touchStartXY.value) {
+  //     // let clientX = touchMoveXY.value?.clientX ?? touchStartXY.value.clientX
+  //     let clientX = touchStartXY.value.clientX
+
+  //     diff.value = clientX - event.touches[0].clientX
+  //     touchMoveXY.value = event.touches[0]
+
+  //     console.log('每一次移动的差值: ' + diff.value)
+  //     if (leftRef.value) {
+  //       leftRef.value.style.transform = 'translateX(' + diff.value * -5 + 'px)'
+  //     }
+  //   }
+
+  //   event.stopPropagation()
+  // })
+  // leftRef.value?.addEventListener('touchend', (event) => {
+  //   touchEndXY.value = event.touches[0]
+  //   touchStatus.value = false
+
+  //   if (leftRef.value) {
+  //     leftRef.value.style.transform = ''
+  //   }
+  //   leftStatus.value = false
+  //   event.stopPropagation()
+  // })
 })
 
 function showLeftContainer() {
@@ -83,6 +135,7 @@ async function refurbishCookie() {
   userStore.setCookie(res.cookie)
   // userStore.setUserInfo(null)
 }
+
 </script>
 
 <style lang="less" scoped>

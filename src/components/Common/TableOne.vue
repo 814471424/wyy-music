@@ -1,15 +1,15 @@
 <template>
   <div class="table-item" v-for="(item, key) in props.list" :key="key">
-    <div class="table-index">{{ key < 9 ? '0' + (key + 1) : key + 1 }}</div>
-        <div class="table-image" @click="play(item)">
-          <img class="table-background" v-lazy="item.album.picUrl" alt="">
-          <img class="paly_icon" :src="paly_icon" alt="">
-        </div>
-        <div class="table-name">{{ item.name }}</div>
-        <div class="table-author">{{ item.artists.map(v => v.name).join(' / ') }}</div>
-        <div class="table-album">{{ item.album.name }}</div>
-        <div class="table-time">{{ millisecondToTime(item.duration) }}</div>
+    <div class="table-index font-weak" v-html="key < 9 ? '0' + (key + 1) : key + 1"></div>
+    <div class="table-image" @click="play(item)">
+      <img class="table-background" v-lazy="item.album.picUrl" alt="">
+      <img class="paly_icon" :src="paly_icon" alt="">
     </div>
+    <div class="table-name">{{ item.name }}</div>
+    <div class="table-author font-weak">{{ item.artists.map(v => v.name).join(' / ') }}</div>
+    <div class="table-album font-weak">{{ item.album.name }}</div>
+    <div class="table-time font-weak">{{ millisecondToTime(item.duration) }}</div>
+  </div>
 </template>
 
 <script lang="ts" setup>
@@ -24,7 +24,6 @@ const props = defineProps<{
 function play(item: Search.song) {
   playOne({ ...item, songType: 'topSong', alia: [], dt: 0, ar: [] })
 }
-
 </script>
 
 <style lang="less" scoped>
@@ -32,6 +31,7 @@ function play(item: Search.song) {
   height: 80px;
   display: flex;
   align-items: center;
+  font-size: 0.8rem;
 
   .table-index {
     min-width: 30px;
@@ -103,6 +103,10 @@ function play(item: Search.song) {
   &:hover {
     background-color: #dfdfdf64;
   }
+}
+
+.font-weak {
+  color: #505050;
 }
 
 .table-item {

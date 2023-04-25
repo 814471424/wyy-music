@@ -2,7 +2,11 @@
 <!-- 手机端显示全部多个换行 -->
 <template>
   <div style="width: 100%; padding-right: 1px; padding-left: 1px;">
-    <div :class="{ 'video-item-list': !props.singleRow, 'video-item-box-list': props.singleRow }">
+    <div id="video-item-box-list-not-touch" :class="{
+      'video-item-list': !props.singleRow,
+      'video-item-box-list': props.singleRow,
+      'video-item-box-list-no-touch': props.singleRow
+    }">
       <div class="item" v-for="(item, key) in props.list" :key="key" @click="itemClick(item)">
         <div class="item-cover" @click="router.push('/mv/' + item.id)">
           <img class="background" v-lazy="item.picUrl" alt="" :key="item.picUrl">
@@ -54,6 +58,17 @@ let props = defineProps({
 })
 
 onMounted(async () => {
+  document.querySelectorAll('.video-item-box-list-no-touch').forEach(el => {
+    el.addEventListener('touchstart', (event) => {
+      event.stopPropagation()
+    })
+    el.addEventListener('touchend', (event) => {
+      event.stopPropagation()
+    })
+    el.addEventListener('touchmove', (event) => {
+      event.stopPropagation()
+    })
+  })
 })
 
 function itemClick(item: item) {

@@ -242,7 +242,7 @@ const handleCurrentChange = (val: number) => {
 .highquality-playlist-cover {
   height: 170px;
   width: 100%;
-  margin: 15px 0px 10px 0px;
+  margin: 0px 0px 10px 0px;
   display: flex;
   border-radius: 7px;
   // object-fit: cover;
@@ -424,6 +424,8 @@ const handleCurrentChange = (val: number) => {
   display: flex;
   width: 100%;
   justify-content: center;
+
+  padding-top: 20px;
 }
 
 .songSheet-body {

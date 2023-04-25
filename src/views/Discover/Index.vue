@@ -52,7 +52,7 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, } from 'vue'
 import Recommend from './components/Recommend.vue'
 import SongSheet from './components/SongSheet.vue'
 import Artist from './components/Artist.vue'
@@ -126,6 +126,14 @@ const activeName = ref('recommend')
 
   :deep(.van-tab--active) {
     border-color: #000;
+  }
+
+  .van-tab .van-tab__text {
+    font-size: 16px;
+  }
+
+  .van-tabs__nav--line .van-tabs__line {
+    background: var(--primary-color);
   }
 }
 

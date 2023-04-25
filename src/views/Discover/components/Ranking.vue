@@ -1,7 +1,7 @@
 <template>
   <div class="common-padding">
     <div class="ranking-body">
-      <div>官方榜</div>
+      <div v-if="officialList.length > 0" style="font-weight: 700; margin-bottom: 20px;">官方榜</div>
       <div class="rank" v-for="(item, key) in officialList" :key="key">
         <div class="rank-background" @click="goTO(item.id)">
           <img v-lazy="item.coverImgUrl" alt="">
@@ -16,7 +16,7 @@
           <div class="list-item" @click="goTO(item.id)">查看全部 ></div>
         </div>
       </div>
-      <div>全球榜</div>
+      <div v-if="globalList.length > 0" style="font-weight: 700; margin-bottom: 20px;">全球榜</div>
       <SquareGridItem :list="globalList" />
       <div style="height: 20px;"></div>
     </div>
@@ -87,6 +87,7 @@ function goTO(id: number) {
   display: flex;
   width: 100%;
   justify-content: center;
+  padding-top: 20px;
 }
 
 .ranking-body {

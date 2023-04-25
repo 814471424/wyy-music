@@ -12,14 +12,12 @@
       <div class="playlists">
         <!-- 推荐歌单 -->
         <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
-        <div class="plays">
-          <SquareGridItem :list="playlists" :single-row="true" :play-icon="true" />
-        </div>
+        <SquareGridItem :list="playlists" :single-row="true" :play-icon="true" />
         <!-- 热门播客 -->
         <!-- <div class="common-title">热门播客<span class="iconfont wyy-xiangyou"></span></div> -->
         <!-- <div class="common-title">听见好书<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">独家放送<span class="iconfont wyy-xiangyou"></span></div>
-        <VideoGridItem :list="privatecontentList" :single-row="true" />
+        <VideoGridItem :list="privatecontentList" :single-row="false" />
         <!-- <div class="common-title">最新音乐<span class="iconfont wyy-xiangyou"></span></div> -->
         <!-- <div class="common-title">主题播客<span class="iconfont wyy-xiangyou"></span></div> -->
         <div class="common-title">推荐MV<span class="iconfont wyy-xiangyou"></span></div>
@@ -27,6 +25,7 @@
         <!-- <div class="common-title">听听<span class="iconfont wyy-xiangyou"></span></div>
         <div class="common-title">看看<span class="iconfont wyy-xiangyou"></span></div> -->
       </div>
+      <div style="height: 10px;"></div>
     </div>
   </div>
 </template>
@@ -134,7 +133,6 @@ onMounted(async () => {
 <style lang="less" scoped>
 // 轮播图相关
 .banner {
-  margin-top: 15px;
 
   // .el-carousel__item--card.is-active {
   //   width: 60%;
@@ -210,6 +208,8 @@ onMounted(async () => {
   display: flex;
   width: 100%;
   justify-content: center;
+
+  padding-top: 20px;
 }
 
 .recommend-body {

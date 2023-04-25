@@ -76,6 +76,7 @@ function update() {
 .latest-type {
   display: flex;
   flex-wrap: wrap;
+  line-height: 20px;
 
   &::-webkit-scrollbar {
     width: 0px;
@@ -84,10 +85,13 @@ function update() {
 
   .type-item {
     margin-right: 20px;
+    font-size: 0.9rem;
+    color: rgb(126, 126, 126);
   }
 
   .type-item-active {
-    font-weight: 700;
+    color: rgb(0, 0, 0);
+    font-weight: 800;
   }
 }
 </style>
