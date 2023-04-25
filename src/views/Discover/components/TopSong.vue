@@ -8,6 +8,7 @@
       </div>
       <TableOne :list="list" />
     </div>
+    <div style="height: 20px;"></div>
   </div>
 </template>
 

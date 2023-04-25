@@ -27,10 +27,10 @@
             {{ item.name }}</div>
         </div>
       </div>
-
       <div class="artist-body">
         <SquareGridItem :list="artistList" />
       </div>
+      <div style="height: 20px;"></div>
     </div>
   </div>
 </template>

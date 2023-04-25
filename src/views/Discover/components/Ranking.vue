@@ -18,6 +18,7 @@
       </div>
       <div>全球榜</div>
       <SquareGridItem :list="globalList" />
+      <div style="height: 20px;"></div>
     </div>
   </div>
 </template>

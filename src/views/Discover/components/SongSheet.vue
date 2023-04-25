@@ -104,6 +104,7 @@
         <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
           v-model:current-page="page" @current-change="handleCurrentChange" class="mt-4" />
       </div>
+      <div style="height: 20px;"></div>
     </div>
   </div>
 </template>
@@ -185,7 +186,7 @@ function search() {
     })
   }
 
-  if (!(cat.value == '全部歌单' && list.value.length != per_page.value)) {
+  if (cat.value == '全部歌单' && list.value.length != per_page.value) {
     updateList()
   }
 }
