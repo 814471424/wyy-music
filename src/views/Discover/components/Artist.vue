@@ -127,6 +127,8 @@ watch(() => artistList.value, (value) => {
 onMounted(() => {
   if (artistList.value.length != limit) {
     update()
+  } else {
+    page += 1;
   }
 
   singerRef = document.getElementById('artist')

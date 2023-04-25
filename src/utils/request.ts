@@ -45,10 +45,10 @@ axios.interceptors.response.use(
         return Promise.reject(response.data);
     },
     error => {
-        if (error.response && error.response.status == 301) {
-            let userStore = useUserStore();
-            userStore.cleanUser()
-        }
+        // if (error.response && error.response.status == 301) {
+        //     let userStore = useUserStore();
+        //     userStore.cleanUser()
+        // }
         return Promise.reject(error.response ? error.response.data : {});
     }
 )

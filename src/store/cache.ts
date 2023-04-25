@@ -2,27 +2,19 @@
 import { defineStore } from 'pinia'
 
 interface Cache {
-    // 发现音乐-个性推荐-轮播图
-    banners?: Common.bannerData[]
-    // 发现音乐-个性推荐-推荐歌单
-    playlists?: Array<Playlist.playList & { type: number }>
-    // 发现音乐-个性推荐-独家放送
-    privatecontents?: Array<MV.privatecontentItem>
-    // 发现音乐-个性推荐-推荐MV
-    personalizedMvs?: Array<MV.mvItem>
+    // 发现音乐-个性推荐
+    banners?: Common.bannerData[] //轮播图
+    playlists?: Array<Playlist.playList & { type: number }> // 推荐歌单
+    privatecontents?: Array<MV.privatecontentItem> // 独家放送
+    personalizedMvs?: Array<MV.mvItem> // 推荐MV
 
     // 目前只缓存全部歌单的分类的数据
-    // 发现音乐-歌单-歌单推荐封面
-    songListHighquality?: Playlist.playListDetail | null
-    // 发现音乐-歌单-歌单列表
-    songList?: Array<Playlist.playList & { type: number }>
-    // 发现音乐-歌单-歌单的分类
-    songListAll?: Playlist.Catlist | null
+    songListHighquality?: Playlist.playListDetail | null // 歌单推荐封面
+    songList?: Array<Playlist.playList & { type: number }> // 歌单列表
+    songListTotal?: number // 总数
+    songListAll?: Playlist.Catlist | null // 歌单的分类
     songListSub?: Array<Playlist.Catlist>
-    // 发现音乐-歌单-热门歌单分类
-    songListHotTags?: Array<Playlist.Catlist>
-    // 发现音乐-歌单-总数
-    songListTotal?: number
+    songListHotTags?: Array<Playlist.Catlist> // 热门歌单分类
 
     // 发现音乐-排行榜
     rankingOfficialList?: Playlist.playListDetail[]
