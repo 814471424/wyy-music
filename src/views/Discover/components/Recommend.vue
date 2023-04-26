@@ -1,14 +1,14 @@
 <template>
   <div class="common-padding">
     <div class="recommend-body">
-      <div>
-        <el-carousel :interval="4000" class="banner">
-          <el-carousel-item v-for="(item, key) in banners" :key="key">
+      <van-swipe class="banner" :autoplay="5000" indicator-color="white" lazy-render>
+        <van-swipe-item v-for="(item, key) in banners" :key="item.targetId">
+          <div class="banner-body">
             <img class="banner-image" v-lazy="item.imageUrl" alt="" :key="item.imageUrl">
             <div class="banner-title" :style="[{ 'background-color': item.titleColor }]">{{ item.typeTitle }}</div>
-          </el-carousel-item>
-        </el-carousel>
-      </div>
+          </div>
+        </van-swipe-item>
+      </van-swipe>
       <div class="playlists">
         <!-- 推荐歌单 -->
         <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
@@ -131,53 +131,27 @@ onMounted(async () => {
 </script>
 
 <style lang="less" scoped>
-// 轮播图相关
-.banner {
+.banner .van-swipe__track,
+.banner .banner-body {
+  height: 250px;
+  width: 100%;
+}
 
-  // .el-carousel__item--card.is-active {
-  //   width: 60%;
-  //   left: -5%;
-  // }
-  .el-carousel__item h3 {
-    color: #475669;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-    text-align: center;
-  }
+.banner .banner-body .banner-image {
+  height: 100%;
+  width: 100%;
+  border-radius: 7px;
+}
 
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-  }
-
-  .el-carousel__item {
-    border-radius: 7px;
-  }
-
-  :deep(.el-carousel__container) {
-    height: 200px !important;
-  }
-
-  .banner-image {
-    display: block;
-    width: 100%;
-    height: 100%;
-    background-position: center;
-  }
-
-  .banner-title {
-    position: absolute;
-    bottom: 0px;
-    right: 0px;
-    padding: 5px;
-    border-top-left-radius: 7px;
-    color: #fff;
-    font-size: 10px;
-  }
+.banner .banner-body .banner-title {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 5px;
+  border-top-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  color: #fff;
+  font-size: 10px;
 }
 
 // 推荐表单
@@ -219,14 +193,10 @@ onMounted(async () => {
 
 
 @media screen and (max-width: 1000px) {
-  .banner {
-    :deep(.el-carousel__container) {
-      height: 150px !important;
-    }
 
-    :deep(.el-carousel__button) {
-      width: 10px;
-    }
+  .banner .van-swipe__track,
+  .banner .banner-body {
+    height: 150px;
   }
 }
 </style>

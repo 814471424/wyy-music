@@ -5,12 +5,12 @@
     </el-table-column>
     <el-table-column label="歌手">
       <template #default="scope">
-        {{ (scope.row.artists ?? []).map((v: any) => v.name).join(' / ') }}
+        {{ (scope.row.ar ?? []).map((v: any) => v.name).join(' / ') }}
       </template>
     </el-table-column>
     <el-table-column prop="address" label="专辑" :show-overflow-tooltip=true>
       <template #default="scope">
-        {{ scope.row.album ? scope.row.album.name : '' }}
+        {{ scope.row.al ? scope.row.al.name : '' }}
       </template>
     </el-table-column>
     <el-table-column label="时长" :show-overflow-tooltip=true>
@@ -27,7 +27,7 @@ import { playOne } from "../../../utils/player";
 import { onMounted } from 'vue';
 
 const props = defineProps<{
-  list: Search.song[]
+  list: Playlist.playList[]
 }>();
 
 function tableDbClick(value: Common.songX) {

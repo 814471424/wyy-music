@@ -28,7 +28,7 @@
         </div>
       </div>
       <div class="artist-body">
-        <SquareGridItem :list="artistList" />
+        <SquareGridItem :list="artistList.map(v => { v.picUrl = v.img1v1Url; return v })" />
       </div>
       <div style="height: 20px;"></div>
     </div>

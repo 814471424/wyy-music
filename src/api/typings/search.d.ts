@@ -1,6 +1,5 @@
 // 搜索相关数据 
 declare namespace Search {
-
     /**
      * 搜索的类型(可能用于其他地方)
      * 1: 单曲
@@ -27,16 +26,6 @@ declare namespace Search {
         video = 1014,
         combined = 1018,
         sound = 2000,
-    }
-
-    // 搜索的歌曲
-    export interface song {
-        id: number,
-        name: string,
-        artists: Common.artist[],
-        album: Common.album,
-        // 歌曲时长
-        duration: number,
     }
 
     // 搜索的歌曲

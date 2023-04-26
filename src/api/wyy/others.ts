@@ -3,7 +3,7 @@ import request from '../../utils/request'
 type searchResponse = responseData & {
     result: {
         // 单曲跟歌词都用这个
-        songs?: Search.song[],
+        songs?: Playlist.dailySong[],
         songCount?: number,
         searchQcReminder?: any | null,
         albums?: Search.album[],
@@ -69,7 +69,7 @@ export function search(
 ): Promise<
     responseData & {
         count?: number
-        list?: Array<Search.song | Search.artist | Search.video | Search.playlist | any>
+        list?: Array<Playlist.dailySong | Search.artist | Search.video | Search.playlist | any>
     }
 > {
     return request.get<any, searchResponse, any>('/cloudsearch', { params: { ...params, type: stype } }).then(res => {
