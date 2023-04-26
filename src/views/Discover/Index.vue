@@ -31,7 +31,7 @@ import router from '../../router/index'
 const activeName = ref(router.currentRoute.value.query['type'] ?? 'recommend')
 
 function changeName(name: string | number, _title: string) {
-  router.push({ path: '/discover', query: { ...router.currentRoute.value.query, type: name } })
+  router.replace({ path: '/discover', query: { ...router.currentRoute.value.query, type: name } })
 }
 </script>
 

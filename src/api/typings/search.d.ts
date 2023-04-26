@@ -29,6 +29,16 @@ declare namespace Search {
     }
 
     // 搜索的歌曲
+    export interface song {
+        id: number,
+        name: string,
+        artists: Common.artist[],
+        album: Common.album,
+        // 歌曲时长
+        duration: number,
+    }
+
+    // 搜索的歌手
     export interface artist extends Common.artist {
         // 歌手图片
         picUrl?: string
