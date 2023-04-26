@@ -268,7 +268,7 @@ function inputSearch() {
 
 @media screen and (max-width: 600px) {
   .header-container {
-    justify-content: space-around;
+    justify-content: center;
 
     .header-ico-search {
       .header-ico {
@@ -286,25 +286,18 @@ function inputSearch() {
       }
     }
 
-    .header-system {
-
+    .header-system .header-user {
       display: none;
     }
   }
+
+  .header-container .header-system {
+    position: absolute;
+    right: 10px;
+  }
 }
 
-// @media screen and (max-width: 850px) {
-//   .header-container {
-//     .header-system {
-//       .header-user {
-//         display: none;
-//       }
-//     }
-//   }
-// }
-
-
-@media screen and (max-width: 850px) {
+@media screen and (min-width: 601px) and (max-width: 850px) {
   .header-container {
     justify-content: space-around;
 

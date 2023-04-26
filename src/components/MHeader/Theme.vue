@@ -5,6 +5,11 @@
     </div>
     <div id="showSettingPanel" :style="[{ display: showState ? 'block' : 'none' }]">
       <input type="color" v-model="color">
+      <div style="display: flex;">
+        <div v-for="i in 12">
+          <div>{{ i }}</div>
+        </div>
+      </div>
     </div>
   </div>
 </template>

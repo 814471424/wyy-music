@@ -30,7 +30,6 @@ import MAudio from '../components/MAudio.vue';
 import { useUserStore } from "../store/user";
 import { storeToRefs } from "pinia";
 import api from "../api";
-import { fa } from "element-plus/es/locale";
 
 const leftRef: Ref<HTMLElement | null> = ref(null);
 const leftStatus = ref(false);
