@@ -28,7 +28,7 @@ import NewSong from './components/NewSong.vue'
 import Ranking from './components/Ranking.vue'
 import router from '../../router/index'
 
-const activeName = ref(router.currentRoute.value.query['type'] ?? 'recommend')
+const activeName = ref(router.currentRoute.value.query['type'] as string ?? 'recommend')
 
 function changeName(name: string | number, _title: string) {
   router.replace({ path: '/discover', query: { ...router.currentRoute.value.query, type: name } })
