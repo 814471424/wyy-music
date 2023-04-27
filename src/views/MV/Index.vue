@@ -48,7 +48,7 @@ onMounted(() => {
   api.mvDetail(mvid.value).then(res => {
   })
 
-  api.commentMv(mvid.value, { limit, offset: (page.value - 1) * limit, before }).then(res => {
+  api.commentMv(mvid.value, { limit, offset: (page.value - 1) * limit }).then(res => {
     console.log(res.comments)
     comments.value = res.comments;
     hotComments.value = res.hotComments
