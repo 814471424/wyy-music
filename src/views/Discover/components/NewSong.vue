@@ -63,7 +63,7 @@ function changeType(typeKey: string) {
 
 <style lang="less" scoped>
 .song-padding {
-  padding: 10px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
   overflow-y: overlay;
   display: flex;
   width: 100%;
@@ -72,6 +72,7 @@ function changeType(typeKey: string) {
 
 .common-padding {
   margin-bottom: 15px;
+  justify-content: flex-start;
 }
 
 .latest-body {

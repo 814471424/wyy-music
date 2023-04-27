@@ -56,3 +56,25 @@ export function millisecondToDateName(value: number) {
     let datetime = new Date(value);
     return (datetime.getMonth() + 1) + '月' + datetime.getDate() + '日'
 }
+
+/**
+ * 时间格式 时间戳转换成 0000年00月00 00:00 格式
+ * @param value 时间戳(毫秒)
+ */
+export function millisecondToDateTime(value: number) {
+    let nowYear = new Date().getFullYear()
+
+    const datetime = new Date(value);
+    const year = datetime.getFullYear();
+    const month = datetime.getMonth() + 1;
+    const date = datetime.getDate();
+    let hour: number | string = datetime.getHours();
+    hour = hour > 10 ? hour : '0' + hour;
+    let minute: string | number = datetime.getMinutes();
+    minute = minute > 10 ? minute : '0' + minute;
+    if (nowYear == year) {
+        return month + '月' + date + '日 ' + hour + ':' + minute
+    } else {
+        return year + '年' + month + '月' + date + '日 ' + hour + ':' + minute
+    }
+}

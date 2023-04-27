@@ -13,7 +13,7 @@ import { handleKeyword } from '../../../utils/handle'
 import router from '../../../router/index'
 
 const props = defineProps<{
-  list: Search.artist[],
+  list: Common.artist[],
   keywords?: string
 }>();
 

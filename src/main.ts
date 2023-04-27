@@ -30,7 +30,8 @@ createApp(App)
         preLoad: 1,
         loading: loadingSmall,
         error: miku404,
-        attempt: 2,
-        lazyComponent: false
+        attempt: 1,
+        // lazyComponent: true,
+        // listenEvents: ['scroll', 'touchmove', 'mousewheel']
     })
     .mount("#app");

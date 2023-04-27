@@ -96,11 +96,11 @@ const artistInitial = [
 let checkArtistType = ref('-1');
 let checkArtistArea = ref('-1');
 let checkArtistInitial = ref('-1');
-let artistList: Ref<Array<Search.artist & { type: number }>> = ref(cache.value.singerArtistList ?? []);
+let artistList: Ref<Array<Common.artist & { type: number }>> = ref(cache.value.singerArtistList ?? []);
 let more = true;
 let requestStatus = true;
 let page = 0;
-const limit = 30;
+const limit = 15;
 let singerRef: HTMLElement | null = null
 
 watch([checkArtistType, checkArtistArea, checkArtistInitial], ([_type, _area, _initial]) => {

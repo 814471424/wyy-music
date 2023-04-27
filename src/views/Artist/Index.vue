@@ -57,7 +57,7 @@ let activeName = ref('album');
 // 歌手详情
 let artistDesc: Ref<Common.artistDesc | null> = ref(null);
 // 相似歌手
-let artistList: Ref<Array<Search.artist & { type: number }>> = ref([]);
+let artistList: Ref<Array<Common.artist & { type: number }>> = ref([]);
 // 热门专辑
 let hotAlbums: Ref<Array<Search.album & { type: number }>> = ref([])
 
@@ -100,7 +100,7 @@ function updateDetail() {
     case 'simiArtist':
       if (artistList.value.length == 0) {
         api.simiArtist(id.value).then(res => {
-          artistList.value = res.artists.map(v => { return { ...v, type: 0 } })
+          artistList.value = res.artists.map(v => { return { ...v, picUrl: v.img1v1Url, type: 0 } })
         })
       }
       break;
@@ -113,9 +113,9 @@ function updateDetail() {
   
 <style lang="less" scoped>
 .common-padding {
-  margin-top: 20px;
+  flex-direction: column;
+  justify-content: flex-start;
 }
-
 
 .artist {
   display: flex;

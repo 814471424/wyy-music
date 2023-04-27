@@ -87,6 +87,14 @@ declare namespace Common {
         id: number
         // 歌手名称
         name: string
+        // 歌手图片
+        picUrl?: string
+        img1v1Url?: string
+        // 翻译名
+        transNames?: Array<string>
+        trans?: string,
+        // 别名
+        alias?: Array<string>
     }
     // 专辑的结构
     export interface album {
@@ -161,6 +169,12 @@ declare namespace Common {
         type: number
         playTime?: number
         durationms?: number
+    }
+
+    export interface ipLocation {
+        ip?: string
+        location?: string
+        userId?: number
     }
 }
 

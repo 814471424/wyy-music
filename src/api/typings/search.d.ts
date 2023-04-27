@@ -38,18 +38,6 @@ declare namespace Search {
         duration: number,
     }
 
-    // 搜索的歌手
-    export interface artist extends Common.artist {
-        // 歌手图片
-        picUrl?: string
-        img1v1Url?: string
-        // 翻译名
-        transNames?: Array<string>
-        trans?: string,
-        // 别名
-        alias?: Array<string>
-    }
-
     // 专辑
     export interface album extends Common.album {
         artist: artist

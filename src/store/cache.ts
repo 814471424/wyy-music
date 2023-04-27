@@ -22,7 +22,7 @@ interface Cache {
     rankingGlobalList?: Array<Playlist.playListDetail & { type: number, picUrl: string }>
 
     // 发现音乐-歌手
-    singerArtistList?: Array<Search.artist & { type: number }>
+    singerArtistList?: Array<Common.artist & { type: number }>
 
     // 发现音乐-最新音乐
     topSongList?: Array<Search.song>
@@ -105,7 +105,7 @@ export const userCacheStore = defineStore('cache', {
             this.cache.rankingGlobalList = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },
-        setSingerArtistList(data: Array<Search.artist & { type: number }>) {
+        setSingerArtistList(data: Array<Common.artist & { type: number }>) {
             this.cache.singerArtistList = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },

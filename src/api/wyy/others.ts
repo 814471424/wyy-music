@@ -8,7 +8,7 @@ type searchResponse = responseData & {
         searchQcReminder?: any | null,
         albums?: Search.album[],
         albumCount?: number,
-        artists?: Search.artist[],
+        artists?: Common.artist[],
         artistCount?: number,
         playlists?: Search.playlist[],
         playlistCount?: number,
@@ -69,7 +69,7 @@ export function search(
 ): Promise<
     responseData & {
         count?: number
-        list?: Array<Playlist.dailySong | Search.artist | Search.video | Search.playlist | any>
+        list?: Array<Playlist.dailySong | Common.artist | Search.video | Search.playlist | any>
     }
 > {
     return request.get<any, searchResponse, any>('/cloudsearch', { params: { ...params, type: stype } }).then(res => {

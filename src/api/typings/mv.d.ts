@@ -28,4 +28,29 @@ declare namespace MV {
         name: string
         alg: string
     }
+
+    // mv详细字段
+    export interface mvDetail {
+        artistId: number
+        artistName: string
+        artists: Common.artist[]
+        briefDesc: string
+        brs: Array<{ br: number, point: number, size: number }>
+        commentCount: number
+        commentThreadId: string
+        cover: string
+        coverId: number
+        coverId_str: string
+        desc: string
+        duration: null
+        id: number
+        nType: number
+        name: string
+        playCount: number
+        price?: number
+        publishTime: string
+        shareCount: number
+        subCount: number
+        videoGroup: Array<{ id: number, name: string, type: number }>
+    }
 }

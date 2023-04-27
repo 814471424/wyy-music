@@ -25,7 +25,7 @@ export function artistList(params: {
     type?: string,
     area?: string,
     initial?: string
-}): Promise<responseData & { artists: Search.artist[], more?: boolean }> {
+}): Promise<responseData & { artists: Common.artist[], more?: boolean }> {
     return request.get('/artist/list', { params });
 }
 
@@ -64,7 +64,7 @@ export function artistDesc(
  */
 export function simiArtist(
     id: number
-): Promise<responseData & { artists: Search.artist[] }> {
+): Promise<responseData & { artists: Common.artist[] }> {
     return request.get('/simi/artist', { params: { id } });
 }
 
@@ -82,6 +82,6 @@ export function artistAlbum(
         limit?: number,
         offset?: number
     }
-): Promise<responseData & { hotAlbums: Search.album[], artist: Search.artist }> {
+): Promise<responseData & { hotAlbums: Search.album[], artist: Common.artist }> {
     return request.get('/artist/album', { params: { ...params, id } });
 }

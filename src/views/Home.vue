@@ -64,6 +64,7 @@ onMounted(async () => {
     }).catch(async err => {
       // 游客登录
       console.log('loginStatus() 获取请求错误:' + err)
+      console.log(err)
       // refurbishCookie()
     })
   } else {

@@ -1,48 +1,50 @@
 <template>
   <div class="common-padding" style="width: 100%; height: 100%; box-sizing: border-box;">
-    <div class="playlist">
-      <div class="playlist-cover">
-        <img v-lazy="playlistDetail?.coverImgUrl" alt="" :key="playlistDetail?.coverImgUrl ?? ''">
-      </div>
-      <div class="playlist-info">
-        <div>
-          <div class="playlist-title">{{ playlistDetail?.name ?? '未知' }}</div>
-          <div class="playlist-creator">
-            <img v-lazy="playlistDetail?.creator ? playlistDetail?.creator.avatarUrl : ''" style="margin-right: 5px;">
-            <span style="color: #507daf">{{ playlistDetail?.creator ? playlistDetail?.creator.nickname : "未知" }}</span>
-            <span style="margin-left: 10px;">{{ millisecondToDate(playlistDetail?.createTime ?? 0) }}创建</span>
-          </div>
-        </div>
-        <!-- <div>按钮</div> -->
-        <div class="playlist-info-detail">
-          <div>标签 : <span>{{ playlistDetail?.tags.join(' / ') ?? '未知' }}</span></div>
-          <div>歌曲 : <span>{{ playlistDetail?.trackCount ?? 0 }}</span>
-            {{ " 播放 : " }}<span>{{ playlistDetail?.playCount ?? 0 }}</span>
-          </div>
-          <div class="playlist-description">简介 : <span>{{ playlistDetail?.description ?? '未知' }}</span></div>
-        </div>
-      </div>
-    </div>
     <div>
-      <el-table class="daily-table" :data="tracks" @row-dblclick="tableDbClick" stripe style="width: 100%" size="small">
-        <el-table-column type="index" width="50" />
-        <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
-        <el-table-column label="歌手" :show-overflow-tooltip=true>
-          <template #default="scope">
-            {{ scope.row.ar.map((v: any) => v.name).join(' / ') }}
-          </template>
-        </el-table-column>
-        <el-table-column label="专辑" :show-overflow-tooltip=true>
-          <template #default="scope">
-            {{ scope.row.al.name }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true>
-          <template #default="scope">
-            {{ millisecondToTime(scope.row.dt ?? 0) }}
-          </template>
-        </el-table-column>
-      </el-table>
+      <div class="playlist">
+        <div class="playlist-cover">
+          <img v-lazy="playlistDetail?.coverImgUrl" alt="" :key="playlistDetail?.coverImgUrl ?? ''">
+        </div>
+        <div class="playlist-info">
+          <div>
+            <div class="playlist-title">{{ playlistDetail?.name ?? '未知' }}</div>
+            <div class="playlist-creator">
+              <img v-lazy="playlistDetail?.creator ? playlistDetail?.creator.avatarUrl : ''" style="margin-right: 5px;">
+              <span style="color: #507daf">{{ playlistDetail?.creator ? playlistDetail?.creator.nickname : "未知" }}</span>
+              <span style="margin-left: 10px;">{{ millisecondToDate(playlistDetail?.createTime ?? 0) }}创建</span>
+            </div>
+          </div>
+          <!-- <div>按钮</div> -->
+          <div class="playlist-info-detail">
+            <div>标签 : <span>{{ playlistDetail?.tags.join(' / ') ?? '未知' }}</span></div>
+            <div>歌曲 : <span>{{ playlistDetail?.trackCount ?? 0 }}</span>
+              {{ " 播放 : " }}<span>{{ playlistDetail?.playCount ?? 0 }}</span>
+            </div>
+            <div class="playlist-description">简介 : <span>{{ playlistDetail?.description ?? '未知' }}</span></div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <el-table class="daily-table" :data="tracks" @row-dblclick="tableDbClick" stripe style="width: 100%" size="small">
+          <el-table-column type="index" width="50" />
+          <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
+          <el-table-column label="歌手" :show-overflow-tooltip=true>
+            <template #default="scope">
+              {{ scope.row.ar.map((v: any) => v.name).join(' / ') }}
+            </template>
+          </el-table-column>
+          <el-table-column label="专辑" :show-overflow-tooltip=true>
+            <template #default="scope">
+              {{ scope.row.al.name }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true>
+            <template #default="scope">
+              {{ millisecondToTime(scope.row.dt ?? 0) }}
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
   </div>
 </template>
@@ -84,6 +86,11 @@ async function getPlaylistDetail() {
 </script>
 
 <style lang="less" scoped>
+.common-padding {
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
 .playlist {
   display: flex;
   height: 180px;
