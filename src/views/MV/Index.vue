@@ -30,11 +30,11 @@ import CommentList from '../../components/Common/CommentList.vue'
 
 
 let mvid = ref(router.currentRoute.value.params['id'] as string)
-let mvUrl: Ref<String> = ref('');
+let mvUrl: Ref<string | null> = ref(null);
 let active = ref(0)
 const limit = 20;
 let page = ref(1);
-let before: number = 0;
+let before: number | undefined = undefined;
 let comments: Ref<Array<Comment.CommentDetail>> = ref([]);
 let hotComments: Ref<Array<Comment.CommentDetail>> = ref([]);
 
