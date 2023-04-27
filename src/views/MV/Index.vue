@@ -7,17 +7,15 @@
             <video style="width: 100%;" :src="mvUrl" controls autoplay></video>
           </div>
           <CommentList :list="comments" />
-          <!-- <div class="mv-body">
-            <van-tabs v-model:active="active" swipeable shrink sticky>
+          <!-- <div class="mv-content">
+            <van-tabs v-model:active="active" swipeable shrink>
               <van-tab v-for="index in 4" :title="'选项 ' + index">
-                内容 {{ index }}
-                <div v-for="i in 100"> {{ i }}</div>
+                <CommentList :list="comments" />
               </van-tab>
             </van-tabs>
           </div> -->
         </div>
         <div class="other-mv">
-
         </div>
       </div>
     </div>
@@ -71,7 +69,6 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   flex: 1;
-  background-color: aqua;
 }
 
 .mv-body .mv-left-body .mv-video {
@@ -82,6 +79,7 @@ onMounted(() => {
   width: 200px;
   background-color: rgb(45, 65, 65);
 }
+
 
 :deep(.van-tabs) {
   height: 100%;
@@ -98,15 +96,37 @@ onMounted(() => {
 
 @media screen and (max-width: 600px) {
   .mv-body {
-    overflow: hidden;
+    // overflow: hidden;
+  }
+
+  .mv-body .mv-content {
+    flex: 1;
   }
 
   .common-padding {
     padding: 0px !important;
   }
+
+  :deep(.van-tabs) {
+    height: 100%;
+
+    .van-tabs__content {
+      height: calc(100% - 44px);
+      overflow: auto;
+    }
+
+    .van-tab__panel {
+      height: 100%;
+      overflow: auto;
+    }
+  }
 }
 
 @media screen and (max-width: 1000px) {
+  .mv-body .mv-left-body {
+    width: 100%;
+  }
+
   .mv-body .other-mv {
     display: none;
   }
