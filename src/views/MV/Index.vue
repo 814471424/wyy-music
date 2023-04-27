@@ -34,7 +34,7 @@ let mvUrl: Ref<String | null> = ref(null);
 let active = ref(0)
 const limit = 20;
 let page = ref(1);
-let before: number | undefined = undefined;
+let before: number = 0;
 let comments: Ref<Array<Comment.CommentDetail>> = ref([]);
 let hotComments: Ref<Array<Comment.CommentDetail>> = ref([]);
 
