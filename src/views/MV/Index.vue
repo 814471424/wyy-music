@@ -30,7 +30,7 @@ import CommentList from '../../components/Common/CommentList.vue'
 
 
 let mvid = ref(router.currentRoute.value.params['id'] as string)
-let mvUrl: Ref<string | null> = ref(null);
+let mvUrl: Ref<string> = ref('');
 let active = ref(0)
 const limit = 20;
 let page = ref(1);
@@ -76,7 +76,7 @@ onMounted(() => {
 }
 
 .mv-body .other-mv {
-  width: 200px;
+  width: 230px;
   background-color: rgb(45, 65, 65);
 }
 
