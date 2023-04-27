@@ -48,7 +48,6 @@ watch(() => officialList.value, (value) => {
   userCache.setRankingOfficialList(value)
 })
 watch(() => officialTracks.value, (value) => {
-  console.log(value)
   userCache.setRankingOfficialTracks(value)
 })
 watch(() => globalList.value, (value) => {

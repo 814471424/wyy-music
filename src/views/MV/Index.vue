@@ -6,14 +6,17 @@
           <div class="mv-video">
             <video style="width: 100%;" :src="mvUrl" controls autoplay></video>
           </div>
-          <CommentList :list="comments" />
-          <!-- <div class="mv-content">
+          <div class="mv-content">
             <van-tabs v-model:active="active" swipeable shrink>
-              <van-tab v-for="index in 4" :title="'选项 ' + index">
+              <van-tab :title="'信息'" name="info">
+              </van-tab>
+              <van-tab :title="'评论'" name="comments">
                 <CommentList :list="comments" />
               </van-tab>
+              <van-tab :title="'相关推荐'" name="recommend">
+              </van-tab>
             </van-tabs>
-          </div> -->
+          </div>
         </div>
         <div class="other-mv">
         </div>
@@ -28,12 +31,12 @@ import router from "../../router";
 import api from '../../api/index'
 import CommentList from '../../components/Common/CommentList.vue'
 
-
 let mvid = ref(router.currentRoute.value.params['id'] as string)
 let mvUrl: Ref<string> = ref('');
-let active = ref(0)
+let active = ref('comments')
 const limit = 20;
 let page = ref(1);
+let total = ref(0)
 let before: number | undefined = undefined;
 let comments: Ref<Array<Comment.CommentDetail>> = ref([]);
 let hotComments: Ref<Array<Comment.CommentDetail>> = ref([]);
@@ -48,7 +51,7 @@ onMounted(() => {
   api.mvDetail(mvid.value).then(res => {
   })
 
-  api.commentMv(mvid.value, { limit, offset: (page.value - 1) * limit }).then(res => {
+  api.commentMv(mvid.value, { limit, offset: (page.value - 1) * limit, before }).then(res => {
     console.log(res.comments)
     comments.value = res.comments;
     hotComments.value = res.hotComments
@@ -68,7 +71,7 @@ onMounted(() => {
 .mv-body .mv-left-body {
   display: flex;
   flex-direction: column;
-  flex: 1;
+  width: calc(100% - 230px);
 }
 
 .mv-body .mv-left-body .mv-video {
@@ -80,27 +83,23 @@ onMounted(() => {
   background-color: rgb(45, 65, 65);
 }
 
-
-:deep(.van-tabs) {
-  height: 100%;
-
-  .van-tabs__content {
-    height: calc(100% - 44px);
-  }
-
-  .van-tab__panel {
-    height: 100%;
-    overflow: auto;
-  }
+.mv-body .mv-content {
+  width: 100%;
+  position: relative;
 }
 
 @media screen and (max-width: 600px) {
   .mv-body {
-    // overflow: hidden;
+    overflow: hidden;
+  }
+
+  .mv-body .mv-left-body {
+    height: 100%;
   }
 
   .mv-body .mv-content {
     flex: 1;
+    overflow-y: overlay;
   }
 
   .common-padding {
