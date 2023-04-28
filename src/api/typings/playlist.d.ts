@@ -45,7 +45,7 @@ declare namespace Playlist {
 
     // 歌单简要字段
     export interface playList {
-        id: number,
+        id: number | string,
         picUrl: string,
         playCount?: number,
         playcount?: number,

@@ -16,7 +16,7 @@
           </div>
           <!-- <div>按钮</div> -->
           <div class="playlist-info-detail">
-            <div>标签 : <span>{{ playlistDetail?.tags.join(' / ') ?? '未知' }}</span></div>
+            <div>标签 : <span>{{ (playlistDetail?.tags ?? []).join(' / ') ?? '未知' }}</span></div>
             <div>歌曲 : <span>{{ playlistDetail?.trackCount ?? 0 }}</span>
               {{ " 播放 : " }}<span>{{ playlistDetail?.playCount ?? 0 }}</span>
             </div>
@@ -79,7 +79,7 @@ async function getPlaylistDetail() {
     if (res.code == 200) {
       // 获取所有的歌曲
       playlistDetail.value = res.playlist
-      tracks.value = res.playlist.tracks
+      tracks.value = res.playlist.tracks ?? []
     }
   })
 }

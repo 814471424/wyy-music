@@ -7,7 +7,8 @@
     </div>
     <div class="search-trackCount"> {{ item.trackCount }}首</div>
     <div class="search-creatorname">by {{ item.creator.nickname }}</div>
-    <div class="search-playCount"><span class="iconfont wyy-bofang"></span>{{ handlePlayCount(item.playCount) }}万</div>
+    <div class="search-playCount"><span class="iconfont wyy-bofang"></span>{{ handlePlayCount(item.playCount ?? 0) }}万
+    </div>
   </div>
 </template>
 

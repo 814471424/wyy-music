@@ -18,7 +18,7 @@ interface Cache {
 
     // 发现音乐-排行榜
     rankingOfficialList?: Playlist.playListDetail[]
-    rankingOfficialTracks?: { [key: number]: Playlist.dailySong[] }
+    rankingOfficialTracks?: { [key: string]: Playlist.dailySong[] }
     rankingGlobalList?: Array<Playlist.playListDetail & { type: number, picUrl: string }>
 
     // 发现音乐-歌手
@@ -97,7 +97,7 @@ export const userCacheStore = defineStore('cache', {
             this.cache.rankingOfficialList = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },
-        setRankingOfficialTracks(data: { [key: number]: Playlist.dailySong[] }) {
+        setRankingOfficialTracks(data: { [key: string]: Playlist.dailySong[] }) {
             this.cache.rankingOfficialTracks = data;
             localStorage.setItem('cache', JSON.stringify(this.cache))
         },

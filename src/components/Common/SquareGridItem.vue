@@ -49,7 +49,7 @@ enum itemType {
 
 type item = {
   type: itemType
-  id: number
+  id: number | string
   // 封面图片
   picUrl?: string
   name: string

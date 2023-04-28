@@ -40,7 +40,7 @@ const { cache } = storeToRefs(userCache);
 
 // 官方榜
 let officialList: Ref<Playlist.playListDetail[]> = ref(cache.value.rankingOfficialList ?? []);
-let officialTracks: Ref<{ [key: number]: Playlist.dailySong[] }> = ref(cache.value.rankingOfficialTracks ?? {});
+let officialTracks: Ref<{ [key: string]: Playlist.dailySong[] }> = ref(cache.value.rankingOfficialTracks ?? {});
 // 全球榜
 let globalList: Ref<Array<Playlist.playListDetail & { type: number, picUrl: string }>> = ref(cache.value.rankingGlobalList ?? []);
 
@@ -74,7 +74,7 @@ onMounted(() => {
   }
 })
 
-function goTO(id: number) {
+function goTO(id: number | string) {
   router.push('/playlist/' + id)
 }
 </script>
