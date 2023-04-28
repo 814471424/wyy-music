@@ -60,7 +60,9 @@ import router from "../../router";
 import api from '../../api/index'
 import CommentList from '../../components/Common/CommentList.vue'
 import { handlePlayCount } from '../../utils/handle'
+import { useMainStore } from "../../store";
 
+const mainStore = useMainStore();
 let mvid = ref(router.currentRoute.value.params['id'] as string)
 let mvUrl: Ref<string> = ref('');
 const limit = 20;
@@ -83,6 +85,8 @@ watch(() => page.value, () => {
 })
 
 onMounted(() => {
+  mainStore.setPlayStatus(false);
+
   api.mvUrl(mvid.value).then(res => {
     mvUrl.value = res.data.url
   })
