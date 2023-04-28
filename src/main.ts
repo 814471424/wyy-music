@@ -10,8 +10,8 @@ import "element-plus/dist/index.css"
 import "./styles.css";
 import loadingSmall from './assets/loading_small.gif'
 import miku404 from './assets/miku404.png'
-import './assets/iconfont/iconfont.css'
-// import './assets/yunti.css'
+// import './assets/iconfont/iconfont.css'
+import './assets/yunti.css'
 import Theme from './utils/theme'
 
 // 初始化主题

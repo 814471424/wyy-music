@@ -53,7 +53,7 @@ watch(() => cookie.value, (value, _oldValue) => {
 
 
 onMounted(async () => {
-  if (cookie) {
+  if (cookie.value && cookie.value != '') {
     api.loginStatus().then(async res => {
       // 不是游客且不是登录用户是触发
       if (!res.data.profile && !res.data.account) {

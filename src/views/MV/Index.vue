@@ -3,6 +3,9 @@
     <div class="common-body">
       <div class="mv-body ">
         <div class="mv-left-body">
+          <div class="left-back" @click="router.back()">
+            <span style="font-size: 0.8rem;" class="iconfont wyy-xiangzuo-a-copy-copy"></span><span>MV详情</span>
+          </div>
           <div class="mv-video">
             <video style="width: 100%;" :src="mvUrl" :poster="mvDetail?.cover" controls autoplay></video>
           </div>
@@ -22,24 +25,29 @@
               </div>
               <div class="mv-desc">{{ mvDetail?.desc }}</div>
             </div>
+            <div id="mv-comments" style="height: 1px;"></div>
             <div class="mv-comments">
-              <div v-if="hotComments.length > 0">精彩评论</div>
+              <div v-if="hotComments.length > 0" class="comments-title">精彩评论</div>
               <CommentList :list="hotComments" />
-              <div v-if="hotComments.length > 0">最新评论<span>({{ total }})</span></div>
+              <div v-if="comments.length > 0" class="comments-title">最新评论<span>({{ total }})</span></div>
               <CommentList :list="comments" />
             </div>
-            <van-pagination v-model="page" :total-items="total" :items-per-page="limit" />
-            <!-- <van-tabs v-model:active="active" swipeable shrink>
-              <van-tab :title="'简介'" name="info">
-                内容
-              </van-tab>
-              <van-tab :title="'评论(' + total + ')'" name="comments">
-                <CommentList class="commom-padding" :list="comments" />
-              </van-tab>
-            </van-tabs> -->
+            <van-pagination v-if="total != 0" v-model="page" :total-items="total" :items-per-page="limit"
+              force-ellipses />
+            <div style="height: 20px;"></div>
           </div>
         </div>
         <div class="other-mv">
+          <div style="font-weight: 600; font-size: 1.1rem; margin-bottom: 13px;">相关推荐</div>
+          <div class="other-item" v-for="(item, key) in recommendList.filter(v => v.type == 1)" :key="key">
+            <div class="other-cover">
+              <img class="other-image" v-lazy="item.data.coverUrl" alt="">
+            </div>
+            <div class="other-content">
+              <div class="other-title">{{ item.data.title }}</div>
+              <div class="other-name">by {{ item.data.creator.nickname }}</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -55,7 +63,6 @@ import { handlePlayCount } from '../../utils/handle'
 
 let mvid = ref(router.currentRoute.value.params['id'] as string)
 let mvUrl: Ref<string> = ref('');
-// let active = ref('info')
 const limit = 20;
 let page = ref(1);
 let total = ref(0)
@@ -63,6 +70,7 @@ let before: number | undefined = undefined;
 let comments: Ref<Array<Comment.CommentDetail>> = ref([]);
 let hotComments: Ref<Array<Comment.CommentDetail>> = ref([]);
 let mvDetail: Ref<MV.mvDetail | null> = ref(null)
+let recommendList: Ref<Array<MV.videoRecommend>> = ref([]);
 
 watch(() => page.value, () => {
   api.commentMv(mvid.value, { limit, offset: (page.value - 1) * limit, before }).then(res => {
@@ -70,6 +78,8 @@ watch(() => page.value, () => {
     hotComments.value = res.hotComments ?? [];
     total.value = res.total
   })
+
+  document.querySelector('#mv-comments')?.scrollIntoView()
 })
 
 onMounted(() => {
@@ -85,6 +95,10 @@ onMounted(() => {
     comments.value = res.comments;
     hotComments.value = res.hotComments ?? [];
     total.value = res.total
+  })
+
+  api.videoTimelineRecommend({}).then(res => {
+    recommendList.value = res.datas ?? []
   })
 })
 
@@ -109,8 +123,7 @@ onMounted(() => {
 }
 
 .mv-body .other-mv {
-  width: 230px;
-  background-color: rgb(45, 65, 65);
+  width: 240px;
 }
 
 .mv-body .mv-content {
@@ -162,24 +175,84 @@ onMounted(() => {
     align-items: center;
 
     .mv-group-name {
-      padding: 5px 10px;
+      padding: 3px 10px;
       background-color: #f7f7f7;
       margin-right: 5px;
-      border-radius: 155px;
+      border-radius: 9px;
       font-size: 0.8rem;
       color: #313131;
     }
   }
 }
 
-:deep(.van-tabs) {
-  .van-tabs__content .van-swipe {
-    cursor: default;
+
+.other-mv {
+  margin-left: 10px;
+
+  div {
+    margin-bottom: 10px;
   }
 
-  .van-tabs__nav--line .van-tabs__line {
-    background: var(--primary-color);
+  .other-item {
+    display: flex;
+    height: 80px;
+    align-items: center;
+
+    .other-cover {
+      width: 130px;
+      flex-shrink: 0;
+
+      .other-image {
+        width: 100%;
+        border-radius: 5px;
+      }
+    }
+
+    .other-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+
+      flex: 1;
+      padding-left: 5px;
+    }
+
+    .other-content .other-title {
+      font-size: 0.8rem;
+
+      // 标题最多两行
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
+
+    .other-content .other-name {
+      font-size: 0.7rem;
+      color: #999;
+
+      // 标题最多两行
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+    }
   }
+}
+
+.mv-comments .comments-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.left-back {
+  display: flex;
+  align-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 10px;
 }
 
 @media screen and (max-width: 600px) {
@@ -202,21 +275,6 @@ onMounted(() => {
   .common-padding {
     padding: 0px !important;
   }
-
-  :deep(.van-tabs) {
-    height: 100%;
-    overflow: hidden;
-
-    .van-tabs__content {
-      height: calc(100% - 44px);
-      overflow: auto;
-    }
-
-    .van-tab__panel {
-      height: 100%;
-      overflow: auto;
-    }
-  }
 }
 
 @media screen and (max-width: 1000px) {
@@ -225,6 +283,10 @@ onMounted(() => {
   }
 
   .mv-body .other-mv {
+    display: none;
+  }
+
+  .left-back {
     display: none;
   }
 }

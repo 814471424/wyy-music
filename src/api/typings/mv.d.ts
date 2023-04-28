@@ -53,4 +53,13 @@ declare namespace MV {
         subCount: number
         videoGroup: Array<{ id: number, name: string, type: number }>
     }
+
+    export interface videoRecommend {
+        // 1 为视频 0 mv 7直播
+        type: number
+        displayed: boolean
+        alg: string | null
+        extAlg: string | null
+        data: Common.videoDetail
+    }
 }

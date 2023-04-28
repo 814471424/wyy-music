@@ -10,11 +10,11 @@
       </el-menu-item>
       <!-- <el-menu-item index="/podcast">
         <span>播客</span>
-      </el-menu-item>
+      </el-menu-item> -->
       <el-menu-item index="/video">
         <span>视频</span>
       </el-menu-item>
-      <el-menu-item index="/concern">
+      <!-- <el-menu-item index="/concern">
         <span>关注</span>
       </el-menu-item>
       <el-menu-item index="/broadcast">

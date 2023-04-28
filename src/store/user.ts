@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 
 interface UserData {
     // 用户或者游客的cookie
-    cookie: string
+    cookie: string | null
     // 用户基础信息
     profile: Common.profileInfo | null
     // 用户的所有歌单
@@ -14,7 +14,7 @@ export const useUserStore = defineStore('user', {
     state: (): UserData => {
         let userCache = localStorage.getItem('profile')
         let user = userCache ? JSON.parse(userCache) : null
-        let cookie = localStorage.getItem('cookie') ?? '';
+        let cookie = localStorage.getItem('cookie');
         let userPlayList = JSON.parse(localStorage.getItem('userPlayList') ?? '[]') ?? []
 
         return {

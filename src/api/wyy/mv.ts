@@ -98,3 +98,19 @@ export function commentMv(
 > {
     return request.get('/comment/mv', { params: { ...params, id: mvid } })
 }
+
+
+
+
+/**
+ * 获取推荐视频
+ * 说明 : 调用此接口, 可获取推荐视频,分页参数只能传入 offset
+ * 必选参数 
+ * 可选参数
+ * offset: 默认 0
+ */
+export function videoTimelineRecommend(
+    params: { offset?: number }
+): Promise<responseData & { datas: MV.videoRecommend[] }> {
+    return request.get('/video/timeline/recommend', { params: { ...params, timestamp: new Date().getTime(), } })
+}

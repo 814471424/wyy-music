@@ -96,6 +96,7 @@ declare namespace Common {
         // 别名
         alias?: Array<string>
     }
+
     // 专辑的结构
     export interface album {
         // 专辑id
@@ -161,12 +162,12 @@ declare namespace Common {
         publishTime?: number
         avatarUrl?: string
         videoGroup: Array<{
-            id: 4101
+            id: number
             name: string
             alg?: string
         }>
         // 0为mv, 1为其他
-        type: number
+        type?: number
         playTime?: number
         durationms?: number
     }
