@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 3959584 */
-  src: url('iconfont.woff2?t=1682242518880') format('woff2'),
-       url('iconfont.woff?t=1682242518880') format('woff'),
-       url('iconfont.ttf?t=1682242518880') format('truetype');
+  src: url('iconfont.woff2?t=1682669458476') format('woff2'),
+       url('iconfont.woff?t=1682669458476') format('woff'),
+       url('iconfont.ttf?t=1682669458476') format('truetype');
 }
 
 .iconfont {
@@ -155,6 +155,10 @@
 
 .wyy-wangyiyunyinle1:before {
   content: "\e601";
+}
+
+.wyy-xiangzuo-a-copy-copy:before {
+  content: "\ebd1";
 }
 
 .wyy-xiangzuo:before {

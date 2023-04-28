@@ -258,6 +258,13 @@
       "unicode_decimal": 58881
     },
     {
+      "icon_id": "35303227",
+      "name": "向上-copy",
+      "font_class": "xiangzuo-a-copy-copy",
+      "unicode": "ebd1",
+      "unicode_decimal": 60369
+    },
+    {
       "icon_id": "34652117",
       "name": "向左",
       "font_class": "xiangzuo",

@@ -221,7 +221,7 @@ async function refurbishCookie() {
 
 
 .fade-enter-active {
-  animation: bounce-in 1s;
+  animation: bounce-in 0.6s;
 }
 
 .fade-leave-active {
@@ -233,7 +233,7 @@ async function refurbishCookie() {
     transform: translateX(-100%);
   }
 
-  30% {
+  50% {
     transform: translateX(-100%);
   }
 
