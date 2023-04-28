@@ -33,4 +33,8 @@ function changeSavePath() {
 
 </script>
 
-<style lang="less" scoped></style>
+<style lang="less" scoped>
+.common-padding {
+  flex-direction: column;
+}
+</style>
