@@ -2,8 +2,7 @@ import { createApp } from "vue";
 import App from "./App.vue";
 import Router from './router/index'
 import ElementPlus from 'element-plus'
-import { Tab, Tabs } from 'vant';
-import { Swipe, SwipeItem } from 'vant';
+import { Tab, Tabs, Swipe, SwipeItem, Pagination } from 'vant';
 import 'vant/lib/index.css';
 import { createPinia } from 'pinia'
 import VueLazyload from 'vue-lazyload'
@@ -24,6 +23,7 @@ createApp(App)
     .use(Tabs)
     .use(Swipe)
     .use(SwipeItem)
+    .use(Pagination)
     .use(Router)
     .use(createPinia())
     .use(VueLazyload, {
@@ -31,7 +31,7 @@ createApp(App)
         loading: loadingSmall,
         error: miku404,
         attempt: 1,
-        // lazyComponent: true,
+        lazyComponent: true,
         // listenEvents: ['scroll', 'touchmove', 'mousewheel']
     })
     .mount("#app");

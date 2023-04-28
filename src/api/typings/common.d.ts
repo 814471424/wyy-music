@@ -37,7 +37,7 @@ declare namespace Common {
         // 用户id
         userId: string | number
         // 类型(目前不知道)
-        userType: number,
+        userType?: number,
         nickname: string,
         avatarUrl?: string,
         backgroundUrl?: string,

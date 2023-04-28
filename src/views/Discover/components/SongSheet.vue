@@ -129,7 +129,7 @@ let catSub: Ref<Playlist.Catlist[]> = ref(cache.value.songListSub ?? []);
 let panelStatus = ref(false);
 // 分页相关参数
 let total = ref(cache.value.songListTotal ?? 0)
-let per_page = ref(15)
+let per_page = ref(30)
 let page = ref(1)
 
 

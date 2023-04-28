@@ -100,7 +100,7 @@ let artistList: Ref<Array<Common.artist & { type: number }>> = ref(cache.value.s
 let more = true;
 let requestStatus = true;
 let page = 0;
-const limit = 15;
+const limit = 30;
 let singerRef: HTMLElement | null = null
 
 watch([checkArtistType, checkArtistArea, checkArtistInitial], ([_type, _area, _initial]) => {

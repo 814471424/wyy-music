@@ -3,7 +3,7 @@
     <div class="comment-avatar">
       <img :src="item.user.avatarUrl" alt="">
     </div>
-    <div>
+    <div style="flex: 1">
       <div class="comment-list">
         <div>
           <span class="comment-nickname">{{ item.user.nickname }}</span>
@@ -82,7 +82,7 @@ function millisecondToDateTime(value: number, timeStr = "") {
 }
 
 .comment-beReplied {
-  padding: 5px;
+  padding: 5px 5px 1px 5px;
   background-color: #cfcfcf43;
   border-radius: 7px;
 }

@@ -87,7 +87,7 @@ export function commentMv(
         cnum: number,
         commentBanner?: string,
         comments: Array<Comment.CommentDetail>
-        hotComments: Array<Comment.CommentDetail>
+        hotComments?: Array<Comment.CommentDetail>
         isMusician: boolean
         more: boolean
         moreHot: boolean

@@ -55,32 +55,32 @@ declare namespace Playlist {
     // 歌单详情
     export interface playListDetail {
         // 歌单id
-        id: number,
+        id: number | string,
         // 标题
         name: string,
         // 标签
-        tags: string[],
+        tags?: string[],
         // 歌单里所有的歌曲
-        trackIds: { id: number }[]
-        tracks: Playlist.dailySong[]
+        trackIds?: { id: number }[]
+        tracks?: Playlist.dailySong[]
         // 简介
-        description: string
+        description?: string
         // 收藏者
-        subscribers: any[],
+        subscribers?: any[],
         // 封面
         coverImgUrl: string
         // 创建用户
         creator: Common.profileInfo,
         // 播放列表
-        playCount: number
+        playCount?: number
         // 歌曲数量
-        trackCount: number
+        trackCount?: number
         // 分享数量
-        shareCount: number
+        shareCount?: number
         // 收藏数量
-        subscribedCount: number
+        subscribedCount?: number
         // 创建时间
-        createTime: number
+        createTime?: number
         // 表单更新时间
         trackUpdateTime?: number
         updateTime?: number
