@@ -1,32 +1,34 @@
 <template>
   <div class="common-padding">
-    <div class="search-title">搜索 {{ keyword }}</div>
-    <div class="search-message">{{ searchMessage }}</div>
-    <el-tabs class="search-tabs" v-model="activeName" @tab-click="handleClick">
-      <el-tab-pane label="单曲" :name="1">
-        <Song :list="songList" />
-      </el-tab-pane>
-      <el-tab-pane label="歌手" :name="100">
-        <Artist :list="artistList" :keywords="keyword" />
-      </el-tab-pane>
-      <el-tab-pane label="专辑" :name="10">
-        <Album :list="albumList" :keywords="keyword" />
-      </el-tab-pane>
-      <el-tab-pane label="视频" :name="1014">
-        <Video :list="videoList" />
-      </el-tab-pane>
-      <el-tab-pane label="歌单" :name="1000">
-        <PlayList :list="playList" :keywords="keyword" />
-      </el-tab-pane>
-      <el-tab-pane label="歌词" :name="1006">
-        <Lyric />
-      </el-tab-pane>
-      <el-tab-pane label="声音" :name="2000">声音</el-tab-pane>
-      <el-tab-pane label="用户" :name="1002">用户</el-tab-pane>
-    </el-tabs>
-    <div class="search-page">
-      <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
-        v-model:current-page="page" @current-change="handleCurrentChange" class="mt-4" />
+    <div style="width: 100%;">
+      <div class="search-title">搜索 {{ keyword }}</div>
+      <div class="search-message">{{ searchMessage }}</div>
+      <el-tabs class="search-tabs" v-model="activeName" @tab-click="handleClick">
+        <el-tab-pane label="单曲" :name="1">
+          <Song :list="songList" />
+        </el-tab-pane>
+        <el-tab-pane label="歌手" :name="100">
+          <Artist :list="artistList" :keywords="keyword" />
+        </el-tab-pane>
+        <el-tab-pane label="专辑" :name="10">
+          <Album :list="albumList" :keywords="keyword" />
+        </el-tab-pane>
+        <el-tab-pane label="视频" :name="1014">
+          <Video :list="videoList" />
+        </el-tab-pane>
+        <el-tab-pane label="歌单" :name="1000">
+          <PlayList :list="playList" :keywords="keyword" />
+        </el-tab-pane>
+        <el-tab-pane label="歌词" :name="1006">
+          <Lyric />
+        </el-tab-pane>
+        <el-tab-pane label="声音" :name="2000">声音</el-tab-pane>
+        <el-tab-pane label="用户" :name="1002">用户</el-tab-pane>
+      </el-tabs>
+      <div class="search-page">
+        <el-pagination small background layout="prev, pager, next" :total="total" v-model:page-size="per_page"
+          v-model:current-page="page" @current-change="handleCurrentChange" class="mt-4" />
+      </div>
     </div>
   </div>
 </template>
