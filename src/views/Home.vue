@@ -11,7 +11,12 @@
       <div id="kaiqi" class="left-button" @click="showLeftContainer"><span class="iconfont wyy-caidan"></span>
       </div>
       <div class="container-right">
-        <router-view />
+        <!-- <router-view /> -->
+        <router-view v-slot="{ Component }">
+          <transition name="fade">
+            <component :is="Component" />
+          </transition>
+        </router-view>
       </div>
     </div>
     <div class="container-footer">
@@ -212,6 +217,40 @@ async function refurbishCookie() {
   }
 }
 
+
+
+
+.fade-enter-active {
+  animation: bounce-in 1s;
+}
+
+.fade-leave-active {
+  animation: bounce-out 0.3s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: translateX(-100%);
+  }
+
+  30% {
+    transform: translateX(-100%);
+  }
+
+  100% {
+    transform: translate(0%);
+  }
+}
+
+@keyframes bounce-out {
+  0% {
+    transform: translateX(0%);
+  }
+
+  100% {
+    transform: translateX(100%);
+  }
+}
 
 // 小于某个宽度
 @media screen and (max-width: 600px) {
