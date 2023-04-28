@@ -1,11 +1,13 @@
 <template>
   <div class="common-padding">
-    <h1>
-      设置
-    </h1>
-    <div>
-      <div>下载目录</div>
-      <span>{{ setting.savePath ?? '' }}</span> <button @click="changeSavePath">更改目录</button>
+    <div style="width: 100%;">
+      <h1>
+        设置
+      </h1>
+      <div>
+        <div>下载目录</div>
+        <span>{{ setting.savePath ?? '' }}</span> <button @click="changeSavePath">更改目录</button>
+      </div>
     </div>
   </div>
 </template>
@@ -33,8 +35,4 @@ function changeSavePath() {
 
 </script>
 
-<style lang="less" scoped>
-.common-padding {
-  flex-direction: column;
-}
-</style>
+<style lang="less" scoped></style>
