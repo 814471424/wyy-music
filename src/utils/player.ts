@@ -9,11 +9,12 @@ import { PlayRules } from '../api/typings/enum'
 export async function playOne(song: Common.songX) {
   let mainStore = useMainStore();
   let playListStore = usePlayListStore();
-
   let url = '';
-
-
   let songx = song
+
+  if (songx.id == mainStore.songX?.id) {
+    return
+  }
 
   // 不是本地的需要查找资源url, 查找歌词
   if (song.songType != 'local') {
