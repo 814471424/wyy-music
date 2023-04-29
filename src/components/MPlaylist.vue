@@ -88,7 +88,7 @@ onMounted(() => {
   background-color: #fff;
   right: 0px;
   position: fixed;
-  box-shadow: -2px 0px 20px 0px #94929252;
+  box-shadow: 0px -8px 20px 0px #94929252;
   z-index: 2004;
 }
 
