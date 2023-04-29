@@ -116,7 +116,6 @@ function updateProgress(event: MouseEvent | Touch) {
 
   let progressPercent = 0
   if (props.vertical) {
-    console.log(event.clientY)
     const barHeight = progressBar.value!.clientHeight;
     const clickPosition = event.clientY - progressBar.value!.getBoundingClientRect().top;
     progressPercent = ((barHeight - clickPosition) / barHeight) * 100;

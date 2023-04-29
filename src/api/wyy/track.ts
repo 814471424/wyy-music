@@ -47,6 +47,19 @@ export function getLyric(
 }
 
 /**
+ * 获取逐字歌词
+ * 说明 : 此接口的 yrc 字段即为逐字歌词 (可能有歌曲不包含逐字歌词)
+ * 必选参数 
+ * id: 音乐 id
+ * @param {number} id - 音乐 id
+ */
+export function getNewLyric(
+    id: number | string
+): Promise<responseData & Common.lrc> {
+    return request.get('/lyric/new', { params: { id } })
+}
+
+/**
  * 新歌速递
  * 说明 : 调用此接口 , 可获取新歌速递
  * @param {number} type - 地区类型 id, 对应以下: 全部:0 华语:7 欧美:96 日本:8 韩国:16

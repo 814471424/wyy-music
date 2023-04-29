@@ -1,7 +1,4 @@
 <template>
-  <!-- <div class="m-player-panel" :style="[{
-    background: '-webkit-linear-gradient(272deg, rgb(184 184 184), rgb(255 255 255 / 95%), rgba(255,255,255,1)),url(' + songX?.al?.picUrl + ')'
-  }]"> -->
   <div class="m-player-panel">
     <p class="bgi">
       <img :src="songX?.al?.picUrl" />
@@ -58,23 +55,7 @@
           </div>
           <!-- 歌词部分 -->
           <div id="wrapper" class="main-lycs">
-            <div style="height: calc(50% - 20px)"></div>
-            <ul>
-              <li v-if="lycs.length > 0" v-for="(item, key) in lycs" :key="key"
-                :class="[{ lycs_item_active: lycindex == key }]">
-                <div>
-                  {{ item[1] }}
-                </div>
-                <div v-if="lycsType == lycsTypeEnum.translate || lycsType == lycsTypeEnum.all">
-                  {{ item[2] }}
-                </div>
-                <div v-if="lycsType == lycsTypeEnum.sound || lycsType == lycsTypeEnum.all">
-                  {{ item[3] }}
-                </div>
-              </li>
-              <li v-else="">暂无歌曲</li>
-            </ul>
-            <div style="height: calc(50% - 40px);"></div>
+            <Lyrics :lyric="lyc" :tlyric="tlyric" :romalrc="romalrc" :current-time="currentTime" :lycs-type="lycsType" />
             <div class="lycs-type">
               <div :class="['lycs-type-button', { 'active-type': lycsType == lycsTypeEnum.sound }]"
                 @click="changeLycsType(lycsTypeEnum.sound)">
@@ -123,26 +104,14 @@ import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
 import { handleLrc } from '../../utils/player'
 import play_needle from '../../assets/play_needle.png'
-import play_cd from '../../assets/play_cd.png'
-
-// 歌词类型
-enum lycsTypeEnum {
-  sound = 0,   // 音
-  translate = 1,   // 译
-  all = 2,   // 音 + 译
-  null = 3   // 都不要
-}
+import Lyrics from '../Common/Lyrics.vue'
+import { lycsTypeEnum } from '../../api/typings/enum'
 
 const mainStore = useMainStore();
 let isMinimize = ref(false);
 let unlisten: UnlistenFn;
-let lycs = ref([] as Array<number | string>[]);
 // 音乐播放状态
 let { playStatus, lyc, currentTime, songX, tlyric, romalrc } = storeToRefs(mainStore);
-// 当前歌词定位
-let lycindex = ref(0);
-// better-scroll
-let wrapper: HTMLElement | null = null;
 let lycsType = ref(lycsTypeEnum.sound)
 let cd: Ref<HTMLElement | null> = ref(null);
 let showStatus = ref(true); // 歌词或者唱片切换状态
@@ -158,17 +127,6 @@ const props = defineProps({
     }
   },
 });
-
-watch(() => currentTime.value, (value, _oldValue) => {
-  try {
-    timeupdate(value)
-  } catch (error) {
-    console.log(error)
-  }
-})
-watch(() => lyc.value, (value, _oldValue) => {
-  lycs.value = handleLrc(value, tlyric.value, romalrc.value);
-})
 watch(() => playStatus.value, (value, _oldValue) => {
   if (cd.value) {
     if (!playStatus.value) {
@@ -180,11 +138,6 @@ watch(() => playStatus.value, (value, _oldValue) => {
 })
 
 onMounted(async () => {
-  // 获取歌词
-  lycs.value = handleLrc(lyc.value, tlyric.value, romalrc.value);
-  // 获取滚动条
-  wrapper = document.getElementById("wrapper")
-
   // 监听窗口大小是否变化
   if ((window as any).__TAURI__ != undefined) {
     unlisten = await appWindow.onResized(({ payload: size }) => {
@@ -231,26 +184,6 @@ function unmaximizeMain() {
 function minimizeMain() {
   Windows.minimizeMainWin()
 }
-
-// 当前播放时长
-function timeupdate(e: number | string) {
-  let currentTime = e;
-  if (currentTime == 0) {
-    wrapper?.scrollTo(0, 0);
-    lycindex.value = 0;
-  }
-
-  let lyc = lycs.value;
-  for (let i = 0; i < lyc.length; i++) {
-    if (lyc[i][0] < currentTime && currentTime < (lyc[i + 1] ? lyc[i + 1][0] : 9999)) {
-      if (wrapper && lycindex.value < i) {
-        lycindex.value = i;
-        wrapper?.scrollTo(0, i * 60)
-      }
-    }
-  }
-}
-
 
 // 修改歌词显示类型
 function changeLycsType(value: lycsTypeEnum) {
@@ -402,30 +335,6 @@ function changeLycsType(value: lycsTypeEnum) {
         // 歌词部分
         .main-lycs {
           height: 360px;
-          overflow-y: hidden;
-          overflow-x: hidden;
-          // box-shadow: inset 0px 16px 15px 0px #b1adad52, inset 0px -14px 17px 0px #acacac52;
-          // -webkit-mask-image: linear-gradient(175deg, hsla(0, 0%, 100%, 0) 0, hsla(0, 0%, 100%, 0.6) 15%, #fff 25%, #fff 75%, hsla(0, 0%, 100%, 0.6) 85%, hsla(0, 0%, 100%, 0));
-
-          ul {
-            transition: 0.6s;
-            list-style: none;
-            padding-left: 0px;
-            margin: 0px;
-
-            li {
-              height: 60px;
-              line-height: 20px;
-              transition: 0.2s;
-              text-align: center;
-            }
-
-            li.lycs_item_active {
-              color: #000;
-              font-weight: 600;
-              transform: scale(1.1);
-            }
-          }
 
           // 歌词翻译选项部分
           .lycs-type {
@@ -453,8 +362,6 @@ function changeLycsType(value: lycsTypeEnum) {
           }
 
           &:hover {
-            overflow-y: overlay;
-
             .lycs-type {
               display: block;
             }
@@ -500,6 +407,7 @@ function changeLycsType(value: lycsTypeEnum) {
   }
 }
 
+// 背景颜色
 .bgi {
   width: 100%;
   height: 100px;

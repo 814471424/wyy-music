@@ -52,34 +52,57 @@ declare namespace Common {
 
     // 歌词详情
     export interface lrc {
-        lyricUser: {
+        lyricUser?: {
             id: number,
             status: number,
             demand: number,
             userid: number,
-            nickname: string
-            uptime: number
+            nickname: string,
+            uptime: number,
         },
         lrc?: {
             version: number
-            lyric: string
+            lyric: string,
         },
         klyric?: {
             version: number,
-            lyric: string
-        },
-        // 罗马音音译
-        tlyric?: {
-            version: number,
-            lyric: string
+            lyric: string,
         },
         // 翻译
+        tlyric?: {
+            version: number,
+            lyric: string,
+        },
+        // 罗马音音译
         romalrc?: {
             version: number,
-            lyric: string
+            lyric: string,
         },
+        // 逐字歌词
+        yrc?: {
+            version: number,
+            lyric: string,
+        }
+        // 逐字罗马音
+        yromalrc?: {
+            version: number,
+            lyric: string
+        }
     }
 
+    // 处理好的歌词详情
+    export interface lycItem {
+        // 时间(毫秒)
+        time: number,
+        // 时间(字符串)
+        timeStr?: string,
+        // 歌词
+        lyric: string,
+        // 翻译
+        tlyric: string,
+        // 罗马音
+        romalrc: string,
+    }
 
     // 歌手的结构
     export interface artist {

@@ -1,12 +1,7 @@
 <template>
-  <div>
+  <div style="height: 300px;">
     <div style="height: 20px;"></div>
-    <div>
-      <Progress :max="duration" v-model="currentTime" :change="change" />
-    </div>
-    <div style="height: 100px;">
-      <Progress :max="duration" v-model="currentTime" :change="change" vertical />
-    </div>
+    <!-- <Lyrics :lyric="lyc" :tlyric="tlyric" :romalrc="romalrc" :current-time="currentTime" /> -->
   </div>
 </template>
 
@@ -15,14 +10,11 @@ import { ref } from "vue"
 import Progress from '../components/Common/Progress.vue'
 import { useMainStore } from '../store/index'
 import { storeToRefs } from 'pinia'
+import Lyrics from '../components/Common/Lyrics.vue'
 
 const mainStore = useMainStore()
-const { currentTime, duration } = storeToRefs(mainStore)
+const { currentTime, duration, lyc, tlyric, romalrc } = storeToRefs(mainStore)
 
-function change(data: number) {
-  console.log(data)
-  mainStore.setCurrentTimeEx(data);
-}
 </script>
 
 <style lang="less" scoped></style>

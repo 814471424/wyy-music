@@ -12,11 +12,14 @@ interface MusicData {
     lyc: string,
     tlyric: string,
     romalrc: string,
+    // 逐字歌词
+    yrc: string,
+    yromalrc: string,
     // 是否在播放中
     playStatus: boolean,
     // 当前播放时间 
-    // currentTime主要显示用
-    // currentTimeEx为滑块使用的字段
+    // currentTime:     主要显示用,旨在获取audio的时间
+    // currentTimeEx:   为滑块使用的字段, 通过这个字段修改audio的时间
     currentTime: number,
     currentTimeEx: number,
     // 音量
@@ -36,6 +39,8 @@ export const useMainStore = defineStore('main', {
             lyc: song['lyc'] ?? '',
             tlyric: song['tlyric'] ?? '',
             romalrc: song['romalrc'] ?? '',
+            yrc: song['yrc'] ?? '',
+            yromalrc: song['yromalrc'] ?? '',
             playStatus: false,
             currentTime: 0,
             currentTimeEx: 0,
@@ -63,10 +68,12 @@ export const useMainStore = defineStore('main', {
             this.lycs = data
             this.saveToLocal()
         },
-        setLyc(data: string, tlyric = '', romalrc = '') {
+        setLyc(data: string, tlyric = '', romalrc = '', yrc = '', yromalrc = '') {
             this.lyc = data
             this.tlyric = tlyric
             this.romalrc = romalrc
+            this.yrc = tlyric
+            this.yromalrc = romalrc
             this.saveToLocal()
         },
         // 设置当前播放时间
@@ -93,6 +100,8 @@ export const useMainStore = defineStore('main', {
                 lyc: this.lyc,
                 tlyric: this.tlyric,
                 romalrc: this.romalrc,
+                yrc: this.yrc,
+                yromalrc: this.yromalrc,
                 playStatus: this.playStatus,
                 currentTime: this.currentTime,
                 currentTimeEx: this.currentTimeEx,
@@ -107,6 +116,8 @@ export const useMainStore = defineStore('main', {
             this.lyc = '';
             this.tlyric = '';
             this.romalrc = '';
+            this.yrc = '';
+            this.yromalrc = '';
             this.playStatus = false;
             this.currentTime = 0;
             this.currentTimeEx = 0;

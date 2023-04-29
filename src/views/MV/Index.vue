@@ -67,7 +67,7 @@ import { useMainStore } from "../../store";
 const mainStore = useMainStore();
 let mvid = ref(router.currentRoute.value.params['id'] as string)
 let mvUrl: Ref<string> = ref('');
-const limit = 20;
+let limit = ref(20);
 let page = ref(1);
 let total = ref(0)
 let before: number | undefined = undefined;
@@ -77,7 +77,7 @@ let mvDetail: Ref<MV.mvDetail | null> = ref(null)
 let recommendList: Ref<Array<MV.videoRecommend>> = ref([]);
 
 watch(() => page.value, () => {
-  api.commentMv(mvid.value, { limit, offset: (page.value - 1) * limit, before }).then(res => {
+  api.commentMv(mvid.value, { limit: limit.value, offset: (page.value - 1) * limit.value, before }).then(res => {
     comments.value = res.comments;
     hotComments.value = res.hotComments ?? [];
     total.value = res.total
@@ -97,7 +97,7 @@ onMounted(() => {
     mvDetail.value = res.data
   })
 
-  api.commentMv(mvid.value, { limit, offset: (page.value - 1) * limit, before }).then(res => {
+  api.commentMv(mvid.value, { limit: limit.value, offset: (page.value - 1) * limit.value, before }).then(res => {
     comments.value = res.comments;
     hotComments.value = res.hotComments ?? [];
     total.value = res.total

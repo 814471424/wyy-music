@@ -40,3 +40,11 @@ export enum PlayRules {
     singleLoop = 2,
     random = 3,
 }
+
+// 歌词类型
+export enum lycsTypeEnum {
+    sound = 0,   // 音
+    translate = 1,   // 译
+    all = 2,   // 音 + 译
+    null = 3   // 都不要
+}
