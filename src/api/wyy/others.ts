@@ -76,10 +76,10 @@ export function search(
         return {
             code: res.code,
             message: res.message,
-            list: res.result.albums ?? res.result.artists ?? res.result.djRadios
-                ?? res.result.mvs ?? res.result.playlists ?? res.result.songs ?? res.result.videos ?? [],
-            count: res.result.albumCount ?? res.result.artistCount ?? res.result.djRadiosCount
-                ?? res.result.mvCount ?? res.result.playlistCount ?? res.result.songCount ?? res.result.videoCount ?? 0
+            list: res.result ? (res.result.albums ?? res.result.artists ?? res.result.djRadios
+                ?? res.result.mvs ?? res.result.playlists ?? res.result.songs ?? res.result.videos ?? []) : [],
+            count: res.result ? (res.result.albumCount ?? res.result.artistCount ?? res.result.djRadiosCount
+                ?? res.result.mvCount ?? res.result.playlistCount ?? res.result.songCount ?? res.result.videoCount ?? 0) : 0
         }
     })
 }

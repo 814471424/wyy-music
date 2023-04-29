@@ -120,7 +120,9 @@ body {
   /* 主题主要颜色 */
   --primary-color: #ec4141;
   --primary-opacity-color: rgb(236 65 65 / 8%);
-  --primary-text-color: #ec4141;
+  /* 本主题字体主要颜色 */
+  --primary-text-color: #000000;
+  --primary-text-weak-color: #696969;
   /* 主题背景色深 */
   --primary-background-color: #e33e3e;
   --primary-hover-color: hsl(0, 75%, 57%);

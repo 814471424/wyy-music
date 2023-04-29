@@ -32,8 +32,10 @@
               <div v-if="comments.length > 0" class="comments-title">最新评论<span>({{ total }})</span></div>
               <CommentList :list="comments" />
             </div>
-            <van-pagination v-if="total != 0" v-model="page" :total-items="total" :items-per-page="limit"
-              force-ellipses />
+            <div style="width: 100%; justify-content: center; display: flex;">
+              <el-pagination v-if="total != 0" small background layout="prev, pager, next" :total="total"
+                v-model:page-size="limit" v-model:current-page="page" class="mt-4" />
+            </div>
             <div style="height: 20px;"></div>
           </div>
         </div>

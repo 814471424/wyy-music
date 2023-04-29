@@ -1,8 +1,8 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import Router from './router/index'
-import ElementPlus from 'element-plus'
-import { Tab, Tabs, Swipe, SwipeItem, Pagination } from 'vant';
+import { ElButton, ElTable, ElMenu, ElDrawer, ElInput, ElPagination, ElTabs } from 'element-plus'
+import { Tab, Tabs, Swipe, SwipeItem } from 'vant';
 import 'vant/lib/index.css';
 import { createPinia } from 'pinia'
 import VueLazyload from 'vue-lazyload'
@@ -18,12 +18,17 @@ import Theme from './utils/theme'
 Theme.init()
 
 createApp(App)
-    .use(ElementPlus)
     .use(Tab)
     .use(Tabs)
     .use(Swipe)
     .use(SwipeItem)
-    .use(Pagination)
+    .use(ElButton)
+    .use(ElTable)
+    .use(ElMenu)
+    .use(ElDrawer)
+    .use(ElInput)
+    .use(ElPagination)
+    .use(ElTabs)
     .use(Router)
     .use(createPinia())
     .use(VueLazyload, {

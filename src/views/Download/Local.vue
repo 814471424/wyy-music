@@ -1,62 +1,65 @@
 <template>
-  <div class="local-message">
-    <div class="local-name">本地共有{{ musicList?.length ?? 0 }}首歌曲</div>
-    <!-- 选择相关的目录 -->
-    <div class="local-file">
-      <el-button text @click="alterSelectFile">
-        选择目录
-      </el-button>
-    </div>
-  </div>
-
-  <!-- 所有的按钮 -->
-  <div class="local-button-all">
-    <div>
-      <el-button-group class="local-button-bofang">
-        <el-button class="iconfont wyy-caret-right button-left">
-          播放全部
+  <div>
+    <div class="local-message">
+      <div class="local-name">本地共有{{ musicList?.length ?? 0 }}首歌曲</div>
+      <!-- 选择相关的目录 -->
+      <div class="local-file">
+        <el-button text @click="alterSelectFile">
+          选择目录
         </el-button>
-        <el-button class="iconfont wyy-tianjia button-right" />
-      </el-button-group>
-      <el-button class="iconfont wyy-refresh button-pipei" :loading="buttonLoad" @click="findMp3ByFiles">匹配音乐</el-button>
+      </div>
     </div>
-    <div>
-      <el-input v-model="searchText" class="w-50 m-2 local-input-search" placeholder="搜索本地音乐" :suffix-icon="Search"
-        clearable />
+
+    <!-- 所有的按钮 -->
+    <div class="local-button-all">
+      <div>
+        <el-button-group class="local-button-bofang">
+          <el-button class="iconfont wyy-caret-right button-left">
+            播放全部
+          </el-button>
+          <el-button class="iconfont wyy-tianjia button-right" />
+        </el-button-group>
+        <el-button class="iconfont wyy-refresh button-pipei" :loading="buttonLoad"
+          @click="findMp3ByFiles">匹配音乐</el-button>
+      </div>
+      <div>
+        <el-input v-model="searchText" class="w-50 m-2 local-input-search" placeholder="搜索本地音乐" :suffix-icon="Search"
+          clearable />
+      </div>
     </div>
+
+    <!-- 本地音乐列表 -->
+    <el-table :data="filterMusicList" @row-dblclick="tableDbClick" stripe style="width: 100%" size="small"
+      :highlight-current-row=true tooltip-effect="light">
+      <el-table-column type="index" :index="(index: number) => index + 1" />
+      <el-table-column prop="name" sortable label="音乐标题" :show-overflow-tooltip=true />
+      <el-table-column prop="path" label="本地路径" :show-overflow-tooltip=true />
+    </el-table>
+
+    <!-- 选择目录相关的模态框 -->
+    <el-dialog v-model="dialogVisible" :append-to-body="true" :modal="false" :center="true" :destroy-on-close="true"
+      width="470px" :z-index=9999 title="" draggable>
+      <div style="text-align: center;" class="div-no-select">
+        <h3 style="margin-top: -20px;">选择本地音乐文件夹</h3>
+      </div>
+      <span class="div-no-select" style="font-size: 10px;">以下文件为本地音乐目录。</span>
+      <div>
+        <el-checkbox-group v-model="selectFilesData">
+          <el-checkbox v-for="file in searchFiles" :key="file" :label="file">{{
+            file
+          }}</el-checkbox>
+        </el-checkbox-group>
+      </div>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button type="danger" @click="confirmSelectFiles" round>确认</el-button>
+          <el-button @click="checkFile()" round>
+            添加文件夹
+          </el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
-
-  <!-- 本地音乐列表 -->
-  <el-table :data="filterMusicList" @row-dblclick="tableDbClick" stripe style="width: 100%" size="small"
-    :highlight-current-row=true tooltip-effect="light">
-    <el-table-column type="index" :index="(index: number) => index + 1" />
-    <el-table-column prop="name" sortable label="音乐标题" :show-overflow-tooltip=true />
-    <el-table-column prop="path" label="本地路径" :show-overflow-tooltip=true />
-  </el-table>
-
-  <!-- 选择目录相关的模态框 -->
-  <el-dialog v-model="dialogVisible" :append-to-body="true" :modal="false" :center="true" :destroy-on-close="true"
-    width="470px" :z-index=9999 title="" draggable>
-    <div style="text-align: center;" class="div-no-select">
-      <h3 style="margin-top: -20px;">选择本地音乐文件夹</h3>
-    </div>
-    <span class="div-no-select" style="font-size: 10px;">以下文件为本地音乐目录。</span>
-    <div>
-      <el-checkbox-group v-model="selectFilesData">
-        <el-checkbox v-for="file in searchFiles" :key="file" :label="file">{{
-          file
-        }}</el-checkbox>
-      </el-checkbox-group>
-    </div>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button type="danger" @click="confirmSelectFiles" round>确认</el-button>
-        <el-button @click="checkFile()" round>
-          添加文件夹
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
 </template>
 
 <script lang="ts" setup>

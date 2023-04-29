@@ -49,15 +49,14 @@
         </div>
         <div class="play-radio-bar">
           <div class="radio-time">{{ durationToTime(currentTime) }}</div>
-          <el-slider v-model="viedoDuration" size="small" height="120" :show-tooltip=false :max="duration"
-            @input="sliderChange" />
+          <Progress :max="duration" v-model="currentTime" :change="sliderChange" />
           <div class="radio-time">{{ durationToTime(duration) }}</div>
         </div>
       </div>
       <div class="right-item">
         <div class="right-icon-volume right-item-data iconfont wyy-shengyin_">
           <div class="right-volume">
-            <el-slider v-model="volume" vertical height="80px" :show-tooltip=false />
+            <Progress v-model="volume" vertical :input="(value: number) => { mainStore.setVolume(value) }" />
             <div class="corner"></div>
           </div>
         </div>
@@ -78,6 +77,7 @@ import { useMainStore } from '../../store/index'
 import { useSettingStore } from '../../store/setting'
 import MPlaylist from '../MPlaylist.vue'
 import { PlayRules } from '../../api/typings/enum'
+import Progress from '../Common/Progress.vue'
 
 const mainStore = useMainStore(); // 目前关于应该相关的store
 const settingStore = useSettingStore();
@@ -267,34 +267,6 @@ function changePlayRules() {
   transition: none !important;
 }
 
-.play-radio-bar {
-
-  // 滑块
-  :deep(.el-slider__runway) {
-    height: 3px;
-    background-color: #cecece;
-  }
-
-  :deep(.el-slider__bar) {
-    height: 3px;
-    background-color: var(--primary-color);
-  }
-
-  :deep(.el-slider__button) {
-    height: 11px;
-    width: 11px;
-    border: solid 2px var(--primary-color);
-  }
-
-  :deep(.el-slider__button-wrapper) {
-    height: 32px;
-  }
-
-  :deep(.el-slider) {
-    width: 350px;
-  }
-}
-
 // 音量相关样式
 .right-icon-volume:hover .right-volume {
   display: block;
@@ -302,40 +274,13 @@ function changePlayRules() {
 
 .right-volume {
   position: fixed;
-  width: 30px;
-  height: 105px;
-  bottom: 45px;
+  height: 80px;
+  bottom: 55px;
   border-radius: 5px;
   display: none;
-  padding: 0px 10px 10px 10px;
-
-  .el-slider {
-    left: -3px;
-    border: 1px solid #bfbfbf87;
-    background-color: #ffffff;
-    border-radius: 5px;
-  }
-
-  :deep(.el-slider__button) {
-    height: 10px;
-    width: 10px;
-    border: solid 2px var(--primary-color);
-    position: absolute;
-    left: 13px;
-    top: 13px;
-    background-color: var(--primary-color);
-  }
-
-  // 滑块
-  :deep(.el-slider__runway) {
-    width: 4px;
-    background-color: #cecece;
-  }
-
-  :deep(.el-slider__bar) {
-    // width: 4px;
-    background-color: var(--primary-color);
-  }
+  padding: 10px 3px;
+  border: 1px solid #bfbfbf87;
+  background-color: #fff;
 
   .corner {
     width: 0px;
@@ -346,7 +291,8 @@ function changePlayRules() {
     /* 设置透明背景色 */
     border-left-color: transparent;
     border-right-color: transparent;
-    left: 21px;
+    left: 10px;
+    bottom: -11px;
     position: absolute;
   }
 }
@@ -389,9 +335,16 @@ function changePlayRules() {
 
         .play-radio-bar {
           position: absolute;
-          top: -7px;
+          top: -12px;
           left: 0px;
           width: 100%;
+
+          padding: 0px 1px;
+          box-sizing: border-box;
+        }
+
+        .play-radio-bar .radio-time {
+          display: none;
         }
       }
 

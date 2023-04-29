@@ -1,41 +1,44 @@
 <template>
   <div class="common-padding" style="width: 100%; height: 100%; box-sizing: border-box;">
-    <div class="playlist">
-      <div class="playlist-cover">
-        <img v-lazy="albumDetail?.picUrl" alt="" :key="albumDetail?.picUrl">
-      </div>
-      <div class="playlist-info">
-        <div>
-          <div class="playlist-title">{{ albumDetail?.name ?? '未知' }}</div>
+    <div style="width: 100%;">
+      <div class="playlist">
+        <div class="playlist-cover">
+          <img v-lazy="albumDetail?.picUrl" alt="" :key="albumDetail?.picUrl">
         </div>
-        <!-- <div>按钮</div> -->
-        <div class="playlist-info-detail">
-          <div class="playlist-description">歌手 : <span style="color: #507daf">{{ albumDetail?.artist.name ?? "未知"
-          }}</span></div>
-          <div class="playlist-description">时间 : <span>{{ millisecondToDate(albumDetail?.publishTime ?? 0) }}</span></div>
+        <div class="playlist-info">
+          <div>
+            <div class="playlist-title">{{ albumDetail?.name ?? '未知' }}</div>
+          </div>
+          <!-- <div>按钮</div> -->
+          <div class="playlist-info-detail">
+            <div class="playlist-description">歌手 : <span style="color: #507daf">{{ albumDetail?.artist.name ?? "未知"
+            }}</span></div>
+            <div class="playlist-description">时间 : <span>{{ millisecondToDate(albumDetail?.publishTime ?? 0) }}</span>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-    <div>
-      <el-table class="daily-table" :data="tracks" @row-dblclick="tableDbClick" stripe style="width: 100%" size="small">
-        <el-table-column type="index" width="50" />
-        <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
-        <el-table-column label="歌手" :show-overflow-tooltip=true>
-          <template #default="scope">
-            {{ scope.row.ar.map((v: any) => v.name).join(' / ') }}
-          </template>
-        </el-table-column>
-        <el-table-column label="专辑" :show-overflow-tooltip=true>
-          <template #default="scope">
-            {{ scope.row.al.name }}
-          </template>
-        </el-table-column>
-        <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true>
-          <template #default="scope">
-            {{ millisecondToTime(scope.row.dt) }}
-          </template>
-        </el-table-column>
-      </el-table>
+      <div>
+        <el-table class="daily-table" :data="tracks" @row-dblclick="tableDbClick" stripe style="width: 100%" size="small">
+          <el-table-column type="index" width="50" />
+          <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
+          <el-table-column label="歌手" :show-overflow-tooltip=true>
+            <template #default="scope">
+              {{ scope.row.ar.map((v: any) => v.name).join(' / ') }}
+            </template>
+          </el-table-column>
+          <el-table-column label="专辑" :show-overflow-tooltip=true>
+            <template #default="scope">
+              {{ scope.row.al.name }}
+            </template>
+          </el-table-column>
+          <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true>
+            <template #default="scope">
+              {{ millisecondToTime(scope.row.dt) }}
+            </template>
+          </el-table-column>
+        </el-table>
+      </div>
     </div>
   </div>
 </template>

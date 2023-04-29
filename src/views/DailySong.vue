@@ -1,47 +1,49 @@
 <!-- 每日歌曲推荐 -->
 <template>
-  <div class="daily" style="">
-    <div style="position: relative; width: 100px; height: 100px;">
-      <div class=" daily-icon iconfont wyy-a-ziyuan16-copy-copy">
+  <div>
+    <div class="daily" style="">
+      <div style="position: relative; width: 100px; height: 100px;">
+        <div class=" daily-icon iconfont wyy-a-ziyuan16-copy-copy">
+        </div>
+        <div class="daily-text">{{ date }}</div>
       </div>
-      <div class="daily-text">{{ date }}</div>
+
+      <div style="margin-left: 20px;">
+        <div style="font-size: 23px; font-weight: 600;">每日歌曲推荐</div>
+        <div style="font-size: 5px; font-weight: 200;">根据你的音乐口味生成, 每天6:00更新</div>
+      </div>
+    </div>
+    <div>
+      <el-button-group class="daily-button-bofang">
+        <el-button class="iconfont wyy-caret-right button-left">
+          播放全部
+        </el-button>
+        <el-button class="iconfont wyy-tianjia button-right" @click="playAll" />
+      </el-button-group>
     </div>
 
-    <div style="margin-left: 20px;">
-      <div style="font-size: 23px; font-weight: 600;">每日歌曲推荐</div>
-      <div style="font-size: 5px; font-weight: 200;">根据你的音乐口味生成, 每天6:00更新</div>
+    <div>
+      <el-table class="daily-table" :data="dailySongs" @row-dblclick="tableDbClick" @row-click="tableDbClick" stripe
+        style="width: 100%" size="small">
+        <el-table-column type="index" width="50" />
+        <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
+        <el-table-column label="歌手" :show-overflow-tooltip=true width="160">
+          <template #default="scope">
+            {{ scope.row.ar.map((v: any) => v.name).join(' / ') }}
+          </template>
+        </el-table-column>
+        <el-table-column label="专辑" :show-overflow-tooltip=true width="180">
+          <template #default="scope">
+            {{ scope.row.al.name }}
+          </template>
+        </el-table-column>
+        <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true width="80">
+          <template #default="scope">
+            {{ millisecondToTime(scope.row.dt ?? 0) }}
+          </template>
+        </el-table-column>
+      </el-table>
     </div>
-  </div>
-  <div>
-    <el-button-group class="daily-button-bofang">
-      <el-button class="iconfont wyy-caret-right button-left">
-        播放全部
-      </el-button>
-      <el-button class="iconfont wyy-tianjia button-right" @click="playAll" />
-    </el-button-group>
-  </div>
-
-  <div>
-    <el-table class="daily-table" :data="dailySongs" @row-dblclick="tableDbClick" @row-click="tableDbClick" stripe
-      style="width: 100%" size="small">
-      <el-table-column type="index" width="50" />
-      <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
-      <el-table-column label="歌手" :show-overflow-tooltip=true width="160">
-        <template #default="scope">
-          {{ scope.row.ar.map((v: any) => v.name).join(' / ') }}
-        </template>
-      </el-table-column>
-      <el-table-column label="专辑" :show-overflow-tooltip=true width="180">
-        <template #default="scope">
-          {{ scope.row.al.name }}
-        </template>
-      </el-table-column>
-      <el-table-column prop="dt" label="时长" :show-overflow-tooltip=true width="80">
-        <template #default="scope">
-          {{ millisecondToTime(scope.row.dt ?? 0) }}
-        </template>
-      </el-table-column>
-    </el-table>
   </div>
 </template>
 

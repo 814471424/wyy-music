@@ -1,3 +1,4 @@
+<!-- 评论主要组件 -->
 <template>
   <div class="comment-body" v-for="(item, key) in props.list" :key="key">
     <div class="comment-avatar">
