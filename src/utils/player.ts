@@ -49,6 +49,8 @@ export async function playOne(song: Common.songX) {
         yromalrc = lysRes.yromalrc ? (lysRes.yromalrc.lyric ?? '') : ''
       }
 
+      mainStore.setCurrentTime(0)
+      mainStore.setCurrentTimeEx(0)
       mainStore.setUrl(url);
       mainStore.setLycs(lycs);
       mainStore.setLyc(lyc, tlyric, romalrc, yrc, yromalrc);
@@ -57,6 +59,8 @@ export async function playOne(song: Common.songX) {
       let lyc = '';
       let tlyric = '';
       let romalrc = '';
+      mainStore.setCurrentTime(0)
+      mainStore.setCurrentTimeEx(0)
       mainStore.setUrl(url);
       mainStore.setLycs(lycs);
       mainStore.setLyc(lyc, tlyric, romalrc);

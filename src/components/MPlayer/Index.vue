@@ -47,7 +47,7 @@
           <div class="other-button iconfont wyy-next-fill" @click="playNext"></div>
           <div class="other-button lycs-button iconfont wyy-geci"></div>
         </div>
-        <div class="play-radio-bar">
+        <div class="play-radio-bar" style="z-index: 2005;">
           <div class="radio-time">{{ durationToTime(currentTime) }}</div>
           <Progress :max="duration" v-model="currentTime" :change="sliderChange" />
           <div class="radio-time">{{ durationToTime(duration) }}</div>
@@ -55,7 +55,7 @@
       </div>
       <div class="right-item">
         <div class="right-icon-volume right-item-data iconfont wyy-shengyin_">
-          <div class="right-volume">
+          <div class="right-volume" style="z-index: 2005;">
             <Progress v-model="volume" vertical :input="(value: number) => { mainStore.setVolume(value) }" />
             <div class="corner"></div>
           </div>

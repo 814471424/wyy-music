@@ -108,8 +108,6 @@ function timeupdate(currentTime: number, lycs: Array<Common.lycItem>): number {
   color: #85817f;
   overflow: hidden;
 
-  z-index: 2005;
-
   &:hover {
     overflow-y: overlay;
   }
