@@ -30,6 +30,7 @@
             <div class="panel-main-info">
               <div>歌手: {{ (songX?.ar ?? []).map(res => res.name).join(' / ') ?? '未知' }}</div>
               <div>专辑: {{ songX?.al?.name ?? '未知' }}</div>
+              <!-- <div>来源: {{ songX?.songType ?? '未知' }}</div> -->
             </div>
           </div>
           <div style="width: 100%;height: 130px;text-align: center;z-index: 1; position: relative"
@@ -54,7 +55,7 @@
             </div>
           </div>
           <!-- 歌词部分 -->
-          <div id="wrapper" class="main-lycs">
+          <div class="main-lycs">
             <Lyrics :lyric="lyc" :tlyric="tlyric" :romalrc="romalrc" :current-time="currentTime" :lycs-type="lycsType" />
             <div class="lycs-type">
               <div :class="['lycs-type-button', { 'active-type': lycsType == lycsTypeEnum.sound }]"
@@ -527,6 +528,14 @@ function changeLycsType(value: lycsTypeEnum) {
 
           .main-lycs {
             overflow-y: overlay;
+
+            :deep(.lyrics) {
+              div {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+              }
+            }
 
             .lycs-type {
               right: 20px;
