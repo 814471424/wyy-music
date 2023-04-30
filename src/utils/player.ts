@@ -50,7 +50,6 @@ export async function playOne(song: Common.songX) {
         yrc = lysRes.yrc ? (lysRes.yrc.lyric ?? '') : ''
         yromalrc = lysRes.yromalrc ? (lysRes.yromalrc.lyric ?? '') : ''
       }
-      console.log(yrc)
       mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
       mainStore.setLyc(lyc, tlyric, romalrc, yrc, yromalrc);
     }).catch(_error => {

@@ -2,19 +2,23 @@
 <template>
   <div class="lyrics" ref="lyricsRef">
     <div style="height: calc(50% - 20px)"></div>
+    <!-- 逐字歌词 -->
     <div v-if="yrcs.length > 0">
-      <div class="lycs_item" style="display: flex; justify-content: center;"
-        :class="{ lycs_item_active: lycindex == key }" v-for="(item, key) in  yrcs" :key="key">
+      <div :class="['lycs_item', 'lycs_flex_item', { lycs_item_active: lycindex == key }]" v-for="(item, key) in yrcs"
+        :key="key">
+        <div></div>
         <div
           :class="['lycs_item_name', { lycs_item_name_active: lycindex == key && v.time <= Number(currentTime * 1000) }]"
           :style="lycindex == key && v.time <= Number(currentTime * 1000) ? `transition: ${(v.length) / 1000}s linear;` : ``"
-          v-for="(v, k) in item.list" :key="v.time">
-          <span :class="{ active_name: lycindex == key }">{{ v.name }}</span>
+          v-for="v in item.list" :key="v.time">
+          <span :class="[{ active_name: lycindex == key }]">{{ v.name }}</span>
         </div>
       </div>
     </div>
+    <!-- 普通歌词 -->
     <div v-else-if="lyrics.length > 0">
-      <div class="lycs_item" :class="{ lycs_item_active: lycindex == key }" v-for="(item, key) in  lyrics" :key="key">
+      <div class="lycs_item" :class="{ lycs_item_active: lycindex == key }"
+        v-for="(     item, key     ) in       lyrics     " :key="key">
         <div>{{ item.lyric }}</div>
         <div v-if="props.lycsType == lycsTypeEnum.translate || props.lycsType == lycsTypeEnum.all">{{ item.tlyric }}
         </div>
@@ -22,6 +26,7 @@
         </div>
       </div>
     </div>
+    <!-- 没有歌词 -->
     <div v-else>
       <div>暂无歌词</div>
     </div>
@@ -76,11 +81,11 @@ let lyricsRef: Ref<HTMLElement | null> = ref(null);
 let lycindex = ref(-1);
 let yrcs: Ref<Array<yrcItem>> = ref([]);
 
+// 监听歌词是否修改，修改重新处理歌词(可修改成获取已处理好的歌词)
 watch(() => props.lyric, (value) => {
   lyrics.value = handleLrc(props.lyric, props.tlyric, props.romalrc)
   lycindex.value = 0;
 })
-// 
 watch(() => props.yrc, (value) => {
   yrcs.value = handleYrc(value)
 })
@@ -92,7 +97,6 @@ watch(() => props.currentTime, (value) => {
     lycindex.value = timeupdate(Number(value * 1000) + props.delayed, lyrics.value)
   }
 })
-
 // 控制屏幕滚动
 watch(() => lycindex.value, (value) => {
   lyricsRef.value!.scrollTo(0, value * 60 + 40)
@@ -102,15 +106,8 @@ onMounted(() => {
   lyrics.value = handleLrc(props.lyric, props.tlyric, props.romalrc)
   yrcs.value = handleYrc(props.yrc)
 
-  // if (yrcs.value.length > 0) {
-  //   lycindex.value = timeupdate(Number(props.currentTime * 1000) + props.delayed, yrcs.value)
-  // } else if (lyrics.value.length > 0) {
-  //   lycindex.value = timeupdate(Number(props.currentTime * 1000) + props.delayed, lyrics.value)
-  // }
-  // lyricsRef.value!.scrollTo(0, lycindex.value * 60 + 40)
+  // todo!(): display:none变成block不会及时定位scrollTo
 })
-
-
 </script>
   
 <style lang="less" scoped>
@@ -127,42 +124,46 @@ onMounted(() => {
 
 .lycs_item {
   height: 60px;
-  transition: 0.2s;
-
+  transition: 0.5s;
   color: #85817f;
   font-size: 0.9rem;
 }
 
+.lycs_flex_item {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
 .lycs_item_active {
-  color: #000;
-  margin: 40px 0px;
   font-weight: 600;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
+  margin: 40px 0px 60px 0px;
+}
 
-  .lycs_item_name {
-    --fill-color: #000000;
-    position: relative;
-    text-decoration: none;
-    text-transform: uppercase;
-    // 字体镂空
-    -webkit-text-stroke: 0.5px var(--fill-color);
-    background: linear-gradient(var(--primary-color) 0 100%) left / 0 no-repeat;
+// 逐字歌词部分css
+.lycs_item_name {
+  --fill-color: #000000;
+  position: relative;
+  // 字体镂空
+  // -webkit-text-stroke: 0.5px var(--primary-color);
+  // color: transparent;
+  // color: var(--fill-color);
+  background: linear-gradient(var(--primary-color) 0 100%) left / 0 no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  .active_name {
+    -webkit-text-stroke: 0.5px var(--primary-color);
     color: transparent;
-    // color: var(--fill-color);
-    -webkit-background-clip: text;
-    background-clip: text;
 
-    .active_name {
-      font-weight: 600;
-      font-size: 1.2rem;
-      transition: none !important;
-    }
-
+    font-weight: 600;
+    font-size: 1.5rem;
+    transition: none !important;
   }
+}
 
-  .lycs_item_name_active {
-    background-size: 100%;
-    color: transparent;
-  }
+.lycs_item_name_active {
+  background-size: 100%;
 }
 </style>
