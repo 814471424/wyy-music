@@ -90,20 +90,6 @@ declare namespace Common {
         }
     }
 
-    // 处理好的歌词详情
-    export interface lycItem {
-        // 时间(毫秒)
-        time: number,
-        // 时间(字符串)
-        timeStr?: string,
-        // 歌词
-        lyric: string,
-        // 翻译
-        tlyric: string,
-        // 罗马音
-        romalrc: string,
-    }
-
     // 歌手的结构
     export interface artist {
         // 歌手id

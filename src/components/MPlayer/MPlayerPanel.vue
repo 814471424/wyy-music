@@ -103,10 +103,9 @@ import { ref, onMounted, onUnmounted, watch, Ref } from "vue"
 import Windows from "../../windows/Windows";
 import { useMainStore } from '../../store/index'
 import { storeToRefs } from 'pinia'
-import { handleLrc } from '../../utils/player'
 import play_needle from '../../assets/play_needle.png'
-import Lyrics from '../Common/Lyrics.vue'
-import { lycsTypeEnum } from '../../api/typings/enum'
+import Lyrics from '../Common/Lyrics/index.vue'
+import { lycsTypeEnum } from '../../components/Common/Lyrics/types'
 
 const mainStore = useMainStore();
 let isMinimize = ref(false);
@@ -527,9 +526,9 @@ function changeLycsType(value: lycsTypeEnum) {
           margin-left: 0px;
 
           .main-lycs {
-            overflow-y: overlay;
-
             :deep(.lyrics) {
+              overflow-y: overlay;
+
               div {
                 display: flex;
                 flex-direction: column;
