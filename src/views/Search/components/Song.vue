@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="props.list" stripe style="width: 100%" size="small" @row-dblclick="tableDbClick">
+  <el-table :data="props.list" stripe style="width: 100%" size="small" @row-click="tableDbClick">
     <el-table-column type="index" width="50" />
     <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true>
     </el-table-column>

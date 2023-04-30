@@ -43,7 +43,7 @@ export function handleLrc(lyric: string, tlyric = '', romalrc = ''): Array<lycIt
             if (date && (date ?? []).length > 4) {
                 let timeStr = date ? date[0] : '';
 
-                let time = Number(date[1]) * 60 * 1000 + Number(date[2]) * 1000 + Number(date[4]);  //计算时间
+                let time = Number(date[1]) * 60 * 1000 + Number(date[2] + '.' + date[4]) * 1000;  //计算时间
                 let lrcItem = lyclist[i].replace(timeStr, ""); // 获取歌词
                 let tlyricItem = getLrcByTime(tlyric, time);
                 let romalrcItem = getLrcByTime(romalrc, time);
@@ -77,7 +77,7 @@ function getLrcByTime(lyric: string, time: number, index = -1): string {
             if (date && (date ?? []).length > 4) {
                 let timeStr = date ? date[0] : '';
 
-                let ltime = Number(date[1]) * 60 * 1000 + Number(date[2]) * 1000 + Number(date[4]);  //计算时间
+                let ltime = Number(date[1]) * 60 * 1000 + Number(date[2] + '.' + date[4]) * 1000;  //计算时间
 
                 if (ltime == time) {
                     lrc = lyclist[i].replace(timeStr, ""); // 获取歌词

@@ -23,8 +23,8 @@
     </div>
 
     <div>
-      <el-table class="daily-table" :data="dailySongs" @row-dblclick="tableDbClick" @row-click="tableDbClick" stripe
-        style="width: 100%" size="small">
+      <!-- @row-dblclick="tableDbClick" -->
+      <el-table class="daily-table" :data="dailySongs" @row-click="tableDbClick" stripe style="width: 100%" size="small">
         <el-table-column type="index" width="50" />
         <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
         <el-table-column label="歌手" :show-overflow-tooltip=true width="160">

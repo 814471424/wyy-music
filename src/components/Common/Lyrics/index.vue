@@ -71,6 +71,7 @@ watch(() => props.currentTime, (value) => {
 })
 
 watch(() => lycindex.value, (value) => {
+    // console.log(lyrics.value)
     lyricsRef.value!.scrollTo(0, value * 60)
 })
 

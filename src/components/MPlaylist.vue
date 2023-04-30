@@ -13,7 +13,7 @@
     <div class="palylist-content">
       <el-table :data="list" stripe
         style="width: 100%;border-top-width: 1px;border-top-style: solid;border-top-color: #e0e0e0;" size="small"
-        :show-header="false" @row-dblclick="tableDbClick">
+        :show-header="false" @row-click="tableDbClick">
         <el-table-column prop="name" label="音乐标题" :show-overflow-tooltip=true />
         <el-table-column label="歌手" :show-overflow-tooltip=true width="160">
           <template #default="scope">

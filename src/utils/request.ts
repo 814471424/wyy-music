@@ -32,7 +32,7 @@ axios.interceptors.request.use(
 axios.interceptors.response.use(
     response => {
         if (response.status == 200) {
-            if ((response.data.code ?? 200) == 302) {
+            if (response.data.code == 302) {
                 let userStore = useUserStore();
                 userStore.cleanUser()
             }

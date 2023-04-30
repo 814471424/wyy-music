@@ -29,7 +29,7 @@
     </div>
 
     <!-- 本地音乐列表 -->
-    <el-table :data="filterMusicList" @row-dblclick="tableDbClick" stripe style="width: 100%" size="small"
+    <el-table :data="filterMusicList" @row-click="tableDbClick" stripe style="width: 100%" size="small"
       :highlight-current-row=true tooltip-effect="light">
       <el-table-column type="index" :index="(index: number) => index + 1" />
       <el-table-column prop="name" sortable label="音乐标题" :show-overflow-tooltip=true />
