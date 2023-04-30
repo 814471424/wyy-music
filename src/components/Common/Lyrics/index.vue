@@ -3,17 +3,18 @@
   <div class="lyrics" ref="lyricsRef">
     <div style="height: calc(50% - 20px)"></div>
     <div v-if="yrcs.length > 0">
-      <div class="lycs_item" :class="{ lycs_item_active: lycindex == key }" v-for="(item, key) in  yrcs" :key="key">
-        <span style="position: relative;"
+      <div class="lycs_item" style="display: flex; justify-content: center;"
+        :class="{ lycs_item_active: lycindex == key }" v-for="(item, key) in  yrcs" :key="key">
+        <div
           :class="['lycs_item_name', { lycs_item_name_active: lycindex == key && v.time <= Number(currentTime * 1000) }]"
-          :style="`transition: ${(v.length) / 1000}s linear;`" v-for="(v, k) in item.list" :key="v.time">
-          {{ v.name }}
-        </span>
+          :style="lycindex == key && v.time <= Number(currentTime * 1000) ? `transition: ${(v.length) / 1000}s linear;` : ``"
+          v-for="(v, k) in item.list" :key="v.time">
+          <span :class="{ active_name: lycindex == key }">{{ v.name }}</span>
+        </div>
       </div>
     </div>
     <div v-else-if="lyrics.length > 0">
-      <div class="lycs_item" style="transition: 0.3s;" :class="{ lycs_item_active: lycindex == key }"
-        v-for="(item, key) in  lyrics" :key="key">
+      <div class="lycs_item" :class="{ lycs_item_active: lycindex == key }" v-for="(item, key) in  lyrics" :key="key">
         <div>{{ item.lyric }}</div>
         <div v-if="props.lycsType == lycsTypeEnum.translate || props.lycsType == lycsTypeEnum.all">{{ item.tlyric }}
         </div>
@@ -91,6 +92,7 @@ watch(() => props.currentTime, (value) => {
     lycindex.value = timeupdate(Number(value * 1000) + props.delayed, lyrics.value)
   }
 })
+
 // 控制屏幕滚动
 watch(() => lycindex.value, (value) => {
   lyricsRef.value!.scrollTo(0, value * 60 + 40)
@@ -99,7 +101,15 @@ watch(() => lycindex.value, (value) => {
 onMounted(() => {
   lyrics.value = handleLrc(props.lyric, props.tlyric, props.romalrc)
   yrcs.value = handleYrc(props.yrc)
+
+  // if (yrcs.value.length > 0) {
+  //   lycindex.value = timeupdate(Number(props.currentTime * 1000) + props.delayed, yrcs.value)
+  // } else if (lyrics.value.length > 0) {
+  //   lycindex.value = timeupdate(Number(props.currentTime * 1000) + props.delayed, lyrics.value)
+  // }
+  // lyricsRef.value!.scrollTo(0, lycindex.value * 60 + 40)
 })
+
 
 </script>
   
@@ -117,8 +127,7 @@ onMounted(() => {
 
 .lycs_item {
   height: 60px;
-  // transition: 0.2s;
-  // transition-timing-function: ease-out;
+  transition: 0.2s;
 
   color: #85817f;
   font-size: 0.9rem;
@@ -126,26 +135,34 @@ onMounted(() => {
 
 .lycs_item_active {
   color: #000;
-  font-weight: 600;
-  font-size: 1.2rem;
-  transition: none;
-
   margin: 40px 0px;
+  font-weight: 600;
+  font-size: 25px;
 
   .lycs_item_name {
     --fill-color: #000000;
     position: relative;
     text-decoration: none;
     text-transform: uppercase;
+    // 字体镂空
     -webkit-text-stroke: 0.5px var(--fill-color);
     background: linear-gradient(var(--primary-color) 0 100%) left / 0 no-repeat;
     color: transparent;
+    // color: var(--fill-color);
     -webkit-background-clip: text;
     background-clip: text;
+
+    .active_name {
+      font-weight: 600;
+      font-size: 25px;
+      transition: none !important;
+    }
+
   }
 
   .lycs_item_name_active {
     background-size: 100%;
+    color: transparent;
   }
 }
 </style>
