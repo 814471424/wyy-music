@@ -137,7 +137,7 @@ onMounted(() => {
   color: #000;
   margin: 40px 0px;
   font-weight: 600;
-  font-size: 25px;
+  font-size: 22px;
 
   .lycs_item_name {
     --fill-color: #000000;
@@ -154,7 +154,7 @@ onMounted(() => {
 
     .active_name {
       font-weight: 600;
-      font-size: 25px;
+      font-size: 22px;
       transition: none !important;
     }
 
