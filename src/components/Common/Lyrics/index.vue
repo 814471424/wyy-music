@@ -3,15 +3,16 @@
   <div class="lyrics" ref="lyricsRef">
     <div style="height: calc(50% - 20px)"></div>
     <div v-if="yrcs.length > 0">
-      <div :class="{ lycs_item_active: lycindex == key }" style="height: 60px; transition: 0.2s;"
-        v-for="(item, key) in  yrcs" :key="key">
-        <span :class="{ lycs_item_name_active: lycindex == key && v.time <= Number(currentTime * 1000) }"
-          :style="`transition: ${v.length / 1000}s;`" v-for="v in item.list" :key="v.time">{{ v.name }}</span>
-        <!-- :style="`transition: ${v.length / 1000}s;`" -->
+      <div class="lycs_item" :class="{ lycs_item_active: lycindex == key }" v-for="(item, key) in  yrcs" :key="key">
+        <span style="position: relative;"
+          :class="['lycs_item_name', { lycs_item_name_active: lycindex == key && v.time <= Number(currentTime * 1000) }]"
+          :style="`transition: ${(v.length) / 1000}s linear;`" v-for="(v, k) in item.list" :key="v.time">
+          {{ v.name }}
+        </span>
       </div>
     </div>
     <div v-else-if="lyrics.length > 0">
-      <div :class="{ lycs_item_active: lycindex == key }" style="height: 60px; transition: 0.15s;"
+      <div class="lycs_item" style="transition: 0.3s;" :class="{ lycs_item_active: lycindex == key }"
         v-for="(item, key) in  lyrics" :key="key">
         <div>{{ item.lyric }}</div>
         <div v-if="props.lycsType == lycsTypeEnum.translate || props.lycsType == lycsTypeEnum.all">{{ item.tlyric }}
@@ -92,7 +93,7 @@ watch(() => props.currentTime, (value) => {
 })
 // 控制屏幕滚动
 watch(() => lycindex.value, (value) => {
-  lyricsRef.value!.scrollTo(0, value * 60)
+  lyricsRef.value!.scrollTo(0, value * 60 + 40)
 })
 
 onMounted(() => {
@@ -114,17 +115,37 @@ onMounted(() => {
   }
 }
 
+.lycs_item {
+  height: 60px;
+  // transition: 0.2s;
+  // transition-timing-function: ease-out;
+
+  color: #85817f;
+  font-size: 0.9rem;
+}
+
 .lycs_item_active {
   color: #000;
   font-weight: 600;
   font-size: 1.2rem;
-}
+  transition: none;
 
-.lycs_item_name_active {
-  color: red;
-  // -webkit-background-clip: text;
-  // background-clip: text;
-  // background-image: linear-gradient(rgb(255 0 129), rgb(0, 255, 255));
-  // -webkit-text-fill-color: transparent;
+  margin: 40px 0px;
+
+  .lycs_item_name {
+    --fill-color: #000000;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+    -webkit-text-stroke: 0.5px var(--fill-color);
+    background: linear-gradient(var(--primary-color) 0 100%) left / 0 no-repeat;
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+  }
+
+  .lycs_item_name_active {
+    background-size: 100%;
+  }
 }
 </style>

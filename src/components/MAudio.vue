@@ -51,7 +51,15 @@ onMounted(async () => {
   // 各种对audio的监听事件
   // 更新
   audioELe!.ontimeupdate = () => {
-    mainStore.setCurrentTime(audioELe ? audioELe.currentTime : 0)
+    let count = 10
+    let timer = setInterval(function () {
+      mainStore.setCurrentTime(audioELe ? audioELe.currentTime : 0)
+      if (count == 0) {
+        clearInterval(timer)
+      } else {
+        count--;
+      }
+    }, 25)
   };
   audioELe!.onplay = () => {
     mainStore.setPlayStatus(true);

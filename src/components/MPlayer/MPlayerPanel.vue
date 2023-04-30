@@ -533,9 +533,7 @@ function changeLycsType(value: lycsTypeEnum) {
               overflow-y: overlay;
 
               div {
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+                text-align: center;
               }
             }
 
