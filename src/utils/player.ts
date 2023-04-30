@@ -49,16 +49,14 @@ export async function playOne(song: Common.songX) {
         yromalrc = lysRes.yromalrc ? (lysRes.yromalrc.lyric ?? '') : ''
       }
 
-      // mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
-      mainStore.setUrl(url);
+      mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
       mainStore.setLyc(lyc, tlyric, romalrc, yrc, yromalrc);
     }).catch(_error => {
       let lyc = '';
       let tlyric = '';
       let romalrc = '';
 
-      // mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
-      mainStore.setUrl(url);
+      mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
       mainStore.setLyc(lyc, tlyric, romalrc);
     })
   } else {
@@ -66,8 +64,7 @@ export async function playOne(song: Common.songX) {
       return
     }
     url = "https://stream.localhost/" + song.filePath
-    // mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
-    mainStore.setUrl(url);
+    mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
   }
 
   // 播放并各种缓存
