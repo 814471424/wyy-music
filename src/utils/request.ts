@@ -38,6 +38,11 @@ axios.interceptors.response.use(
             }
             return Promise.resolve(response.data);
         }
+
+        if (response.data.code != -460) {
+            let userStore = useUserStore();
+            userStore.cleanUser()
+        }
         // else if (response.status == 302) {
         //     let userStore = useUserStore();
         //     userStore.cleanUser()

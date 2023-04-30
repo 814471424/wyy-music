@@ -19,7 +19,7 @@
         <div class="left-content">
           <div> {{ songX?.name ?? "未知歌名" }}</div>
           <div class="left-content-rowup">
-            <div class="content-rowup">{{ songX?.al?.name }}</div>
+            <div class="content-rowup">{{ songX?.ar?.map(v => v.name).join(' / ') }}</div>
           </div>
         </div>
       </div>
@@ -335,7 +335,7 @@ function changePlayRules() {
 
         .play-radio-bar {
           position: absolute;
-          top: -12px;
+          top: -13px;
           left: 0px;
           width: 100%;
 

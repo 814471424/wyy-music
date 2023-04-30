@@ -138,7 +138,6 @@ async function refurbishCookie() {
   let res = await api.registerAnonimous()
   userStore.cleanUser()
   userStore.setCookie(res.cookie)
-  // userStore.setUserInfo(null)
 }
 
 </script>

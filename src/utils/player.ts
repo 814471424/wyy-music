@@ -12,20 +12,22 @@ export async function playOne(song: Common.songX) {
   let url = '';
   let songx = song
 
-  if (songx.id == mainStore.songX?.id) {
+  // 防止多次请求
+  if (songx.id == mainStore.id) {
     return
   }
+  mainStore.setId(songx.id as string);
 
   // 不是本地的需要查找资源url, 查找歌词
   if (song.songType != 'local') {
     // 先查找歌曲
-    let trackRes = await api.getTrackDetail(song.id as string);
-    let songCache = trackRes.songs[0];
-    if (songCache) {
-      songx = { ...songCache, songType: song.songType || 'other' }
-    } else {
-      return
-    }
+    // let trackRes = await api.getTrackDetail(song.id as string);
+    // let songCache = trackRes.songs[0];
+    // if (songCache) {
+    //   songx = { ...songCache, songType: song.songType || 'other' }
+    // } else {
+    //   return
+    // }
 
     let res = await api.getMP3(song.id);
     if (res.code != 200) {
@@ -48,7 +50,7 @@ export async function playOne(song: Common.songX) {
         yrc = lysRes.yrc ? (lysRes.yrc.lyric ?? '') : ''
         yromalrc = lysRes.yromalrc ? (lysRes.yromalrc.lyric ?? '') : ''
       }
-
+      console.log(yrc)
       mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
       mainStore.setLyc(lyc, tlyric, romalrc, yrc, yromalrc);
     }).catch(_error => {

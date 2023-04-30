@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia'
 
 interface MusicData {
+    // 音乐id
+    id: string,
     // 音乐的url
     musicUrl: string,
     // // 搜索栏的字段
@@ -33,6 +35,7 @@ export const useMainStore = defineStore('main', {
         let song = JSON.parse(localStorage.getItem('song') ?? '{}');
 
         return {
+            id: song['id'] ?? '',
             musicUrl: song['musicUrl'] ?? '',
             songX: song['songX'] ?? null,
             lycs: song['lycs'] ?? [],
@@ -49,6 +52,10 @@ export const useMainStore = defineStore('main', {
         }
     },
     actions: {
+        // 更新是否在播放
+        setId(id: string) {
+            this.id = id;
+        },
         // 更新是否在播放
         setPlayStatus(data: boolean) {
             this.playStatus = data;
@@ -72,8 +79,8 @@ export const useMainStore = defineStore('main', {
             this.lyc = data
             this.tlyric = tlyric
             this.romalrc = romalrc
-            this.yrc = tlyric
-            this.yromalrc = romalrc
+            this.yrc = yrc
+            this.yromalrc = yromalrc
             this.saveToLocal()
         },
         // 设置当前播放时间
@@ -94,6 +101,7 @@ export const useMainStore = defineStore('main', {
         // 正在播放歌曲存放到缓存里
         saveToLocal() {
             localStorage.setItem('song', JSON.stringify({
+                id: this.id,
                 musicUrl: this.musicUrl,
                 songX: this.songX,
                 lycs: this.lycs,
@@ -110,6 +118,7 @@ export const useMainStore = defineStore('main', {
             }))
         },
         clear() {
+            this.id = '';
             this.musicUrl = '';
             this.songX = null;
             this.lycs = [];
