@@ -104,7 +104,7 @@ function audioPause() {
 function sliderChange(value: number) {
   mainStore.setCurrentTimeEx(value)
 
-  let count = 7
+  let count = 10
   let timer = setInterval(function () {
     mainStore.setTransition(false);
     if (count == 0) {
