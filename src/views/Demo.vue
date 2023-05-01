@@ -1,5 +1,5 @@
 <template>
-  <div style="height: 300px;">
+  <!-- <div style="height: 300px;">
     <ul>
       <li><a href="#">home</a></li>
       <li><a href="#">archives</a></li>
@@ -7,18 +7,73 @@
       <li><a href="#">categories</a></li>
       <li><a href="#">about</a></li>
     </ul>
-  </div>
+  </div> -->
+  <canvas id="oscilloscope" width="200" height="100"></canvas>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue"
+import { ref, onMounted } from "vue"
 import Progress from '../components/Common/Progress.vue'
 import { useMainStore } from '../store/index'
 import { storeToRefs } from 'pinia'
 import Lyrics from '../components/Common/Lyrics.vue'
+import axios from 'axios'
+import { readBinaryFile } from '@tauri-apps/api/fs';
 
 const mainStore = useMainStore()
 const { currentTime, duration, lyc, tlyric, romalrc } = storeToRefs(mainStore)
+
+var audioCtx = new (window.AudioContext)();
+var analyser = audioCtx.createAnalyser();
+var canvasCtx: CanvasRenderingContext2D | null = null
+var canvas: HTMLCanvasElement | null = null
+
+analyser.fftSize = 2048;
+var bufferLength = analyser.frequencyBinCount;
+
+
+
+
+onMounted(() => {
+  // 获取 ID 为 "oscilloscope" 的画布
+  canvas = <HTMLCanvasElement>document.getElementById("oscilloscope");
+  canvasCtx = canvas!.getContext("2d");
+
+  draw();
+})
+
+
+// 绘制一个当前音频源的示波器
+async function draw() {
+  let dataArray = await readBinaryFile('E:\\学习\\2023-3\\download\\打ち上げ花火.mp3')
+  analyser.getByteTimeDomainData(dataArray)
+
+
+  analyser.getByteTimeDomainData(dataArray);
+
+  canvasCtx!.fillStyle = 'rgb(200, 200, 200)';
+  canvasCtx!.fillRect(0, 0, canvas!.width, canvas!.height);
+  canvasCtx!.lineWidth = 2;
+  canvasCtx!.strokeStyle = 'rgb(0, 0, 0)';
+  canvasCtx!.beginPath();
+
+  var sliceWidth = canvas!.width * 1.0 / bufferLength;
+  var x = 0;
+
+  for (var i = 0; i < bufferLength; i++) {
+    var v = dataArray[i] / 128.0;
+    var y = v * canvas!.height / 2;
+    if (i === 0) {
+      canvasCtx!.moveTo(x, y);
+    } else {
+      canvasCtx!.lineTo(x, y);
+    }
+    x += sliceWidth;
+  }
+
+  canvasCtx!.lineTo(canvas!.width, canvas!.height / 2);
+  canvasCtx!.stroke();
+};
 
 </script>
 

@@ -1,7 +1,7 @@
 import { createApp } from "vue";
 import App from "./App.vue";
 import Router from './router/index'
-import { ElButton, ElTable, ElMenu, ElDrawer, ElInput, ElPagination, ElTabs } from 'element-plus'
+import { ElButton, ElTable, ElMenu, ElDrawer, ElInput, ElCheckbox, ElPagination, ElTabs, ElDialog } from 'element-plus'
 import { Tab, Tabs, Swipe, SwipeItem } from 'vant';
 import 'vant/lib/index.css';
 import { createPinia } from 'pinia'
@@ -29,6 +29,8 @@ createApp(App)
     .use(ElInput)
     .use(ElPagination)
     .use(ElTabs)
+    .use(ElDialog)
+    .use(ElCheckbox)
     .use(Router)
     .use(createPinia())
     .use(VueLazyload, {

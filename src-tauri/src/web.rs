@@ -10,7 +10,13 @@ pub fn hander_stream(
     request: &Request,
 ) -> Result<Response, Box<(dyn std::error::Error + 'static)>> {
     // get the file path
-    let path = request.uri().strip_prefix("stream://localhost/").unwrap();
+    let path = request
+        .uri()
+        .strip_prefix("stream://localhost/")
+        .unwrap()
+        .split('?')
+        .next()
+        .unwrap_or_default();
     let path = percent_encoding::percent_decode(path.as_bytes())
         .decode_utf8_lossy()
         .to_string();

@@ -28,7 +28,7 @@
         "hide": true
       },
       "fs": {
-        "readFile": false,
+        "readFile": true,
         "readDir": true,
         "scope": [
           "**"

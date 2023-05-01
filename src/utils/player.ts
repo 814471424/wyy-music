@@ -65,7 +65,7 @@ export async function playOne(song: Common.songX) {
       return
     }
     url = "https://stream.localhost/" + song.filePath
-    mainStore.setUrl(url + "?timeStamp=" + new Date().getTime());
+    mainStore.setUrl(url);
   }
 
   // 播放并各种缓存
