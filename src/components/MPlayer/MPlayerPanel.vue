@@ -57,7 +57,7 @@
           <!-- 歌词部分 -->
           <div class="main-lycs">
             <Lyrics :lyric="lyc" :tlyric="tlyric" :romalrc="romalrc" :current-time="currentTime" :lycs-type="lycsType"
-              :yrc="yrc" />
+              :yrc="yrc" :transition="transition" />
             <div class="lycs-type">
               <div :class="['lycs-type-button', { 'active-type': lycsType == lycsTypeEnum.sound }]"
                 @click="changeLycsType(lycsTypeEnum.sound)">
@@ -112,7 +112,7 @@ const mainStore = useMainStore();
 let isMinimize = ref(false);
 let unlisten: UnlistenFn;
 // 音乐播放状态
-let { playStatus, lyc, currentTime, songX, tlyric, romalrc, yrc } = storeToRefs(mainStore);
+let { playStatus, lyc, currentTime, songX, tlyric, romalrc, yrc, transition } = storeToRefs(mainStore);
 let lycsType = ref(lycsTypeEnum.null)
 let cd: Ref<HTMLElement | null> = ref(null);
 let showStatus = ref(true); // 歌词或者唱片切换状态

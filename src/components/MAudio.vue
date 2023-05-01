@@ -60,6 +60,8 @@ onMounted(async () => {
         count--;
       }
     }, 25)
+
+    mainStore.setTransition(true);
   };
   audioELe!.onplay = () => {
     mainStore.setPlayStatus(true);

@@ -28,6 +28,8 @@ interface MusicData {
     volume: number,
     // 音乐时长
     duration: number,
+    // 逐字歌词过渡动画(默认true，不缓存)
+    transition: boolean
 }
 
 export const useMainStore = defineStore('main', {
@@ -49,6 +51,7 @@ export const useMainStore = defineStore('main', {
             currentTimeEx: 0,
             volume: 0,
             duration: 0,
+            transition: true
         }
     },
     actions: {
@@ -97,6 +100,9 @@ export const useMainStore = defineStore('main', {
         // 设置时长
         setDuration(duration: number) {
             this.duration = duration;
+        },
+        setTransition(transition: boolean) {
+            this.transition = transition;
         },
         // 正在播放歌曲存放到缓存里
         saveToLocal() {

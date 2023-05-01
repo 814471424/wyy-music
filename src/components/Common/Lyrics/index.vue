@@ -9,7 +9,7 @@
         <div></div>
         <div
           :class="['lycs_item_name', { lycs_item_name_active: lycindex == key && v.time <= Number(currentTime * 1000) }]"
-          :style="lycindex == key && v.time <= Number(currentTime * 1000) ? `transition: ${(v.length) / 1000}s linear;` : ``"
+          :style="props.transition && lycindex == key && v.time <= Number(currentTime * 1000) ? `transition: ${(v.length) / 1000}s linear;` : ``"
           v-for="v in item.list" :key="v.time">
           <span :class="[{ active_name: lycindex == key }]">{{ v.name }}</span>
         </div>
@@ -74,6 +74,11 @@ let props = defineProps({
   lycsType: {
     type: Number,
     default: lycsTypeEnum.null
+  },
+  // 字是否需要过渡
+  transition: {
+    type: Boolean,
+    default: true
   }
 })
 let lyrics: Ref<Array<lycItem>> = ref([]);

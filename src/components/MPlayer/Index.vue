@@ -84,7 +84,6 @@ const settingStore = useSettingStore();
 
 const drawer = ref(false) // 控制歌词面板是否显示
 const cancelTransition = ref(false) // 用于取消 el-drawer 的过度动画，全屏的时候由于过度动画显示有点问题
-let viedoDuration = 0;
 
 const { currentTime, duration, volume, playStatus, songX, musicUrl } = storeToRefs(mainStore)
 const { setting } = storeToRefs(settingStore);
@@ -93,9 +92,6 @@ watch(() => drawer.value, (value, _oldValue) => {
   setTimeout(() => {
     cancelTransition.value = value
   }, 500);
-})
-watch(() => currentTime.value, (value, _oldValue) => {
-  viedoDuration = value
 })
 
 function audioPlay() {
@@ -107,10 +103,22 @@ function audioPause() {
 // 滑块修改时
 function sliderChange(value: number) {
   mainStore.setCurrentTimeEx(value)
+
+  let count = 7
+  let timer = setInterval(function () {
+    mainStore.setTransition(false);
+    if (count == 0) {
+      clearInterval(timer)
+    } else {
+      count--;
+    }
+  }, 4)
 }
 
 // 显示歌词面板
 function showDrawer() {
+  mainStore.setTransition(false);
+
   cancelTransition.value = false;
   drawer.value = !drawer.value
 }
