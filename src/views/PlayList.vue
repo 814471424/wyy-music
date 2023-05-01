@@ -57,12 +57,12 @@ import { millisecondToTime, millisecondToDate } from '../utils/time'
 import { playOne } from "../utils/player";
 
 // 获取路由参数
-let id = (router.currentRoute.value.params['id'] as string) ?? '';
+let id: Ref<string> = ref((router.currentRoute.value.params['id'] as string) ?? '');
 let tracks = ref([] as Playlist.dailySong[]);
 let playlistDetail: Ref<null | Playlist.playListDetail> = ref(null);
 
-watch(() => router.currentRoute.value.params, async (value, _oldValue) => {
-  id = value['id'] as string
+watch(() => id.value, async (value, _oldValue) => {
+  // id.value = value['id'] as string
   await getPlaylistDetail()
 })
 
@@ -75,13 +75,15 @@ function tableDbClick(row: Playlist.dailySong) {
 }
 
 async function getPlaylistDetail() {
-  api.getPlaylistDetail({ id }).then(res => {
-    if (res.code == 200) {
-      // 获取所有的歌曲
-      playlistDetail.value = res.playlist
-      tracks.value = res.playlist.tracks ?? []
-    }
-  })
+  if (id.value) {
+    api.getPlaylistDetail({ id: id.value }).then(res => {
+      if (res.code == 200) {
+        // 获取所有的歌曲
+        playlistDetail.value = res.playlist
+        tracks.value = res.playlist.tracks ?? []
+      }
+    })
+  }
 }
 </script>
 

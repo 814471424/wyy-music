@@ -8,18 +8,18 @@ axios.defaults.baseURL = import.meta.env.VUE_APP_BASE_API
 // 允许跨域携带cookie信息
 axios.defaults.withCredentials = true;
 // 设置超时
-axios.defaults.timeout = 15000;
+axios.defaults.timeout = 10000;
 
 // 请求拦截
 axios.interceptors.request.use(
     config => {
-        if (localStorage.getItem('cookie') && localStorage.getItem('cookie') != '') {
-            if (config.params) {
-                config.params['cookie'] = localStorage.getItem('cookie') ?? ''
-            } else {
-                config.params = { 'cookie': localStorage.getItem('cookie') ?? '' }
-            }
-        }
+        // if (localStorage.getItem('cookie') && localStorage.getItem('cookie') != '') {
+        //     if (config.params) {
+        //         config.params['cookie'] = localStorage.getItem('cookie') ?? ''
+        //     } else {
+        //         config.params = { 'cookie': localStorage.getItem('cookie') ?? '' }
+        //     }
+        // }
 
         return config;
     },
