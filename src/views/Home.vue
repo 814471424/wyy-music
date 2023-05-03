@@ -61,7 +61,8 @@ onMounted(async () => {
   if (cookie.value && cookie.value != '') {
     api.loginStatus().then(async res => {
       // 不是游客且不是登录用户是触发
-      if (!res.data.profile && !res.data.account) {
+      // !res.data.profile && !res.data.account
+      if (!res.data.profile) {
         // 刷新游客cookie
         console.log('刷新游客cookie111')
         refurbishCookie()

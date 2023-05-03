@@ -13,6 +13,7 @@ axios.defaults.timeout = 10000;
 // 请求拦截
 axios.interceptors.request.use(
     config => {
+        // // 去掉nginx那边需要设置 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         // if (localStorage.getItem('cookie') && localStorage.getItem('cookie') != '') {
         //     if (config.params) {
         //         config.params['cookie'] = localStorage.getItem('cookie') ?? ''
