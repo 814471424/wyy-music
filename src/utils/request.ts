@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { useUserStore } from '../store/user'
+import { ElMessage } from 'element-plus'
 
 // 请求地址
 axios.defaults.baseURL = import.meta.env.VUE_APP_BASE_API
@@ -37,12 +38,12 @@ axios.interceptors.response.use(
                 let userStore = useUserStore();
                 userStore.cleanUser()
             }
+            if (response.data.code == -460) {
+                ElMessage.error(response.data.message)
+                // let userStore = useUserStore();
+                // userStore.cleanUser()
+            }
             return Promise.resolve(response.data);
-        }
-
-        if (response.data.code != -460) {
-            let userStore = useUserStore();
-            userStore.cleanUser()
         }
         // else if (response.status == 302) {
         //     let userStore = useUserStore();
