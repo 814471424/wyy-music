@@ -8,8 +8,8 @@
         :key="key">
         <div></div>
         <div
-          :class="['lycs_item_name', { lycs_item_name_active: lycindex == key && v.time <= Number(currentTime * 1000) }]"
-          :style="props.transition && lycindex == key && v.time <= Number(currentTime * 1000) ? `transition: ${(v.length) / 1000}s linear;` : ``"
+          :class="['lycs_item_name', { lycs_item_name_active: lycindex == key && v.time <= (Number(currentTime * 1000) + delayed) }]"
+          :style="props.transition && lycindex == key && v.time <= (Number(currentTime * 1000) + delayed) ? `transition: ${(v.length) / 1000}s linear;` : ``"
           v-for="v in item.list" :key="v.time">
           <span :class="[{ active_name: lycindex == key }]">{{ v.name }}</span>
         </div>
@@ -65,7 +65,7 @@ let props = defineProps({
     type: Number,
     default: 0
   },
-  // 延时
+  // 延时(毫秒)
   delayed: {
     type: Number,
     default: 0
