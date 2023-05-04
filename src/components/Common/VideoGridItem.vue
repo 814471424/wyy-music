@@ -133,6 +133,7 @@ function itemClick(item: item) {
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
+  padding-top: 5px;
 
   .name {
     font-size: 14px;

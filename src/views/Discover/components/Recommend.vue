@@ -1,14 +1,15 @@
 <template>
   <div class="common-padding">
     <div class="recommend-body">
-      <van-swipe class="banner" :autoplay="5000" indicator-color="white" lazy-render>
-        <van-swipe-item v-for="(item, key) in banners" :key="item.targetId">
-          <div class="banner-body">
+      <div ref="bannerRef">
+        <a-carousel class="banner">
+          <div v-for="(item, key) in banners" :key="key" class="banner-body">
             <img class="banner-image" v-lazy="item.imageUrl" alt="" :key="item.imageUrl">
             <div class="banner-title" :style="[{ 'background-color': item.titleColor }]">{{ item.typeTitle }}</div>
           </div>
-        </van-swipe-item>
-      </van-swipe>
+        </a-carousel>
+      </div>
+
       <div class="playlists">
         <!-- 推荐歌单 -->
         <div class="common-title">推荐歌单<span class="iconfont wyy-xiangyou"></span></div>
@@ -47,6 +48,7 @@ let banners: Ref<Array<Common.bannerData>> = ref(cache.value.banners ?? []);
 let playlists: Ref<Array<Playlist.playList & { type: number }>> = ref(cache.value.playlists ?? []);
 let personalizedMvs: Ref<Array<MV.mvItem>> = ref(cache.value.personalizedMvs ?? []) // 推荐的mv
 let privatecontentList: Ref<Array<MV.privatecontentItem>> = ref(cache.value.privatecontents ?? []) // 独家放送(入口列表)
+let bannerRef: Ref<HTMLElement | null> = ref(null);
 
 watch(() => banners.value, (value) => {
   userCache.setBanners(value)
@@ -125,25 +127,41 @@ onMounted(async () => {
   }
 
   // 听听
+
+  // 移除banner上的事件
+  bannerRef.value!.addEventListener('touchstart', (event) => {
+    event.stopPropagation()
+  })
+  bannerRef.value!.addEventListener('touchend', (event) => {
+    event.stopPropagation()
+  })
+  bannerRef.value!.addEventListener('touchmove', (event) => {
+    event.stopPropagation()
+  })
 })
 
 
 </script>
 
 <style lang="less" scoped>
+// 轮播图相关
 .banner .van-swipe__track,
 .banner .banner-body {
   height: 250px;
   width: 100%;
 }
 
-.banner .banner-body .banner-image {
+.banner-body {
+  position: relative;
+}
+
+.banner-image {
   height: 100%;
   width: 100%;
   border-radius: 7px;
 }
 
-.banner .banner-body .banner-title {
+.banner-title {
   position: absolute;
   bottom: 0px;
   right: 0px;
