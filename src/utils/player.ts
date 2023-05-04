@@ -151,6 +151,7 @@ export function playPrevious() {
 export function playNext() {
   const mainStore = useMainStore();
   const playListStore = usePlayListStore();
+  const settingStore = useSettingStore()
   const list = playListStore.list;
   const songX = mainStore.songX;
 
@@ -164,9 +165,20 @@ export function playNext() {
     return
   }
 
-  let playIndex = (index + 1) % list.length
-  if (list[playIndex]) {
-    playOne(list[playIndex]);
+  if (settingStore.setting.playRule == PlayRules.random) {
+    let randomIndex = Math.floor(Math.random() * list.length);
+    if (randomIndex == index) {
+      mainStore.setUrl(mainStore.musicUrl + '?timestamp' + new Date().getTime())
+    } else {
+      if (list[randomIndex]) {
+        playOne(list[randomIndex]);
+      }
+    }
+  } else {
+    let playIndex = (index + 1) % list.length
+    if (list[playIndex]) {
+      playOne(list[playIndex]);
+    }
   }
 }
 
@@ -187,16 +199,19 @@ export function handEnd() {
 
   // 根据不同情况播放
   switch (settingStore.setting.playRule) {
-    case PlayRules.listLoop:    // 列表循环
+    // 列表循环
+    case PlayRules.listLoop:
       let listLoopIndex = (index + 1) % list.length
       if (list[listLoopIndex]) {
         playOne(list[listLoopIndex]);
       }
       break;
-    case PlayRules.singleLoop:  // 单曲循环
+    // 单曲循环
+    case PlayRules.singleLoop:
       mainStore.setUrl(mainStore.musicUrl + '?timestamp' + new Date().getTime())
       break;
-    case PlayRules.random: // 随机播放
+    // 随机播放
+    case PlayRules.random:
       let randomIndex = Math.floor(Math.random() * list.length);
       if (randomIndex == index) {
         mainStore.setUrl(mainStore.musicUrl + '?timestamp' + new Date().getTime())
@@ -206,7 +221,8 @@ export function handEnd() {
         }
       }
       break;
-    default:    // 顺序播放
+    // 顺序播放
+    default:
       let orderIndex = index + 1;
       if (orderIndex > list.length) {
         return
