@@ -115,13 +115,6 @@ body {
   background-color: transparent;
 }
 
-/* ant-design-vue作用 */
-*,
-*::before,
-*::after {
-  box-sizing: unset;
-}
-
 /* 全局主题 */
 :root {
   /* 主题主要颜色 */
