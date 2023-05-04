@@ -142,6 +142,7 @@ function inputSearch() {
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
+      align-items: center;
 
       span {
         font-size: 25px;
