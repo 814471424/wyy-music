@@ -26,7 +26,6 @@ let key = "";
 let polling = false;  // 是否检测扫码状态接口
 let timer: NodeJS.Timeout | string | number | undefined = undefined;
 let qrurl = ref('');
-let showCreate = ref(false);
 
 const props = defineProps({
   // 点击选择其他登录模式时的事件
@@ -72,7 +71,8 @@ async function checkQr() {
       }
     } else if (res.code == 800) { // 需要显示重新扫码按钮
       polling = false;
-      showCreate.value = true;
+
+      getKeyAndCreateQr()
     } else if (res.code == 802) { // 用户正在扫码 这里能获取到avatarUrl跟nickname
       avatarUrl = res.avatarUrl ?? ''
       nickname = res.nickname ?? ''
