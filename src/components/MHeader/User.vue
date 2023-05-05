@@ -28,7 +28,7 @@
         </div>
 
         <div class="common-line"></div>
-        <div class="common-button" @click="router.push('user_info')">
+        <div class="common-button" @click="router.push('/user_info')">
           <div>个人信息设置</div>
           <div><span class="iconfont wyy-xiangyou"></span></div>
         </div>
