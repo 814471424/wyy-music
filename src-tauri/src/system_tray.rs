@@ -7,13 +7,13 @@ use tauri::{
 pub fn system_tray() -> SystemTray {
     let tray = SystemTray::new().with_menu(
         SystemTrayMenu::new()
-            .add_item(CustomMenuItem::new("previous".to_string(), "上一首"))
-            .add_item(CustomMenuItem::new("next".to_string(), "下一首"))
-            .add_submenu(SystemTraySubmenu::new(
-                "测试",
-                SystemTrayMenu::new().add_item(CustomMenuItem::new("test1".to_string(), "测试1")),
-            ))
-            .add_native_item(SystemTrayMenuItem::Separator)
+            // .add_item(CustomMenuItem::new("previous".to_string(), "上一首"))
+            // .add_item(CustomMenuItem::new("next".to_string(), "下一首"))
+            // .add_submenu(SystemTraySubmenu::new(
+            //     "测试",
+            //     SystemTrayMenu::new().add_item(CustomMenuItem::new("test1".to_string(), "测试1")),
+            // ))
+            // .add_native_item(SystemTrayMenuItem::Separator)
             .add_item(CustomMenuItem::new("quit".to_string(), "退出")),
     );
 
@@ -37,7 +37,6 @@ pub fn hander_system_tray(app: &AppHandle, event: SystemTrayEvent) {
                 let window = app.get_window("main").unwrap();
                 window.hide().unwrap();
             }
-            "test1" => {}
             _ => {}
         },
         _ => {}

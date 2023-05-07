@@ -72,6 +72,13 @@ onMounted(() => {
       }
     })
   }
+  for (let i of officialList.value) {
+    if ((officialTracks.value[i.id] ?? []).length == 0) {
+      api.getPlaylistDetail({ id: i.id }).then(res => {
+        officialTracks.value = { ...officialTracks.value, [i.id]: (res.playlist.tracks ?? []).splice(0, 5) }
+      })
+    }
+  }
 })
 
 function goTO(id: number | string) {
