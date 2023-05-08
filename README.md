@@ -11,6 +11,16 @@ rust: `v1.56.0+`
 3. 修改环境变量 `VUE_APP_BASE_API`
 4. 运行 `npm run dev` 或者 `cargo tauri dev`
 
+#### 项目界面
+> 电脑端
+
+![](https://gitee.com/qq814471424/wyy-music/raw/master/src/assets/cover_pc.jpg)
+
+> 手机端
+
+![](https://gitee.com/qq814471424/wyy-music/raw/master/src/assets/cover_mobile.png)
+
+
 #### 目录结构描述
 ```
 ├── dist               
@@ -33,3 +43,20 @@ rust: `v1.56.0+`
 ├── .env.production     // 生产环境
 ├── update.json         // tauri客户端更新文件
 ```
+
+#### 项目代办事项
+- [x] 扫描登录
+- [ ] 搜索
+- [ ] 发现音乐 -> 个性推荐
+- [ ] 发现音乐 -> 专属定制
+- [x] 发现音乐 -> 歌单
+- [x] 发现音乐 -> 排行榜
+- [x] 发现音乐 -> 歌手
+- [x] 发现音乐 -> 最新音乐
+- [ ] 视频
+- [ ] 私人FM
+- [ ] 本地于下载 -> 下载管理(客户端才有)
+- [x] 本地于下载 -> 本地音乐(客户端才有)
+- [x] 我的歌单
+- [ ] 最近播放
+- [x] 播放列表
