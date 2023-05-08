@@ -54,7 +54,9 @@ const props = defineProps({
 })
 
 watch(() => props.modelValue, () => {
-  updateFillAndDOt()
+  if (!isDragging) {
+    updateFillAndDOt()
+  }
 })
 
 watch(() => props.max, () => {

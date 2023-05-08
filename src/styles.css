@@ -129,9 +129,9 @@ body {
   --primary-active-color: #e33e3e;
   --primary-shadow-color: #e33e3e;
   /* 主要背景颜色 */
-  --left-background-color: #fff;
-  --right-background-color: #fff;
-  --footer-background-color: #fff;
+  --left-background-color: rgba(255, 255, 255, 0);
+  --right-background-color: rgba(255, 255, 255, 0);
+  --footer-background-color: rgba(255, 255, 255, 0);
 }
 
 .el-button {
@@ -157,9 +157,8 @@ body {
   background-color: #ffffff;
   background-size: cover;
   object-fit: cover;
-  background-image: url('https://img.zcool.cn/community/0121bd578059b60000018c1b20c4c0.jpg@2o.jpg');
-
-
+  position: relative;
+  /* background-image: url('http://127.0.0.1:51/初音未来Miku壁纸精选/142.png'); */
 }
 
 .container-header {

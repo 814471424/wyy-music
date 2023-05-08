@@ -252,6 +252,7 @@ const handleCurrentChange = (val: number) => {
   overflow: hidden;
   background-position: top;
   background-size: 100% 100%;
+  background-color: #fff;
 
   .highquality-content {
     height: 100%;
