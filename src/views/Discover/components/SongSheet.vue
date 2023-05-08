@@ -2,8 +2,10 @@
   <div class="common-padding" id="songSheet-main">
     <div class="songSheet-body">
       <!-- 精品歌单推荐封面 -->
-      <div class="highquality-playlist-cover" :style="'background-image: url(' + highquality?.coverImgUrl + ');'"
-        v-if="highquality">
+      <div class="highquality-playlist-cover" v-if="highquality">
+        <div style="width: 100%; height: 100%; filter: blur(20px); -moz-filter: blur(25px);">
+          <img style="width: 100%; height: 100%;" :src="highquality?.coverImgUrl" alt="">
+        </div>
         <div class="highquality-content">
           <div class="highquality-image">
             <img v-lazy="highquality.coverImgUrl" alt="" :key="highquality.coverImgUrl">

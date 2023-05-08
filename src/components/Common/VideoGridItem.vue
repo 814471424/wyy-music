@@ -1,7 +1,7 @@
 <!-- mv播放列表的第二个效果 -->
 <!-- 手机端显示全部多个换行 -->
 <template>
-  <div style="width: 100%; padding-right: 1px; padding-left: 1px;">
+  <div class="grid-content">
     <div id="video-item-box-list-not-touch" :class="{
       'video-item-list': !props.singleRow,
       'video-item-box-list': props.singleRow,
@@ -77,6 +77,12 @@ function itemClick(item: item) {
 </script>
 
 <style lang="less" scoped>
+.grid-content {
+  width: 100%;
+  padding-right: 1px;
+  padding-left: 1px;
+}
+
 .video-item-list,
 .video-item-box-list {
   /* 声明一个容器 */

@@ -1,26 +1,29 @@
 <!-- 评论主要组件 -->
 <template>
-  <div class="comment-body" v-for="(item, key) in props.list" :key="key">
-    <div class="comment-avatar">
-      <img :src="item.user.avatarUrl" alt="">
-    </div>
-    <div style="flex: 1">
-      <div class="comment-list">
-        <div>
-          <span class="comment-nickname">{{ item.user.nickname }}</span>
-          <span class="comment-content"> : {{ item.content }}</span>
-        </div>
-        <div class="comment-beReplied" v-if="item.beReplied.length > 0">
-          <div v-for="(v, k) in item.beReplied" :key="k">
-            <span class="comment-nickname">{{ v.user.nickname }}</span>
-            <span class="comment-content"> : {{ v.content }}</span>
+  <div v-for="(item, key) in props.list" :key="key">
+    <div class="comment-body">
+      <div class="comment-avatar">
+        <img :src="item.user.avatarUrl" alt="">
+      </div>
+      <div style="flex: 1">
+        <div class="comment-list">
+          <div>
+            <span class="comment-nickname">{{ item.user.nickname }}</span>
+            <span class="comment-content"> : {{ item.content }}</span>
+          </div>
+          <div class="comment-beReplied" v-if="item.beReplied.length > 0">
+            <div v-for="(v, k) in item.beReplied" :key="k">
+              <span class="comment-nickname">{{ v.user.nickname }}</span>
+              <span class="comment-content"> : {{ v.content }}</span>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <div class="comment-time"> {{ millisecondToDateTime(item.time, item.timeStr) }}</div>
+        <div>
+          <div class="comment-time"> {{ millisecondToDateTime(item.time, item.timeStr) }}</div>
+        </div>
       </div>
     </div>
+    <div v-if="props.list.length != (key + 1)" style="border-top: 1px solid #dadada;"></div>
   </div>
 </template>
 
