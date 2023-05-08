@@ -2,6 +2,7 @@
   "name": "music-app",
   "private": true,
   "version": "0.0.0",
+  "description": "仿网易云音乐软件",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,6 +10,9 @@
     "buildtest": "vue-tsc --noEmit && vite build",
     "preview": "vite preview",
     "tauri": "tauri"
+  },
+  "engines": {
+    "node": ">=14"
   },
   "dependencies": {
     "@tauri-apps/api": "^1.2.0",
