@@ -6,8 +6,8 @@ node: `v14.15.4+`
 rust: `v1.56.0+`
 
 #### 运行步骤
-1. 启动网易云api服务[https://github.com/Binaryify/NeteaseCloudMusicApi.git]
-2. 下载node跟rust[https://www.rust-lang.org/]
+1. 启动网易云api服务[https://github.com/Binaryify/NeteaseCloudMusicApi.git](https://github.com/Binaryify/NeteaseCloudMusicApi.git)
+2. 下载node跟rust[https://www.rust-lang.org/](https://www.rust-lang.org/)
 3. 修改环境变量 `VUE_APP_BASE_API`
 4. 运行 `npm run dev` 或者 `cargo tauri dev`
 
