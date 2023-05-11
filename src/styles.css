@@ -129,9 +129,9 @@ body {
   --primary-active-color: #e33e3e;
   --primary-shadow-color: #e33e3e;
   /* 主要背景颜色 */
-  --left-background-color: rgba(255, 255, 255, 0);
-  --right-background-color: rgba(255, 255, 255, 0);
-  --footer-background-color: rgba(255, 255, 255, 0);
+  --left-background-color: rgb(255, 255, 255);
+  --right-background-color: rgb(255, 255, 255);
+  --footer-background-color: rgb(255, 255, 255);
 }
 
 .el-button {
