@@ -16,11 +16,13 @@ axios.interceptors.request.use(
     config => {
         // 去掉nginx那边需要设置 proxy_cookie_path / "/; secure=false; SameSite=None";;
         if (localStorage.getItem('cookie') && localStorage.getItem('cookie') != '') {
-            let cookie = (localStorage.getItem('cookie') ?? '').split(';').filter(v => v.indexOf('MUSIC_U') > 0).join(';');
-            if (config.params) {
-                config.params['cookie'] = cookie
-            } else {
-                config.params = { 'cookie': cookie }
+            let cookie = (localStorage.getItem('cookie') ?? '').split(';;').filter(v => v.indexOf('MUSIC_U') >= 0).join(';;');
+            if (cookie.length > 0) {
+                if (config.params) {
+                    config.params['cookie'] = cookie
+                } else {
+                    config.params = { 'cookie': cookie }
+                }
             }
         }
 
