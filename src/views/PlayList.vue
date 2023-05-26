@@ -61,8 +61,8 @@ let id: Ref<string> = ref((router.currentRoute.value.params['id'] as string) ?? 
 let tracks = ref([] as Playlist.dailySong[]);
 let playlistDetail: Ref<null | Playlist.playListDetail> = ref(null);
 
-watch(() => id.value, async (value, _oldValue) => {
-  // id.value = value['id'] as string
+watch(() => router.currentRoute.value.params, async (value, _oldValue) => {
+  id.value = value['id'] as string
   await getPlaylistDetail()
 })
 

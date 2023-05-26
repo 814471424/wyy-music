@@ -43,10 +43,6 @@ import { appWindow } from '@tauri-apps/api/window'
 const loginType = ['login', 'register', 'qrcode'];
 let loginWay = ref('qrcode')
 
-onMounted(async () => {
-
-})
-
 function loginClose() {
   appWindow.close()
 }

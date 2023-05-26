@@ -33,10 +33,6 @@ const props = defineProps<{
 function tableDbClick(value: Common.songX) {
   playOne(value);
 }
-
-onMounted(() => {
-})
-
 </script>
 
 <style lang="less" scoped></style>

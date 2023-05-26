@@ -170,8 +170,6 @@ function tableDbClick(row: FileEntry) {
   }
 }
 
-onMounted(() => {
-})
 </script>
 
 <style lang="less" scoped>
